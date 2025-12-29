@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Hand, Download, Cpu, Database, Brain } from "lucide-react";
+import { Hand, Download, Cpu, ShoppingCart, Brain } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { AccessCard } from "@/components/AccessCard";
@@ -108,37 +107,33 @@ export default function Home() {
                 icon: Cpu,
                 title: dict.stack.module1,
                 desc: dict.stack.module1Desc,
-                href: "/protocols",
               },
               {
-                icon: Database,
+                icon: ShoppingCart,
                 title: dict.stack.module2,
                 desc: dict.stack.module2Desc,
-                href: "/resources",
               },
               {
                 icon: Brain,
                 title: dict.stack.module3,
                 desc: dict.stack.module3Desc,
-                href: "/intelligence",
               },
             ].map((module, index) => (
-              <Link key={index} href={module.href}>
-                <motion.div
-                  className="group relative border border-secondary/20 bg-background p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)] cursor-pointer"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  whileHover={{ y: -4 }}
-                >
-                  <module.icon className="mb-4 h-10 w-10 text-accent" />
-                  <h3 className="mb-2 text-xl font-semibold text-foreground">
-                    {module.title}
-                  </h3>
-                  <p className="text-sm text-secondary">{module.desc}</p>
-                </motion.div>
-              </Link>
+              <motion.div
+                key={index}
+                className="group relative border border-secondary/20 bg-background p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                whileHover={{ y: -4 }}
+              >
+                <module.icon className="mb-4 h-10 w-10 text-accent" />
+                <h3 className="mb-2 text-xl font-semibold text-foreground">
+                  {module.title}
+                </h3>
+                <p className="text-sm text-secondary">{module.desc}</p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -196,7 +191,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="text-sm text-accent transition-colors hover:text-foreground"
               >
-                {dict.footer.telegram}
+                TELEGRAM // SECURE UPLINK
               </a>
             </div>
           </div>
