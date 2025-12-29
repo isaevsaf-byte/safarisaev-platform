@@ -9,16 +9,16 @@
   },
   "protocols": {
     "cardA": {
-      "badge": "SCARCE / HIGH VOLTAGE",
-      "title": "Consulting & Audit",
-      "desc": "Direct intervention. Architecture, Surgery, Process Re-engineering.",
+      "badge": "PERSONAL WORK",
+      "title": "STRATEGY & AUDIT",
+      "desc": "Deep business analysis. Process & procurement setup. Personal guidance.",
       "cta": "BOOK A CALL"
     },
     "cardB": {
-      "badge": "INSTANT DEPLOY",
-      "title": "Cognitive Upgrade Kit",
-      "desc": "Staff Firmware Update. Protocols for AI integration & Procurement.",
-      "cta": "ACCESS LIBRARY"
+      "badge": "INSTANT ACCESS",
+      "title": "KNOWLEDGE BASE",
+      "desc": "Ready-made templates, SOPs, and video lessons for AI & procurement.",
+      "cta": "GET ACCESS"
     }
   },
   "stack": {
