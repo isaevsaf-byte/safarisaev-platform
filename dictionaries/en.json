@@ -12,23 +12,23 @@
       "badge": "SCARCE / HIGH VOLTAGE",
       "title": "Consulting & Audit",
       "desc": "Direct intervention. Architecture, Surgery, Process Re-engineering.",
-      "cta": "INITIATE UPLINK"
+      "cta": "BOOK A CALL"
     },
     "cardB": {
       "badge": "INSTANT DEPLOY",
       "title": "Cognitive Upgrade Kit",
       "desc": "Staff Firmware Update. Protocols for AI integration & Procurement.",
-      "cta": "DOWNLOAD DATA"
+      "cta": "ACCESS LIBRARY"
     }
   },
   "stack": {
-    "title": "Intervention Modules",
-    "module1": "KERNEL",
-    "module1Desc": "Processes",
-    "module2": "HARDWARE",
-    "module2Desc": "Procurement",
-    "module3": "NEURAL LINK",
-    "module3Desc": "AI Automation"
+    "title": "SYSTEM ARCHITECTURE",
+    "module1": "PROTOCOLS",
+    "module1Desc": "Business processes, regulations, and org structure.",
+    "module2": "RESOURCES",
+    "module2Desc": "Procurement audit, cost reduction, supply chain.",
+    "module3": "INTELLIGENCE",
+    "module3Desc": "AI agents implementation and workflow automation."
   },
   "leadMagnet": {
     "terminal": "> SYSTEM INTEGRITY CHECK... DETECTING INEFFICIENCIES.",
@@ -43,7 +43,8 @@
   },
   "footer": {
     "label": "ENCRYPTED CHANNEL",
-    "email": "saf@safarisaev.ai"
+    "email": "saf@safarisaev.ai",
+    "telegram": "TELEGRAM // DIRECT LINE"
   }
 }
 

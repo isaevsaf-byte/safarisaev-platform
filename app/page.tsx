@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Hand, Download, Cpu, ShoppingCart, Brain } from "lucide-react";
+import { Hand, Download, Cpu, Database, Brain } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { AccessCard } from "@/components/AccessCard";
@@ -109,7 +109,7 @@ export default function Home() {
                 desc: dict.stack.module1Desc,
               },
               {
-                icon: ShoppingCart,
+                icon: Database,
                 title: dict.stack.module2,
                 desc: dict.stack.module2Desc,
               },
@@ -177,12 +177,23 @@ export default function Home() {
                 {dict.footer.label}
               </span>
             </div>
-            <a
-              href={`mailto:${dict.footer.email}`}
-              className="text-sm text-accent transition-colors hover:text-foreground"
-            >
-              {dict.footer.email}
-            </a>
+            <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
+              <a
+                href={`mailto:${dict.footer.email}`}
+                className="text-sm text-accent transition-colors hover:text-foreground"
+              >
+                {dict.footer.email}
+              </a>
+              <span className="hidden text-secondary md:inline">{'//'}</span>
+              <a
+                href="https://t.me/SafarIsaev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-accent transition-colors hover:text-foreground"
+              >
+                {dict.footer.telegram}
+              </a>
+            </div>
           </div>
         </div>
       </footer>
