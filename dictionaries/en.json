@@ -1,0 +1,49 @@
+{
+  "header": {
+    "logo": "SAFARISAEV.AI",
+    "status": "ONLINE"
+  },
+  "hero": {
+    "title": "BUSINESS NEUROSURGEON",
+    "subtext": "Unscalable processes limit your exit. I architect growth."
+  },
+  "protocols": {
+    "cardA": {
+      "badge": "SCARCE / HIGH VOLTAGE",
+      "title": "Consulting & Audit",
+      "desc": "Direct intervention. Architecture, Surgery, Process Re-engineering.",
+      "cta": "INITIATE UPLINK"
+    },
+    "cardB": {
+      "badge": "INSTANT DEPLOY",
+      "title": "Cognitive Upgrade Kit",
+      "desc": "Staff Firmware Update. Protocols for AI integration & Procurement.",
+      "cta": "DOWNLOAD DATA"
+    }
+  },
+  "stack": {
+    "title": "Intervention Modules",
+    "module1": "KERNEL",
+    "module1Desc": "Processes",
+    "module2": "HARDWARE",
+    "module2Desc": "Procurement",
+    "module3": "NEURAL LINK",
+    "module3Desc": "AI Automation"
+  },
+  "leadMagnet": {
+    "terminal": "> SYSTEM INTEGRITY CHECK... DETECTING INEFFICIENCIES.",
+    "cta": "[ INITIALIZE AUDIT PROTOCOL ]",
+    "modal": {
+      "title": "AUDIT TERMINAL",
+      "companyUrl": "Company URL",
+      "email": "Email",
+      "submit": "EXECUTE",
+      "close": "ABORT"
+    }
+  },
+  "footer": {
+    "label": "ENCRYPTED CHANNEL",
+    "email": "saf@safarisaev.ai"
+  }
+}
+

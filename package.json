@@ -1,0 +1,31 @@
+{
+  "name": "saf",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
+    "lucide-react": "^0.562.0",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.3",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  }
+}
