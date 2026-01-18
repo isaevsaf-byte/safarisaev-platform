@@ -14,6 +14,13 @@ export const efficiencyData = {
                 money_lost_label: "ESTIMATED ANNUAL LOSS",
                 cta: "Book Zero-Waste Audit",
                 calculating: "Calculating...",
+                booking: {
+                    modal_title: "Stop the Bleeding",
+                    modal_subtitle: "Choose your preferred channel for a free case audit.",
+                    telegram_btn: "Message on Telegram",
+                    email_btn: "Send Email",
+                    cancel: "Close",
+                },
                 zones: {
                     green: { title: "The Fortress", desc: "Operational Excellence. Margins protected." },
                     yellow: { title: "The Leaking Pipe", desc: "Silent Erosion. Growth funds inefficiency." },
@@ -120,6 +127,13 @@ export const efficiencyData = {
                 money_lost_label: "ОЦЕНКА ЕЖЕГОДНЫХ ПОТЕРЬ",
                 cta: "Записаться на Аудит",
                 calculating: "Анализ данных...",
+                booking: {
+                    modal_title: "Остановить потери",
+                    modal_subtitle: "Выберите удобный способ связи для бесплатного разбора вашего кейса.",
+                    telegram_btn: "Написать в Telegram",
+                    email_btn: "Отправить Email",
+                    cancel: "Закрыть",
+                },
                 zones: {
                     green: { title: "Крепость", desc: "Операционное превосходство. Ваша прибыль защищена." },
                     yellow: { title: "Протекающая труба", desc: "Тихая эрозия. Ваш рост финансирует вашу неэффективность." },
