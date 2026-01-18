@@ -10,7 +10,8 @@ interface AccessCardProps {
   title: string;
   desc: string;
   cta: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
   className?: string;
 }
 
@@ -21,6 +22,7 @@ export function AccessCard({
   desc,
   cta,
   href,
+  onClick,
   className,
 }: AccessCardProps) {
   return (
@@ -38,7 +40,7 @@ export function AccessCard({
     >
       {/* Scan effect on hover */}
       <motion.div
-        className="absolute inset-0 border-t border-accent/0"
+        className="absolute inset-0 border-t border-accent/0 pointer-events-none"
         whileHover={{ borderColor: "rgba(0,255,148,0.3)" }}
         transition={{ duration: 0.3 }}
       />
@@ -55,12 +57,26 @@ export function AccessCard({
             {title}
           </h3>
           <p className="text-sm text-secondary leading-relaxed">{desc}</p>
-          <a
-            href={href}
-            className="inline-block border border-accent bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-all hover:bg-accent hover:text-background"
-          >
-            {cta}
-          </a>
+          {onClick ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onClick();
+              }}
+              className="inline-block cursor-pointer border border-accent bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-all hover:bg-accent hover:text-background focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            >
+              {cta}
+            </button>
+          ) : (
+            <a
+              href={href}
+              className="inline-block border border-accent bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-all hover:bg-accent hover:text-background"
+            >
+              {cta}
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Hand, Download, Cpu, Database, Brain } from "lucide-react";
+import { Hand, Download, Cpu, Database, Brain, Calculator } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { AccessCard } from "@/components/AccessCard";
 import { AuditModal } from "@/components/AuditModal";
+import { ContactModal } from "@/components/ContactModal";
 import { TypewriterText } from "@/components/TypewriterText";
 import { ScanningLine } from "@/components/ScanningLine";
 import { GridBackground } from "@/components/GridBackground";
@@ -16,6 +17,7 @@ import { cn } from "@/lib/utils";
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("en");
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const dict = getDictionary(locale);
 
   const toggleLocale = () => {
@@ -36,6 +38,14 @@ export default function Home() {
             </span>
             <span className="text-xs text-accent">[{dict.header.status}]</span>
           </div>
+
+          <Link
+            href={`/efficiency-index?lang=${locale}`}
+            className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
+          >
+            {dict.header.efficiency}
+          </Link>
+
           <button
             onClick={toggleLocale}
             className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
@@ -65,6 +75,22 @@ export default function Home() {
         >
           <TypewriterText text={dict.hero.subtext} />
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          className="mt-8"
+        >
+          <Link
+            href={`/efficiency-index?lang=${locale}`}
+            className="group relative inline-flex items-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,148,0.2)]"
+          >
+            <Calculator className="w-4 h-4" />
+            <span>{dict.hero.cta}</span>
+            <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </Link>
+        </motion.div>
       </section>
 
       {/* Active Protocols */}
@@ -77,7 +103,9 @@ export default function Home() {
               title={dict.protocols.cardA.title}
               desc={dict.protocols.cardA.desc}
               cta={dict.protocols.cardA.cta}
-              href="https://cal.com/safarisaev"
+              onClick={() => {
+                setIsContactModalOpen(true);
+              }}
             />
             <AccessCard
               icon={Download}
@@ -209,6 +237,17 @@ export default function Home() {
         onClose={() => setIsAuditModalOpen(false)}
         dictionary={dict.leadMagnet}
       />
+
+      {/* Contact Modal */}
+      {dict.contactModal && (
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onClose={() => setIsContactModalOpen(false)}
+          dictionary={dict.contactModal}
+          telegramUrl="https://t.me/SafarIsaev"
+          emailAddress={dict.footer.email}
+        />
+      )}
     </main>
   );
 }

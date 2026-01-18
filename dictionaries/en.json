@@ -1,11 +1,14 @@
 {
   "header": {
     "logo": "SAFARISAEV.AI",
-    "status": "ONLINE"
+    "status": "ONLINE",
+    "efficiency": "EFFICIENCY INDEX"
   },
   "hero": {
     "title": "BUSINESS NEUROSURGEON",
-    "subtext": "Eliminate bottlenecks. Automate growth."
+    "title": "BUSINESS NEUROSURGEON",
+    "subtext": "Eliminate bottlenecks. Automate growth.",
+    "cta": "Calculate Hidden Losses"
   },
   "protocols": {
     "cardA": {
@@ -41,9 +44,15 @@
       "close": "ABORT"
     }
   },
+  "contactModal": {
+    "title": "CHOOSE CONTACT METHOD",
+    "choose": "Select how you want to reach out:",
+    "telegram": "TELEGRAM",
+    "email": "EMAIL",
+    "close": "CANCEL"
+  },
   "footer": {
     "label": "ENCRYPTED CHANNEL",
     "email": "saf@safarisaev.ai"
   }
 }
-

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,6 +14,11 @@ const config: Config = {
         foreground: "#E5E5E5",
         secondary: "#737373",
         accent: "#00FF94",
+        efficiency: {
+          safe: "#10B981", // Emerald-500
+          warning: "#F59E0B", // Amber-500
+          critical: "#F43F5E", // Rose-500
+        },
       },
       fontFamily: {
         mono: ["var(--font-jetbrains-mono)", "monospace"],

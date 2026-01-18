@@ -1,11 +1,14 @@
 {
   "header": {
     "logo": "SAFARISAEV.AI",
-    "status": "ONLINE"
+    "status": "ONLINE",
+    "efficiency": "ИНДЕКС ЭФФЕКТИВНОСТИ"
   },
   "hero": {
     "title": "БИЗНЕС-НЕЙРОХИРУРГ",
-    "subtext": "Устраняю узкие места. Автоматизирую рост."
+    "title": "БИЗНЕС-НЕЙРОХИРУРГ",
+    "subtext": "Устраняю узкие места. Автоматизирую рост.",
+    "cta": "Рассчитать потери"
   },
   "protocols": {
     "cardA": {
@@ -41,10 +44,16 @@
       "close": "ПРЕРВАТЬ"
     }
   },
+  "contactModal": {
+    "title": "ВЫБЕРИТЕ СПОСОБ СВЯЗИ",
+    "choose": "Выберите, как хотите связаться:",
+    "telegram": "TELEGRAM",
+    "email": "EMAIL",
+    "close": "ОТМЕНА"
+  },
   "footer": {
     "label": "ЗАШИФРОВАННЫЙ КАНАЛ",
     "email": "saf@safarisaev.ai",
     "telegram": "TELEGRAM // DIRECT LINE"
   }
 }
-
