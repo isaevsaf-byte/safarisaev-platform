@@ -5,29 +5,61 @@ import { REPORT_DATA } from "./reportContent";
 // Helper to fetch font as Base64/Binary
 async function loadFonts(doc: jsPDF) {
     try {
-        const response = await fetch("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf");
-        if (!response.ok) throw new Error("Failed to load font");
+        // 1. Construct the URL to the local file in the public folder
+        const fontUrl = window.location.origin + '/fonts/Roboto-Regular.ttf';
+
+        // 2. Fetch the font as an ArrayBuffer
+        const response = await fetch(fontUrl);
+        if (!response.ok) {
+            // Try fallback to CDN if local fails (optional, but good for safety)
+            console.warn("Local font not found in public/fonts, trying CDN fallback...");
+            const cdnResponse = await fetch("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf");
+            if (!cdnResponse.ok) throw new Error("Failed to load font from local AND CDN");
+
+            // If CDN works, use it (same logic)
+            const buffer = await cdnResponse.arrayBuffer();
+            const base64 = arrayBufferToBase64(buffer);
+            doc.addFileToVFS("Roboto-Medium.ttf", base64);
+            doc.addFont("Roboto-Medium.ttf", "Roboto", "normal");
+            return;
+        }
 
         const buffer = await response.arrayBuffer();
-        // jsPDF requires a binary string for addFileToVFS in some versions, 
-        // but recent versions support Uint8Array or Base64.
-        // Let's use a safe arrayBuffer -> binary string conversion or Base64.
 
-        const blob = new Blob([buffer]);
-        const reader = new FileReader();
+        // 3. Add font to PDF
+        // Convert ArrayBuffer to binary string or base64. 
+        // jsPDF addFileToVFS supports binary string content.
+        const binary = arrayBufferToBinary(buffer);
 
-        return new Promise<void>((resolve) => {
-            reader.onload = () => {
-                const base64 = (reader.result as string).split(',')[1];
-                doc.addFileToVFS("Roboto-Medium.ttf", base64);
-                doc.addFont("Roboto-Medium.ttf", "Roboto", "normal");
-                resolve();
-            };
-            reader.readAsDataURL(blob);
-        });
+        doc.addFileToVFS("Roboto-Regular.ttf", binary);
+        doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+
+        console.log("Font loaded successfully!");
+
     } catch (err) {
-        console.error("Font loading failed, falling back to standard fonts (Cyrillic may break)", err);
+        console.error("Font loading error:", err);
+        // Alert is a bit aggressive here, maybe just log
+        // Fallback to standard font handled in main function if font set fails
     }
+}
+
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
+
+function arrayBufferToBinary(buffer: ArrayBuffer): string {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return binary;
 }
 
 export const generateEfficiencyReport = async (

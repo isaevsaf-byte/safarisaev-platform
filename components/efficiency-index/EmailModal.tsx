@@ -25,12 +25,16 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
 
     useEffect(() => {
         if (state.succeeded) {
+            console.log("Formspree submitted. Starting PDF...");
+
             // Generate PDF on success
             const downloadReport = async () => {
                 try {
                     await generateEfficiencyReport(score, revenue, zone, lang);
-                } catch (e) {
+                    console.log("PDF Done");
+                } catch (e: any) {
                     console.error("PDF Download failed", e);
+                    alert("PDF Error: " + (e.message || "Unknown error"));
                 }
             };
             downloadReport();
