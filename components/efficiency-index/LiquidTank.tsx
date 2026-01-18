@@ -47,7 +47,7 @@ export function LiquidTank({ level, mode, label }: LiquidTankProps) {
         <div className="relative h-full w-full flex flex-col items-center justify-center p-4 pb-12 md:pb-4">
             {/* Container - Tube */}
             <div
-                className={`relative w-24 h-[60vh] md:w-32 md:h-[500px] rounded-full border-2 bg-white/50 dark:bg-black/40 backdrop-blur-sm overflow-hidden ${currentTheme.border} transition-colors duration-500 shadow-xl dark:shadow-none ring-1 ring-black/5 dark:ring-0`}
+                className={`relative w-24 h-[250px] md:w-32 md:h-[500px] rounded-full border-2 bg-white/50 dark:bg-black/40 backdrop-blur-sm overflow-hidden ${currentTheme.border} transition-colors duration-500 shadow-xl dark:shadow-none ring-1 ring-black/5 dark:ring-0`}
             >
                 {/* Glass Reflection Overlay (Dark Mode Enhanced) */}
                 <div className="absolute inset-0 z-20 pointer-events-none rounded-full bg-gradient-to-r from-white/20 to-transparent opacity-50 dark:from-white/5" />

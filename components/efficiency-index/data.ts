@@ -13,6 +13,7 @@ export const efficiencyData = {
                 input_label: "Annual Revenue / Budget",
                 money_lost_label: "ESTIMATED ANNUAL LOSS",
                 cta: "Book Zero-Waste Audit",
+                back_btn: "Go Back",
                 calculating: "Calculating...",
                 booking: {
                     modal_title: "Stop the Bleeding",
@@ -126,6 +127,7 @@ export const efficiencyData = {
                 input_label: "Ваш годовой оборот / Бюджет",
                 money_lost_label: "ОЦЕНКА ЕЖЕГОДНЫХ ПОТЕРЬ",
                 cta: "Записаться на Аудит",
+                back_btn: "Назад",
                 calculating: "Анализ данных...",
                 booking: {
                     modal_title: "Остановить потери",

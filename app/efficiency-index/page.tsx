@@ -24,6 +24,7 @@ function EfficiencyIndexContent() {
         handleAnswer,
         reset,
         progress,
+        goBack,
     } = useEfficiencyCalculator();
 
     const [hasStarted, setHasStarted] = useState(false);
@@ -115,7 +116,7 @@ function EfficiencyIndexContent() {
                 )}
 
                 {/* Right Column: Interaction Zone */}
-                <div className={`w-full ${hasStarted ? "md:w-2/3 lg:w-3/4" : "md:w-full"} p-6 md:p-12 flex flex-col justify-center transition-[width] duration-500`}>
+                <div className={`w-full ${hasStarted ? "md:w-2/3 lg:w-3/4" : "md:w-full"} p-4 md:p-12 flex flex-col justify-center transition-[width] duration-500`}>
 
                     <AnimatePresence mode="wait">
                         {!hasStarted ? (
@@ -158,6 +159,7 @@ function EfficiencyIndexContent() {
                                 <QuestionCard
                                     question={currentQuestion}
                                     onAnswer={handleAnswer}
+                                    onBack={goBack}
                                     lang={lang}
                                     currentIndex={currentQuestionIndex}
                                     total={totalQuestions}

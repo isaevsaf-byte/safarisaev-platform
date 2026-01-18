@@ -62,6 +62,17 @@ export function useEfficiencyCalculator() {
         setIsFinished(false);
     };
 
+    const goBack = () => {
+        if (currentQuestionIndex > 0) {
+            setAnswers((prev) => {
+                const newAnswers = { ...prev };
+                delete newAnswers[questions[currentQuestionIndex - 1].id];
+                return newAnswers;
+            });
+            setCurrentQuestionIndex((prev) => prev - 1);
+        }
+    };
+
     return {
         lang,
         setLang,
@@ -74,5 +85,6 @@ export function useEfficiencyCalculator() {
         handleAnswer,
         reset,
         progress, // Exposed for progress bar
+        goBack,
     };
 }
