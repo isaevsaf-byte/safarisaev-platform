@@ -26,7 +26,14 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
     useEffect(() => {
         if (state.succeeded) {
             // Generate PDF on success
-            generateEfficiencyReport(score, revenue, zone, lang);
+            const downloadReport = async () => {
+                try {
+                    await generateEfficiencyReport(score, revenue, zone, lang);
+                } catch (e) {
+                    console.error("PDF Download failed", e);
+                }
+            };
+            downloadReport();
 
             // Auto close after 3s
             const timer = setTimeout(() => {

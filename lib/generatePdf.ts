@@ -2,90 +2,124 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { REPORT_DATA } from "./reportContent";
 
-// Helper to load font if needed (placeholder functionality)
-// In a real scenario, you'd load a base64 font string or fetch a TTF
-// import { myFontBase64 } from "./fonts"; 
+// Helper to fetch font as Base64/Binary
+async function loadFonts(doc: jsPDF) {
+    try {
+        const response = await fetch("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf");
+        if (!response.ok) throw new Error("Failed to load font");
 
-export const generateEfficiencyReport = (
+        const buffer = await response.arrayBuffer();
+        // jsPDF requires a binary string for addFileToVFS in some versions, 
+        // but recent versions support Uint8Array or Base64.
+        // Let's use a safe arrayBuffer -> binary string conversion or Base64.
+
+        const blob = new Blob([buffer]);
+        const reader = new FileReader();
+
+        return new Promise<void>((resolve) => {
+            reader.onload = () => {
+                const base64 = (reader.result as string).split(',')[1];
+                doc.addFileToVFS("Roboto-Medium.ttf", base64);
+                doc.addFont("Roboto-Medium.ttf", "Roboto", "normal");
+                resolve();
+            };
+            reader.readAsDataURL(blob);
+        });
+    } catch (err) {
+        console.error("Font loading failed, falling back to standard fonts (Cyrillic may break)", err);
+    }
+}
+
+export const generateEfficiencyReport = async (
     score: number,
     revenue: string | number,
     zone: "red" | "green" | "yellow",
     lang: "en" | "ru"
 ) => {
     const doc = new jsPDF();
-    const content = REPORT_DATA[lang][zone];
 
-    // NOTE: Default jsPDF fonts do NOT support Cyrillic. 
-    // To fix this, you must import a font file (e.g., Roboto-Regular.ttf) 
-    // and add it: doc.addFont("path/to/font.ttf", "MyFont", "normal");
-    // For now, we will assume English works fine, and Russian implies a need for a font.
-    // We'll use a safe fallback or instructions.
+    // 1. Load Custom Font for Cyrillic
+    await loadFonts(doc);
+    doc.setFont("Roboto");
 
-    // If you add a font file to public/fonts/Roboto-Regular.ttf, you can fetch it:
-    // fetch('/fonts/Roboto-Regular.ttf').then(res => res.arrayBuffer()).then(font => { ... })
-    // For this synchronous implementation, we'll strive for best effort.
+    try {
+        const content = REPORT_DATA[lang][zone];
+        const revenueDisplay = revenue.toLocaleString();
 
-    // Header
-    doc.setFontSize(20);
-    doc.setTextColor(40, 40, 40);
-    doc.text("SAFAR ISAEV | Efficiency Index", 14, 22);
+        // Header
+        doc.setFontSize(20);
+        doc.setTextColor(40, 40, 40);
+        doc.text("SAFAR ISAEV | Efficiency Audit", 14, 22);
 
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Date: ${new Date().toLocaleDateString()} | ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 14, 28);
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Date: ${new Date().toLocaleDateString()} | ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 14, 28);
 
-    // Score Section
-    doc.setFillColor(zone === "red" ? 220 : zone === "yellow" ? 220 : 220, 220, 220); // Light gray bg for now
-    if (zone === "red") doc.setTextColor(220, 38, 38);
-    if (zone === "yellow") doc.setTextColor(217, 119, 6);
-    if (zone === "green") doc.setTextColor(22, 163, 74);
+        // Score Section
+        doc.setFontSize(40);
+        doc.setTextColor(zone === 'red' ? '#e11d48' : zone === 'yellow' ? '#d97706' : '#059669');
+        doc.text(`${score}%`, 14, 50);
 
-    doc.setFontSize(40);
-    doc.text(`${score}%`, 14, 50);
+        // Revenue Risk Context
+        doc.setFontSize(10);
+        doc.setTextColor(40, 40, 40);
+        doc.text(`Est. Revenue Input: $${revenueDisplay}`, 50, 45); // Adjust position as needed
 
-    doc.setFontSize(14);
-    doc.setTextColor(60, 60, 60);
-    doc.text(`${content.title}`, 14, 60);
+        // Reset color
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(12);
 
-    // Diagnosis
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-    const splitDiagnosis = doc.splitTextToSize(content.diagnosis, 180);
-    doc.text(splitDiagnosis, 14, 75);
+        // Title & Role
+        doc.text(content.title, 14, 65);
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        doc.text(content.role, 14, 72);
 
-    let currentY = 90;
+        // Diagnosis
+        autoTable(doc, {
+            startY: 80,
+            head: [['DIAGNOSIS']],
+            body: [[content.diagnosis]],
+            styles: { font: "Roboto", fontSize: 11, cellPadding: 4 },
+            headStyles: { fillColor: [40, 40, 40], textColor: 255, fontStyle: 'bold' }
+        });
 
-    // Imperatives Table
-    autoTable(doc, {
-        startY: currentY,
-        head: [[lang === "ru" ? "Императив" : "Imperative", lang === "ru" ? "Действие" : "Action"]],
-        body: content.imperatives.map(imp => [imp.title, imp.desc]),
-        styles: { fontSize: 10, cellPadding: 5 },
-        headStyles: { fillColor: [40, 40, 40] },
-        columnStyles: { 0: { fontStyle: "bold", cellWidth: 50 } },
-    });
+        // Imperatives
+        const imperativesData = content.imperatives.map(imp => [`${imp.title}\n${imp.desc}`]);
+        // @ts-ignore
+        const nextY = doc.lastAutoTable.finalY + 10;
 
-    // @ts-ignore
-    currentY = doc.lastAutoTable.finalY + 15;
+        autoTable(doc, {
+            startY: nextY,
+            head: [['STRATEGIC IMPERATIVES']],
+            body: imperativesData,
+            styles: { font: "Roboto", fontSize: 10, cellPadding: 4 },
+            headStyles: { fillColor: [30, 30, 30], textColor: 255 },
+            columnStyles: { 0: { cellWidth: 'auto' } }
+        });
 
-    // Pitch / Offer
-    doc.setFillColor(240, 240, 240);
-    doc.rect(14, currentY, 182, 30, "F");
+        // Pitch
+        // @ts-ignore
+        const finalY = doc.lastAutoTable.finalY + 10;
 
-    doc.setFontSize(11);
-    doc.setTextColor(0, 0, 0);
-    doc.text(content.pitch.title, 20, currentY + 10);
+        autoTable(doc, {
+            startY: finalY,
+            head: [[content.pitch.title]],
+            body: [[content.pitch.desc]],
+            styles: { font: "Roboto", fontSize: 10, fillColor: [240, 240, 240], cellPadding: 6 },
+            headStyles: { fillColor: [16, 185, 129], textColor: 255 } // Emerald-500
+        });
 
-    doc.setFontSize(10);
-    doc.setTextColor(80, 80, 80);
-    const splitPitch = doc.splitTextToSize(content.pitch.desc, 170);
-    doc.text(splitPitch, 20, currentY + 18);
+        // Footer
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text("Generated by safarisaev.ai", 14, 280);
 
-    // Footer
-    doc.setFontSize(8);
-    doc.setTextColor(150, 150, 150);
-    doc.text("Generated by safarisaev.ai", 14, 290);
+        doc.save('Safar_Isaev_Audit_Protocol.pdf');
+        console.log("PDF Generated Successfully");
 
-    // Save
-    doc.save(`efficiency-report-${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (error) {
+        console.error("PDF Generation Failed:", error);
+        alert("Error generating PDF. Please check console.");
+    }
 };
