@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Hand, Download, Cpu, Database, Brain, Calculator } from "lucide-react";
+import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { AccessCard } from "@/components/AccessCard";
@@ -18,7 +18,19 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("en");
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  // Default to dark mode to match original design, but allow toggle
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
   const dict = getDictionary(locale);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    if (isDarkMode) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   const toggleLocale = () => {
     setLocale(locale === "en" ? "ru" : "en");
@@ -26,11 +38,16 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden">
-      <GridBackground />
-      <ScanningLine />
+      {/* Conditionally render Punk Elements only in Dark Mode */}
+      {isDarkMode && (
+        <>
+          <GridBackground />
+          <ScanningLine />
+        </>
+      )}
 
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-secondary/20 bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-secondary/20 bg-background/80 backdrop-blur-md transition-colors duration-500">
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <span className="text-lg font-semibold text-foreground">
@@ -39,21 +56,31 @@ export default function Home() {
             <span className="text-xs text-accent">[{dict.header.status}]</span>
           </div>
 
-          <Link
-            href={`/efficiency-index?lang=${locale}`}
-            className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
-          >
-            {dict.header.efficiency}
-          </Link>
+          <div className="flex items-center gap-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="p-2 rounded-full hover:bg-secondary/10 transition-colors"
+            >
+              {isDarkMode ? <Sun className="w-4 h-4 text-white" /> : <Moon className="w-4 h-4 text-slate-900" />}
+            </button>
 
-          <button
-            onClick={toggleLocale}
-            className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
-          >
-            <GlitchText className="text-accent">
-              {locale.toUpperCase()}
-            </GlitchText>
-          </button>
+            <Link
+              href={`/efficiency-index?lang=${locale}`}
+              className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
+            >
+              {dict.header.efficiency}
+            </Link>
+
+            <button
+              onClick={toggleLocale}
+              className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
+            >
+              <GlitchText className="text-accent">
+                {locale.toUpperCase()}
+              </GlitchText>
+            </button>
+          </div>
         </div>
       </header>
 

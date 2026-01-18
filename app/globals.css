@@ -3,8 +3,22 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --secondary: #737373;
+    --accent: #10B981; /* Emerald-500 for Light mode visibility */
+  }
+
+  .dark {
+    --background: #050505;
+    --foreground: #E5E5E5;
+    --secondary: #737373;
+    --accent: #00FF94;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-500;
   }
 }
 

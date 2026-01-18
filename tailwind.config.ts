@@ -10,10 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#050505",
-        foreground: "#E5E5E5",
-        secondary: "#737373",
-        accent: "#00FF94",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        secondary: "var(--secondary)",
+        accent: "var(--accent)",
         efficiency: {
           safe: "#10B981", // Emerald-500
           warning: "#F59E0B", // Amber-500

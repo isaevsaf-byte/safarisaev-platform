@@ -7,6 +7,7 @@ import { ResultDashboard } from "../../components/efficiency-index/ResultDashboa
 import { efficiencyData } from "../../components/efficiency-index/data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, ArrowRight, Sun, Moon } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { Suspense } from "react";
@@ -64,9 +65,9 @@ function EfficiencyIndexContent() {
 
             {/* Header / Nav */}
             <header className="relative z-50 p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
-                <div className="font-bold tracking-tighter text-2xl md:text-3xl text-slate-900 dark:text-white transition-colors">
+                <Link href="/" className="font-bold tracking-tighter text-2xl md:text-3xl text-slate-900 dark:text-white transition-colors hover:opacity-80">
                     SAFAR<span className="text-slate-400 dark:text-secondary">ISAEV</span>
-                </div>
+                </Link>
 
                 <div className="flex items-center gap-2">
                     {/* Theme Toggle */}
