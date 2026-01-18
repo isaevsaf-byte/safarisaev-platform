@@ -44,7 +44,7 @@ export function LiquidTank({ level, mode, label }: LiquidTankProps) {
     const currentTheme = colors[colorState];
 
     return (
-        <div className="relative h-full w-full flex flex-col items-center justify-center p-4">
+        <div className="relative h-full w-full flex flex-col items-center justify-center p-4 pb-12 md:pb-4">
             {/* Container - Tube */}
             <div
                 className={`relative w-24 h-[60vh] md:w-32 md:h-[500px] rounded-full border-2 bg-white/50 dark:bg-black/40 backdrop-blur-sm overflow-hidden ${currentTheme.border} transition-colors duration-500 shadow-xl dark:shadow-none ring-1 ring-black/5 dark:ring-0`}
@@ -78,8 +78,13 @@ export function LiquidTank({ level, mode, label }: LiquidTankProps) {
             </div>
 
             {/* Label */}
-            <div className="absolute -right-8 md:-right-12 top-[10%] text-xs font-mono font-bold text-zinc-400 dark:text-zinc-500 rotate-90 origin-left whitespace-nowrap">
-                {label}
+            <div className="absolute -bottom-12 md:bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                <div className="text-xs font-mono font-bold text-slate-400 dark:text-zinc-600 uppercase tracking-[0.2em] mb-1 text-center">
+                    {mode === "progress" ? "Status" : "Efficiency"}
+                </div>
+                <div className="text-sm md:text-base font-bold text-slate-900 dark:text-white uppercase tracking-widest text-center">
+                    {label}
+                </div>
             </div>
         </div>
     );
