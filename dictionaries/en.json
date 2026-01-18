@@ -53,5 +53,212 @@
   "footer": {
     "label": "ENCRYPTED CHANNEL",
     "email": "saf@safarisaev.ai"
+  },
+  "efficiencyIndex": {
+    "text": {
+      "title": "The Anonymous Efficiency Index",
+      "subtitle": "Calculate hidden operational waste in 3 minutes.",
+      "tank_label": "Efficiency Level",
+      "progress_label": "Audit Progress",
+      "input_label": "Annual Revenue / Budget",
+      "money_lost_label": "ESTIMATED ANNUAL LOSS",
+      "cta": "Book Zero-Waste Audit",
+      "back_btn": "Go Back",
+      "calculating": "Calculating...",
+      "booking": {
+        "modal_title": "Stop the Bleeding",
+        "modal_subtitle": "Choose your preferred channel for a free case audit.",
+        "telegram_btn": "Message on Telegram",
+        "email_btn": "Send Email",
+        "cancel": "Close"
+      },
+      "zones": {
+        "green": {
+          "title": "The Fortress",
+          "desc": "Elite Tier. Your processes are airtight, margins protected. You are ready for safe scaling.",
+          "action": "Maintain Leadership"
+        },
+        "yellow": {
+          "title": "The Leaking Pipe",
+          "desc": "Silent Capital Erosion. Your growth funds your inefficiency. You are losing money on process friction.",
+          "action": "Find the Leaks"
+        },
+        "red": {
+          "title": "The Bleeding Edge",
+          "desc": "Critical Vulnerability. You are donating huge sums to the market daily. Immediate intervention required.",
+          "action": "Stop the Bleeding"
+        }
+      }
+    },
+    "questions": [
+      {
+        "id": 1,
+        "text": "What are your standard Payment Terms?",
+        "options": [
+          {
+            "text": "Net 45-60 days (Optimized)",
+            "penalty": 0
+          },
+          {
+            "text": "Inconsistent / Case-by-case",
+            "penalty": 1.5
+          },
+          {
+            "text": "Immediate / Net 14 (Cash Trap)",
+            "penalty": 2.5
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "text": "Can you instantly quote exact spend with Top 10 suppliers?",
+        "options": [
+          {
+            "text": "Yes, live dashboard",
+            "penalty": 0
+          },
+          {
+            "text": "Roughly, need to ask",
+            "penalty": 1.0
+          },
+          {
+            "text": "No, only P&L view",
+            "penalty": 2.0
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "text": "Can a manager spend £2k without prior PO?",
+        "options": [
+          {
+            "text": "No, system blocks it",
+            "penalty": 0
+          },
+          {
+            "text": "Yes, if in budget",
+            "penalty": 1.5
+          },
+          {
+            "text": "Yes, no strict limits",
+            "penalty": 3.0
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "text": "Last benchmark of service contracts?",
+        "options": [
+          {
+            "text": "< 9 months ago",
+            "penalty": 0
+          },
+          {
+            "text": "~1 year ago",
+            "penalty": 1.0
+          },
+          {
+            "text": "> 2 years / Never",
+            "penalty": 2.0
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "text": "Tail Spend management strategy?",
+        "options": [
+          {
+            "text": "Consolidated volumes",
+            "penalty": 0
+          },
+          {
+            "text": "Fragmented / Bloated list",
+            "penalty": 1.5
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "text": "Contract repository status?",
+        "options": [
+          {
+            "text": "Digital CLM with alerts",
+            "penalty": 0
+          },
+          {
+            "text": "Shared Drive / Excel",
+            "penalty": 1.0
+          },
+          {
+            "text": "Emails / Paper",
+            "penalty": 2.0
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "text": "Service delivery validation?",
+        "options": [
+          {
+            "text": "Strict 3-way match",
+            "penalty": 0
+          },
+          {
+            "text": "Visual check",
+            "penalty": 1.0
+          },
+          {
+            "text": "Auto-payment",
+            "penalty": 1.5
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "text": "Invoice processing method?",
+        "options": [
+          {
+            "text": "Auto (EDI/OCR)",
+            "penalty": 0
+          },
+          {
+            "text": "Manual entry",
+            "penalty": 1.5
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "text": "Panic buying frequency?",
+        "options": [
+          {
+            "text": "Rare (<5%)",
+            "penalty": 0
+          },
+          {
+            "text": "Regular",
+            "penalty": 1.5
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "text": "Backup for key suppliers?",
+        "options": [
+          {
+            "text": "Yes, contract signed",
+            "penalty": 0
+          },
+          {
+            "text": "Know who, no contract",
+            "penalty": 0.5
+          },
+          {
+            "text": "No, dependent",
+            "penalty": 1.5
+          }
+        ]
+      }
+    ]
   }
 }
