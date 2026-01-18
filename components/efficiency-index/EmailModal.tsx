@@ -21,7 +21,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
     const t = efficiencyData.content[lang].text;
 
     // Replace "YOUR_FORMSPREE_ID" with actual ID from user
-    const [state, handleSubmit] = useForm("YOUR_FORMSPREE_ID");
+    const [state, handleSubmit] = useForm("xzddelvr");
 
     useEffect(() => {
         if (state.succeeded) {
