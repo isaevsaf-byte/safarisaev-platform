@@ -1,18 +1,21 @@
 "use client";
 
-import { useEfficiencyCalculator } from "../../hooks/useEfficiencyCalculator";
-import { LiquidTank } from "../../components/efficiency-index/LiquidTank";
-import { QuestionCard } from "../../components/efficiency-index/QuestionCard";
-import { ResultDashboard } from "../../components/efficiency-index/ResultDashboard";
-import { efficiencyData } from "../../components/efficiency-index/data";
+import { useEfficiencyCalculator } from "@/hooks/useEfficiencyCalculator";
+import { LiquidTank } from "@/components/efficiency-index/LiquidTank";
+import { QuestionCard } from "@/components/efficiency-index/QuestionCard";
+import { ResultDashboard } from "@/components/efficiency-index/ResultDashboard";
+import { efficiencyData } from "@/components/efficiency-index/data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, ArrowRight, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-
 import { Suspense } from "react";
 
-function EfficiencyIndexContent() {
+interface EfficiencyIndexContentProps {
+    lang: "en" | "ru";
+}
+
+function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentProps) {
     const {
         lang,
         setLang,
@@ -26,7 +29,7 @@ function EfficiencyIndexContent() {
         reset,
         progress,
         goBack,
-    } = useEfficiencyCalculator();
+    } = useEfficiencyCalculator(initialLang);
 
     const [hasStarted, setHasStarted] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -193,14 +196,14 @@ function EfficiencyIndexContent() {
     );
 }
 
-export default function EfficiencyIndexClient() {
+export default function EfficiencyIndexClient({ lang }: EfficiencyIndexContentProps) {
     return (
         <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center bg-black text-white font-mono">
                 LOADING SYSTEM...
             </div>
         }>
-            <EfficiencyIndexContent />
+            <EfficiencyIndexContent lang={lang} />
         </Suspense>
     );
 }

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import EfficiencyIndexClient from "./EfficiencyIndexClient";
 import { getDictionary } from "@/lib/i18n";
+import { Suspense } from "react";
 
 type Props = {
-    searchParams: { [key: string]: string | string[] | undefined };
+    params: { lang: string };
 };
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-    const lang = (searchParams?.lang === "ru" || searchParams?.lang === "en") ? (searchParams.lang as "ru" | "en") : "en";
-    const dict = getDictionary(lang);
+export async function generateMetadata({ params: { lang } }: Props): Promise<Metadata> {
+    const dict = getDictionary(lang as "en" | "ru");
     const t = dict.efficiencyIndex.text;
 
     return {
@@ -17,7 +17,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
         openGraph: {
             title: t.title,
             description: t.subtitle,
-            url: `https://safarisaev.ai/efficiency-index?lang=${lang}`,
+            url: `https://safarisaev.ai/${lang}/efficiency-index`,
             siteName: 'Safar Isaev AI',
             locale: lang,
             type: 'website',
@@ -40,6 +40,10 @@ export async function generateStaticParams() {
     ];
 }
 
-export default function Page() {
-    return <EfficiencyIndexClient />;
+export default function Page({ params: { lang } }: Props) {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <EfficiencyIndexClient lang={lang as "en" | "ru"} />
+        </Suspense>
+    );
 }

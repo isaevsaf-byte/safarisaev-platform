@@ -1,15 +1,14 @@
-"use client";
-
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { efficiencyData, Lang, Option } from "../components/efficiency-index/data";
 
-import { useSearchParams } from "next/navigation";
-
-export function useEfficiencyCalculator() {
-    const searchParams = useSearchParams();
-    const initialLang = (searchParams.get("lang") === "ru" ? "ru" : "en") as Lang;
-
+export function useEfficiencyCalculator(initialLang: Lang = "en") {
+    // We can allow some external control or default to initialLang
     const [lang, setLang] = useState<Lang>(initialLang);
+
+    // Sync state if prop changes (optional, but good for reliable routing update)
+    useEffect(() => {
+        setLang(initialLang);
+    }, [initialLang]);
     const [answers, setAnswers] = useState<Record<number, number>>({}); // questionId -> penalty
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
