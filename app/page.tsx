@@ -66,7 +66,7 @@ export default function Home() {
             </button>
 
             <Link
-              href={`/efficiency-index?lang=${locale}`}
+              href={`/${locale}/efficiency-index`}
               className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
             >
               {dict.header.efficiency}
@@ -110,7 +110,7 @@ export default function Home() {
           className="mt-8"
         >
           <Link
-            href={`/efficiency-index?lang=${locale}`}
+            href={`/${locale}/efficiency-index`}
             className="group relative inline-flex items-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,148,0.2)]"
           >
             <Calculator className="w-4 h-4" />
