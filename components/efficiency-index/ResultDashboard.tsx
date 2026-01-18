@@ -5,6 +5,7 @@ import { motion, useSpring, useTransform } from "framer-motion";
 import { efficiencyData } from "./data";
 import { Loader2 } from "lucide-react";
 import { BookingModal } from "./BookingModal";
+import { EmailModal } from "./EmailModal";
 
 interface ResultDashboardProps {
     score: number;
@@ -19,6 +20,7 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
     const [estimatedLoss, setEstimatedLoss] = useState<number>(0);
     const [isCalculating, setIsCalculating] = useState(false);
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
     // Status Logic
     const getStatus = () => {
@@ -138,7 +140,17 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                         className="mt-8 block w-full py-4 bg-slate-900 dark:bg-accent text-white dark:text-black font-bold text-center rounded-lg hover:bg-slate-800 dark:hover:bg-accent/90 transition-colors uppercase tracking-widest shadow-lg"
                     >
                         {status.action}
+                        {status.action}
                     </motion.button>
+
+                    <button
+                        onClick={() => setIsEmailModalOpen(true)}
+                        className="mt-4 w-full py-3 text-xs md:text-sm font-bold text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-white transition-colors uppercase tracking-widest flex items-center justify-center gap-2"
+                    >
+                        <span className="border-b border-transparent hover:border-slate-900 dark:hover:border-white transition-colors">
+                            {lang === "ru" ? "Скачать PDF Отчет" : "Download PDF Report"}
+                        </span>
+                    </button>
                 </div>
             </div>
 
@@ -146,6 +158,16 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                 isOpen={isBookingModalOpen}
                 onClose={() => setIsBookingModalOpen(false)}
                 lang={lang}
+            />
+
+            <EmailModal
+                isOpen={isEmailModalOpen}
+                onClose={() => setIsEmailModalOpen(false)}
+                lang={lang}
+                score={score}
+                revenue={revenue}
+                wastePercentage={wastePercentage}
+                zone={status.color.includes("safe") ? "green" : status.color.includes("warning") ? "yellow" : "red"}
             />
         </motion.div>
     );
