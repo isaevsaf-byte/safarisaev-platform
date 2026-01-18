@@ -9,72 +9,72 @@ export type ReportContent = {
 export const REPORT_DATA = {
     ru: {
         red: {
-            title: "ПРОТОКОЛ: ОСТАНОВКА КРОВОТЕЧЕНИЯ",
-            role: "Роль: Crisis Manager / Хирург",
-            diagnosis: "Ваш бизнес в состоянии шока. Вы не управляете расходами — вы финансируете хаос. Риск переплат >25%.",
+            title: "ПРОТОКОЛ: УПРАВЛЕНИЕ РИСКАМИ",
+            role: "Статус: Критическая уязвимость",
+            diagnosis: "Выявлены критические уязвимости в контроле затрат. Текущая модель создает риски кассовых разрывов. Разрыв между плановой и реальной маржинальностью требует немедленного устранения.",
             imperatives: [
-                { title: "Режим 'Cash Control Tower'", desc: "Заморозка платежей без трехсторонней сверки. Внедрение 'No PO, No Pay'." },
-                { title: "Forensic Spend Audit", desc: "Экспресс-проверка топ-20 поставщиков на рыночную адекватность." },
-                { title: "Централизация", desc: "Полный запрет на закупки через мессенджеры и переводы на карты." }
+                { title: "Централизация Казначейства", desc: "Введение жесткого контроля платежей. Оплата только при наличии утвержденной заявки (3-Way Match)." },
+                { title: "Аудит Контрактов", desc: "Сверка цен топ-20 поставщиков с рыночными бенчмарками для выявления переплат." },
+                { title: "Минимизация Рисков", desc: "Исключение закупок через неавторизованные каналы (мессенджеры, подотчет)." }
             ],
-            pitch: { title: "ОФФЕР: Финансовая Реанимация", desc: "Я захожу как Crisis CPO на 30 дней. Мы остановим отток наличности за 4 недели." }
+            pitch: { title: "РЕШЕНИЕ: Программа Оптимизации Затрат", desc: "Внедрение инструментов финансового контроля за 4 недели. Цель: стабилизация денежного потока и исключение нецелевых расходов." }
         },
         yellow: {
-            title: "ПРОТОКОЛ: ПЕРЕСБОРКА",
-            role: "Роль: System Architect / Инженер",
-            diagnosis: "Вы попали в 'Ловушку Масштаба'. Процессы остались гаражными. Вы теряете деньги на операционном трении.",
+            title: "ПРОТОКОЛ: ОПЕРАЦИОННАЯ ЭФФЕКТИВНОСТЬ",
+            role: "Статус: Требуется систематизация",
+            diagnosis: "Бизнес масштабируется быстрее, чем процессы. Вы теряете ресурсы на ручном управлении и административном трении. Это скрытые издержки, снижающие EBITDA.",
             imperatives: [
-                { title: "Цифровая Гигиена (P2P)", desc: "Отказ от зоопарка таблиц. Автоматизация рутины на 90%." },
-                { title: "Консолидация Tail Spend", desc: "80% поставщиков создают 90% проблем. Сокращаем базу в 3 раза." },
-                { title: "Фокус на TCO", desc: "Переход от выбора 'по цене' к выбору 'по стоимости владения'." }
+                { title: "Стандартизация Процессов", desc: "Внедрение регламентов (SOP) для снижения трудозатрат и зависимости от конкретных сотрудников." },
+                { title: "Работа с Tail Spend", desc: "Консолидация базы мелких поставщиков для снижения административной нагрузки на отдел." },
+                { title: "Цифровая Гигиена", desc: "Переход от хаотичных таблиц к единому реестру обязательств." }
             ],
-            pitch: { title: "ОФФЕР: Трансформация Закупок", desc: "Я перестрою архитектуру снабжения. Снижение OPEX на 15% и освобождение времени." }
+            pitch: { title: "РЕШЕНИЕ: Систематизация Снабжения", desc: "Трансформация закупок из сервисной функции в системную. Оцифровка рутины и внедрение категорийного менеджмента." }
         },
         green: {
-            title: "ПРОТОКОЛ: ЭВОЛЮЦИЯ",
-            role: "Роль: Visionary / Стратег",
-            diagnosis: "Вы построили Крепость. Ваш следующий уровень — превращение Supply Chain в актив, драйвящий капитализацию.",
+            title: "ПРОТОКОЛ: СТРАТЕГИЧЕСКОЕ РАЗВИТИЕ",
+            role: "Статус: Лидер рынка",
+            diagnosis: "Высокий уровень операционной дисциплины. Текущая база позволяет использовать закупки как инструмент создания добавленной стоимости.",
             imperatives: [
-                { title: "Predictive AI Analytics", desc: "Предиктивное управление и хеджирование рисков." },
-                { title: "Supplier Innovation", desc: "Поставщики как лаборатории R&D. Эксклюзив на инновации." },
-                { title: "ESG Multiplier", desc: "Прозрачная цепь поставок повышает оценку бизнеса при M&A/IPO." }
+                { title: "Управление Отношениями (SRM)", desc: "Развитие стратегических партнерств с ключевыми вендорами для получения эксклюзивных условий." },
+                { title: "Предиктивная Аналитика", desc: "Использование данных для точного планирования спроса и управления оборотным капиталом." },
+                { title: "Масштабирование", desc: "Подготовка архитектуры цепи поставок к выходу на новые рынки или M&A." }
             ],
-            pitch: { title: "ОФФЕР: AI-Driven Strategy", desc: "Мы строим ракету. Внедрение ИИ и альянсов для создания 'Economic Moat'." }
+            pitch: { title: "РЕШЕНИЕ: Стратегия Масштабирования", desc: "Интеграция лучших мировых практик (Best Practices) для поддержки роста капитализации компании." }
         }
     },
     en: {
         red: {
-            title: "PROTOCOL: HEMOSTASIS",
-            role: "Role: Crisis Manager / Surgeon",
-            diagnosis: "Your business is in shock. You are funding chaos. Risk of overpayment >25%.",
+            title: "PROTOCOL: RISK MANAGEMENT",
+            role: "Status: Critical Vulnerability",
+            diagnosis: "Critical vulnerabilities in cost control detected. Current model creates cash flow risks. The gap between planned and actual margins requires immediate attention.",
             imperatives: [
-                { title: "Cash Control Tower", desc: "Freeze payments without 3-way match. Implement 'No PO, No Pay'." },
-                { title: "Forensic Spend Audit", desc: "Express audit of Top-20 suppliers for market rates." },
-                { title: "Centralization", desc: "Ban on 'WhatsApp procurement' and P2P transfers." }
+                { title: "Treasury Centralization", desc: "Strict payment control. Payments released only with approved POs (3-Way Match)." },
+                { title: "Contract Audit", desc: "Benchmarking top-20 supplier contracts against market rates to identify overpayment." },
+                { title: "Risk Mitigation", desc: "Elimination of unauthorized purchasing channels (maverick spend)." }
             ],
-            pitch: { title: "OFFER: Financial Resuscitation", desc: "I enter as Crisis CPO for 30 days. We stop cash burn in 4 weeks." }
+            pitch: { title: "SOLUTION: Cost Optimization Program", desc: "Implementation of financial controls in 4 weeks. Goal: Stabilize cash flow and eliminate non-compliant spending." }
         },
         yellow: {
-            title: "PROTOCOL: RE-ENGINEERING",
-            role: "Role: System Architect",
-            diagnosis: "Caught in the 'Scale Trap'. Business grew, processes didn't. You lose money on friction.",
+            title: "PROTOCOL: OPERATIONAL EFFICIENCY",
+            role: "Status: Systematization Required",
+            diagnosis: "Business is scaling faster than processes. You are losing resources on manual management friction. These are hidden costs eroding EBITDA.",
             imperatives: [
-                { title: "Digital Hygiene (P2P)", desc: "No more Excel chaos. Automate 90% of routine." },
-                { title: "Tail Spend Consolidation", desc: "Cut supplier base by 3x via framework agreements." },
-                { title: "Focus on TCO", desc: "Shift from 'Price' to 'Total Cost of Ownership'." }
+                { title: "Process Standardization", desc: "Implementing SOPs to reduce manual effort and dependency on specific individuals." },
+                { title: "Tail Spend Management", desc: "Consolidating low-value suppliers to reduce administrative burden." },
+                { title: "Digital Hygiene", desc: "Moving from chaotic spreadsheets to a unified commitment register." }
             ],
-            pitch: { title: "OFFER: Procurement Transformation", desc: "I rebuild your supply architecture. Reduce OPEX by 15%." }
+            pitch: { title: "SOLUTION: Procurement Systematization", desc: "Transforming procurement from a service function to a system. Digitizing routine and implementing category management." }
         },
         green: {
-            title: "PROTOCOL: EVOLUTION",
-            role: "Role: Visionary / Strategist",
-            diagnosis: "You built a Fortress. Next level: Supply Chain as a valuation driver.",
+            title: "PROTOCOL: STRATEGIC DEVELOPMENT",
+            role: "Status: Market Leader",
+            diagnosis: "High level of operational discipline. Current base allows using procurement as a value creation tool.",
             imperatives: [
-                { title: "Predictive AI Analytics", desc: "AI for demand forecasting and risk hedging." },
-                { title: "Supplier Innovation", desc: "Vendors as R&D labs. First-to-market advantage." },
-                { title: "ESG Multiplier", desc: "Transparent supply chain boosts M&A/IPO valuation." }
+                { title: "Supplier Relationship Management", desc: "Developing strategic partnerships with key vendors for exclusive terms." },
+                { title: "Predictive Analytics", desc: "Using data for accurate demand planning and working capital management." },
+                { title: "Scaling Architecture", desc: "Preparing supply chain architecture for new market entry or M&A." }
             ],
-            pitch: { title: "OFFER: AI-Driven Strategy", desc: "Building the rocket. AI implementation for an Economic Moat." }
+            pitch: { title: "SOLUTION: Scaling Strategy", desc: "Integrating Global Best Practices to support company valuation growth." }
         }
     }
 };
