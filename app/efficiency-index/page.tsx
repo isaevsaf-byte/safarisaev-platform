@@ -9,7 +9,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Globe, ArrowRight, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function EfficiencyIndexPage() {
+import { Suspense } from "react";
+
+function EfficiencyIndexContent() {
     const {
         lang,
         setLang,
@@ -43,6 +45,7 @@ export default function EfficiencyIndexPage() {
     // Mode: "progress" (during quiz) | "result" (finished)
     // Level: progress % (during quiz) | score % (finished)
     const tankMode = isFinished ? "result" : "progress";
+
     // For progress: we want 0 -> 100. Actually, if we use progress from hook, 
     // it is 0 at start, 10 after Q1. 
     // User wants: "starts empty (0%) and fills up by 10% after each answered question."
@@ -184,5 +187,17 @@ export default function EfficiencyIndexPage() {
                 </div>
             </main>
         </div>
+    );
+}
+
+export default function EfficiencyIndexPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-black text-white font-mono">
+                LOADING SYSTEM...
+            </div>
+        }>
+            <EfficiencyIndexContent />
+        </Suspense>
     );
 }
