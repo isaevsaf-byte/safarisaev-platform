@@ -33,6 +33,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     };
 }
 
+export async function generateStaticParams() {
+    return [
+        { lang: 'en' },
+        { lang: 'ru' }
+    ];
+}
+
 export default function Page() {
     return <EfficiencyIndexClient />;
 }
