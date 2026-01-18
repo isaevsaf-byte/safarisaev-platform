@@ -23,9 +23,21 @@ export const efficiencyData = {
                     cancel: "Close",
                 },
                 zones: {
-                    green: { title: "The Fortress", desc: "Operational Excellence. Margins protected." },
-                    yellow: { title: "The Leaking Pipe", desc: "Silent Erosion. Growth funds inefficiency." },
-                    red: { title: "The Bleeding Edge", desc: "Critical Vulnerability. You are donating cash to the market." },
+                    green: {
+                        title: "The Fortress",
+                        desc: "Elite Tier. Your processes are airtight, margins protected. You are ready for safe scaling.",
+                        action: "Maintain Leadership",
+                    },
+                    yellow: {
+                        title: "The Leaking Pipe",
+                        desc: "Silent Capital Erosion. Your growth funds your inefficiency. You are losing money on process friction.",
+                        action: "Find the Leaks",
+                    },
+                    red: {
+                        title: "The Bleeding Edge",
+                        desc: "Critical Vulnerability. You are donating huge sums to the market daily. Immediate intervention required.",
+                        action: "Stop the Bleeding",
+                    },
                 },
             },
             questions: [
@@ -137,9 +149,21 @@ export const efficiencyData = {
                     cancel: "Закрыть",
                 },
                 zones: {
-                    green: { title: "Крепость", desc: "Операционное превосходство. Ваша прибыль защищена." },
-                    yellow: { title: "Протекающая труба", desc: "Тихая эрозия. Ваш рост финансирует вашу неэффективность." },
-                    red: { title: "Кровотечение", desc: "Критическая уязвимость. Вы дарите рынку огромные суммы." },
+                    green: {
+                        title: "Крепость (The Fortress)",
+                        desc: "Элитный уровень. Ваши процессы герметичны, маржа защищена. Вы готовы к безопасному масштабированию.",
+                        action: "Сохранить лидерство",
+                    },
+                    yellow: {
+                        title: "Протекающая Труба",
+                        desc: "Тихая эрозия капитала. Ваш рост финансирует вашу неэффективность. Вы теряете деньги на трении процессов.",
+                        action: "Найти утечки",
+                    },
+                    red: {
+                        title: "Кровотечение (Bleeding Edge)",
+                        desc: "Критическая уязвимость. Вы дарите рынку огромные суммы ежедневно. Требуется немедленное вмешательство.",
+                        action: "Остановить потери",
+                    },
                 },
             },
             questions: [

@@ -22,9 +22,9 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
 
     // Status Logic
     const getStatus = () => {
-        if (score > 92) return { title: z.green.title, desc: z.green.desc, color: "text-efficiency-safe" };
-        if (score >= 80) return { title: z.yellow.title, desc: z.yellow.desc, color: "text-efficiency-warning" };
-        return { title: z.red.title, desc: z.red.desc, color: "text-efficiency-critical" };
+        if (score >= 93) return { title: z.green.title, desc: z.green.desc, color: "text-efficiency-safe", action: z.green.action };
+        if (score >= 80) return { title: z.yellow.title, desc: z.yellow.desc, color: "text-efficiency-warning", action: z.yellow.action };
+        return { title: z.red.title, desc: z.red.desc, color: "text-efficiency-critical", action: z.red.action };
     };
 
     const status = getStatus();
@@ -137,7 +137,7 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                         whileTap={{ scale: 0.98 }}
                         className="mt-8 block w-full py-4 bg-slate-900 dark:bg-accent text-white dark:text-black font-bold text-center rounded-lg hover:bg-slate-800 dark:hover:bg-accent/90 transition-colors uppercase tracking-widest shadow-lg"
                     >
-                        {t.cta}
+                        {status.action}
                     </motion.button>
                 </div>
             </div>
