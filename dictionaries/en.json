@@ -8,7 +8,8 @@
   "hero": {
     "title": "BUSINESS NEUROSURGEON",
     "subtext": "Eliminate bottlenecks. Automate growth.",
-    "cta": "Calculate Hidden Losses"
+    "cta": "Calculate Hidden Losses",
+    "ctaAi": "Check AI Velocity"
   },
   "protocols": {
     "cardA": {

@@ -124,6 +124,15 @@ export default function Home() {
             <span>{dict.hero.cta}</span>
             <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
+
+          <Link
+            href="/ai-velocity-index"
+            className="group relative inline-flex items-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] ml-4"
+          >
+            <Brain className="w-4 h-4" />
+            <span>{dict.hero.ctaAi}</span>
+            <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </Link>
         </motion.div>
       </section>
 
