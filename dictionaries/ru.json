@@ -2,7 +2,8 @@
   "header": {
     "logo": "SAFARISAEV.AI",
     "status": "ONLINE",
-    "efficiency": "ИНДЕКС ЭФФЕКТИВНОСТИ"
+    "efficiency": "ИНДЕКС ЭФФЕКТИВНОСТИ",
+    "aiIndex": "ИНДЕКС AI-СКОРОСТИ"
   },
   "hero": {
     "title": "БИЗНЕС-НЕЙРОХИРУРГ",

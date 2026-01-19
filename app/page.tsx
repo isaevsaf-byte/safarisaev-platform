@@ -72,6 +72,13 @@ export default function Home() {
               {dict.header.efficiency}
             </Link>
 
+            <Link
+              href="/ai-velocity-index"
+              className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-emerald-500 transition-colors border border-transparent hover:border-emerald-500/20 px-3 py-1 rounded-sm"
+            >
+              {dict.header.aiIndex}
+            </Link>
+
             <button
               onClick={toggleLocale}
               className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
