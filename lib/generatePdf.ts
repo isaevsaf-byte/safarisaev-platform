@@ -27,7 +27,8 @@ async function loadFonts(doc: jsPDF) {
                         // base64 is supported by addFileToVFS in modern jsPDF
                         doc.addFileToVFS("Roboto-Regular.ttf", base64);
                         doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-                        console.log("[PDF] Font loaded and registered successfully");
+                        doc.addFont("Roboto-Regular.ttf", "Roboto", "bold"); // Register as bold too to prevent fallback glitch
+                        console.log("[PDF] Font loaded and registered successfully (Normal + Bold map)");
                         resolve();
                     } else {
                         reject(new Error("Empty base64 result from FileReader"));
@@ -94,10 +95,10 @@ export const generateEfficiencyReport = async (
         // Diagnosis
         autoTable(doc, {
             startY: 80,
-            head: [['DIAGNOSIS']],
+            head: [[lang === 'ru' ? 'ДИАГНОЗ' : 'DIAGNOSIS']],
             body: [[content.diagnosis]],
             styles: { font: "Roboto", fontSize: 11, cellPadding: 4 },
-            headStyles: { fillColor: [40, 40, 40], textColor: 255, fontStyle: 'bold' }
+            headStyles: { fillColor: [40, 40, 40], textColor: 255, fontStyle: 'bold', font: "Roboto" }
         });
 
         // Imperatives
@@ -107,10 +108,10 @@ export const generateEfficiencyReport = async (
 
         autoTable(doc, {
             startY: nextY,
-            head: [['STRATEGIC IMPERATIVES']],
+            head: [[lang === 'ru' ? 'СТРАТЕГИЧЕСКИЕ ИМПЕРАТИВЫ' : 'STRATEGIC IMPERATIVES']],
             body: imperativesData,
             styles: { font: "Roboto", fontSize: 10, cellPadding: 4 },
-            headStyles: { fillColor: [30, 30, 30], textColor: 255 },
+            headStyles: { fillColor: [30, 30, 30], textColor: 255, font: "Roboto" },
             columnStyles: { 0: { cellWidth: 'auto' } }
         });
 
@@ -123,7 +124,7 @@ export const generateEfficiencyReport = async (
             head: [[content.pitch.title]],
             body: [[content.pitch.desc]],
             styles: { font: "Roboto", fontSize: 10, fillColor: [240, 240, 240], cellPadding: 6 },
-            headStyles: { fillColor: [16, 185, 129], textColor: 255 } // Emerald-500
+            headStyles: { fillColor: [16, 185, 129], textColor: 255, font: "Roboto" } // Emerald-500
         });
 
         // Footer
