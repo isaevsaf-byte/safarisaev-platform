@@ -14,7 +14,7 @@ export function LiquidTank({ level, mode, label }: LiquidTankProps) {
     const colorState = useMemo(() => {
         if (mode === "progress") return "neutral";
         if (level >= 90) return "safe";
-        if (level >= 70) return "warning";
+        if (level >= 75) return "warning";
         return "critical";
     }, [level, mode]);
 

@@ -47,7 +47,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Net 45-60 days (Optimized)", penalty: 0 },
                         { text: "Inconsistent / Case-by-case", penalty: 1.5 },
-                        { text: "Immediate / Net 14 (Cash Trap)", penalty: 2.5 },
+                        { text: "Immediate / Net 14 (Cash Trap)", penalty: 5.0 },
                     ],
                 },
                 {
@@ -56,7 +56,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Yes, live dashboard", penalty: 0 },
                         { text: "Roughly, need to ask", penalty: 1.0 },
-                        { text: "No, only P&L view", penalty: 2.0 },
+                        { text: "No, only P&L view", penalty: 5.0 },
                     ],
                 },
                 {
@@ -65,7 +65,7 @@ export const efficiencyData = {
                     options: [
                         { text: "No, system blocks it", penalty: 0 },
                         { text: "Yes, if in budget", penalty: 1.5 },
-                        { text: "Yes, no strict limits", penalty: 3.0 },
+                        { text: "Yes, no strict limits", penalty: 6.0 },
                     ],
                 },
                 {
@@ -74,7 +74,7 @@ export const efficiencyData = {
                     options: [
                         { text: "< 9 months ago", penalty: 0 },
                         { text: "~1 year ago", penalty: 1.0 },
-                        { text: "> 2 years / Never", penalty: 2.0 },
+                        { text: "> 2 years / Never", penalty: 4.0 },
                     ],
                 },
                 {
@@ -82,7 +82,7 @@ export const efficiencyData = {
                     text: "Tail Spend management strategy?",
                     options: [
                         { text: "Consolidated volumes", penalty: 0 },
-                        { text: "Fragmented / Bloated list", penalty: 1.5 },
+                        { text: "Fragmented / Bloated list", penalty: 3.0 },
                     ],
                 },
                 {
@@ -91,7 +91,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Digital CLM with alerts", penalty: 0 },
                         { text: "Shared Drive / Excel", penalty: 1.0 },
-                        { text: "Emails / Paper", penalty: 2.0 },
+                        { text: "Emails / Paper", penalty: 4.0 },
                     ],
                 },
                 {
@@ -100,7 +100,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Strict 3-way match", penalty: 0 },
                         { text: "Visual check", penalty: 1.0 },
-                        { text: "Auto-payment", penalty: 1.5 },
+                        { text: "Auto-payment", penalty: 3.0 },
                     ],
                 },
                 {
@@ -108,7 +108,7 @@ export const efficiencyData = {
                     text: "Invoice processing method?",
                     options: [
                         { text: "Auto (EDI/OCR)", penalty: 0 },
-                        { text: "Manual entry", penalty: 1.5 },
+                        { text: "Manual entry", penalty: 3.0 },
                     ],
                 },
                 {
@@ -116,7 +116,7 @@ export const efficiencyData = {
                     text: "Panic buying frequency?",
                     options: [
                         { text: "Rare (<5%)", penalty: 0 },
-                        { text: "Regular", penalty: 1.5 },
+                        { text: "Regular", penalty: 4.0 },
                     ],
                 },
                 {
@@ -125,7 +125,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Yes, contract signed", penalty: 0 },
                         { text: "Know who, no contract", penalty: 0.5 },
-                        { text: "No, dependent", penalty: 1.5 },
+                        { text: "No, dependent", penalty: 4.0 },
                     ],
                 },
             ],
@@ -173,7 +173,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Стратегический стандарт: 45-60 дней", penalty: 0 },
                         { text: "Хаотично: Условия разные, договариваемся по ситуации", penalty: 1.5 },
-                        { text: "Платим по факту или быстро (до 14 дней)", penalty: 2.5 },
+                        { text: "Платим по факту или быстро (до 14 дней)", penalty: 5.0 },
                     ],
                 },
                 {
@@ -182,7 +182,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Да, данные доступны в 1 клик", penalty: 0 },
                         { text: "Примерно, но нужно уточнять", penalty: 1.0 },
-                        { text: "Нет, вижу только общие цифры P&L", penalty: 2.0 },
+                        { text: "Нет, вижу только общие цифры P&L", penalty: 5.0 },
                     ],
                 },
                 {
@@ -191,7 +191,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Нет, система блокирует такие оплаты", penalty: 0 },
                         { text: "Да, если это в рамках бюджета", penalty: 1.5 },
-                        { text: "Да, строгих лимитов нет / оформляем задним числом", penalty: 3.0 },
+                        { text: "Да, строгих лимитов нет / оформляем задним числом", penalty: 6.0 },
                     ],
                 },
                 {
@@ -200,7 +200,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Менее 6-9 месяцев назад", penalty: 0 },
                         { text: "Около года назад", penalty: 1.0 },
-                        { text: "Более 2 лет назад / «Мы им доверяем»", penalty: 2.0 },
+                        { text: "Более 2 лет назад / «Мы им доверяем»", penalty: 4.0 },
                     ],
                 },
                 {
@@ -208,7 +208,7 @@ export const efficiencyData = {
                     text: "Как вы управляете мелкими закупками (низкий чек, большие объемы)?",
                     options: [
                         { text: "Минимум поставщиков (консолидация)", penalty: 0 },
-                        { text: "Много разовых контрагентов, база раздута", penalty: 1.5 },
+                        { text: "Много разовых контрагентов, база раздута", penalty: 3.0 },
                     ],
                 },
                 {
@@ -217,7 +217,7 @@ export const efficiencyData = {
                     options: [
                         { text: "В цифровой системе с напоминаниями", penalty: 0 },
                         { text: "В папках на сервере / Google Drive", penalty: 1.0 },
-                        { text: "В почте, у юристов или в бумаге", penalty: 2.0 },
+                        { text: "В почте, у юристов или в бумаге", penalty: 4.0 },
                     ],
                 },
                 {
@@ -226,7 +226,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Строгая приемка / трехсторонняя сверка", penalty: 0 },
                         { text: "Визуальная проверка руководителем", penalty: 1.0 },
-                        { text: "Счет просто передается в оплату", penalty: 1.5 },
+                        { text: "Счет просто передается в оплату", penalty: 3.0 },
                     ],
                 },
                 {
@@ -234,7 +234,7 @@ export const efficiencyData = {
                     text: "Как входящие счета попадают в учетную систему?",
                     options: [
                         { text: "Автоматически (EDI / сканирование)", penalty: 0 },
-                        { text: "Ручной ввод сотрудником", penalty: 1.5 },
+                        { text: "Ручной ввод сотрудником", penalty: 3.0 },
                     ],
                 },
                 {
@@ -242,7 +242,7 @@ export const efficiencyData = {
                     text: "Как часто случаются срочные закупки («нужно вчера»)?",
                     options: [
                         { text: "Крайне редко (<5%)", penalty: 0 },
-                        { text: "Регулярно", penalty: 1.5 },
+                        { text: "Регулярно", penalty: 4.0 },
                     ],
                 },
                 {
@@ -251,7 +251,7 @@ export const efficiencyData = {
                     options: [
                         { text: "Да, резервные контракты подписаны", penalty: 0 },
                         { text: "Знаем кого позвать, но контракта нет", penalty: 0.5 },
-                        { text: "Нет, зависим от текущего", penalty: 1.5 },
+                        { text: "Нет, зависим от текущего", penalty: 4.0 },
                     ],
                 },
             ],
