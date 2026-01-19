@@ -140,7 +140,6 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                         className="mt-8 block w-full py-4 bg-slate-900 dark:bg-accent text-white dark:text-black font-bold text-center rounded-lg hover:bg-slate-800 dark:hover:bg-accent/90 transition-colors uppercase tracking-widest shadow-lg"
                     >
                         {status.action}
-                        {status.action}
                     </motion.button>
 
                     <button
