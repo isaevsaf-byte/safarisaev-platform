@@ -1,6 +1,6 @@
 export const efficiencyData = {
     meta: {
-        cap_waste: 18,
+        cap_waste: 50,
         start_score: 100,
     },
     content: {
