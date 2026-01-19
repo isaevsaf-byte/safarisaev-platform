@@ -30,7 +30,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
             // Generate PDF on success
             const downloadReport = async () => {
                 try {
-                    await generateEfficiencyReport(score, revenue, zone, lang);
+                    await generateEfficiencyReport(score, revenue, zone, lang, wastePercentage);
                     console.log("PDF Done");
                 } catch (e: any) {
                     console.error("PDF Download failed", e);

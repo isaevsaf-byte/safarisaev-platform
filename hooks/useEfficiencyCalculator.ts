@@ -28,7 +28,7 @@ export function useEfficiencyCalculator(initialLang: Lang = "en") {
         return Math.max(calculatedScore, minScore);
     }, [answers, start_score, cap_waste]);
 
-    const wastePercentage = 100 - score;
+    const wastePercentage = Math.round((100 - score) / 3);
 
     // Progress logic
     const progress = useMemo(() => {

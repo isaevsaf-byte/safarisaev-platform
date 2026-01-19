@@ -51,7 +51,8 @@ export const generateEfficiencyReport = async (
     score: number,
     revenue: string | number,
     zone: "red" | "green" | "yellow",
-    lang: "en" | "ru"
+    lang: "en" | "ru",
+    wastePercentage: number
 ) => {
     const doc = new jsPDF();
 
@@ -61,7 +62,9 @@ export const generateEfficiencyReport = async (
 
     try {
         const content = REPORT_DATA[lang][zone];
-        const revenueDisplay = revenue.toLocaleString();
+        const revenueNum = typeof revenue === 'string' ? parseInt(revenue.replace(/[^0-9]/g, ""), 10) : revenue;
+        const revenueDisplay = revenueNum ? revenueNum.toLocaleString() : "0";
+        const lossDisplay = revenueNum ? Math.round(revenueNum * (wastePercentage / 100)).toLocaleString() : "0";
 
         // Header
         doc.setFontSize(20);
@@ -81,6 +84,8 @@ export const generateEfficiencyReport = async (
         doc.setFontSize(10);
         doc.setTextColor(40, 40, 40);
         doc.text(`Est. Revenue Input: $${revenueDisplay}`, 50, 45); // Adjust position as needed
+        doc.setTextColor(220, 38, 38); // Red
+        doc.text(`Est. Annual Loss: $${lossDisplay} (${wastePercentage}%)`, 50, 50);
 
         // Reset color
         doc.setTextColor(0, 0, 0);
