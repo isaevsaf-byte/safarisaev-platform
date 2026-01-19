@@ -117,14 +117,28 @@ export const generateEfficiencyReport = async (
 
         // Pitch
         // @ts-ignore
-        const finalY = doc.lastAutoTable.finalY + 10;
+        const finalY = doc.lastAutoTable.finalY + 15;
 
         autoTable(doc, {
             startY: finalY,
             head: [[content.pitch.title]],
             body: [[content.pitch.desc]],
-            styles: { font: "Roboto", fontSize: 10, fillColor: [240, 240, 240], cellPadding: 6 },
-            headStyles: { fillColor: [16, 185, 129], textColor: 255, font: "Roboto" } // Emerald-500
+            theme: 'plain',
+            styles: {
+                font: "Roboto",
+                fontSize: 12,
+                cellPadding: 8,
+                textColor: [40, 40, 40], // Dark gray
+                fillColor: [243, 244, 246] // Gray-100
+            },
+            headStyles: {
+                font: "Roboto",
+                fillColor: [16, 185, 129], // Emerald-500
+                textColor: 255,
+                fontSize: 12,
+                halign: 'center',
+                fontStyle: 'bold'
+            }
         });
 
         // Footer

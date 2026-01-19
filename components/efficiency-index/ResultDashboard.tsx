@@ -24,8 +24,8 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
 
     // Status Logic
     const getStatus = () => {
-        if (score >= 96) return { title: z.green.title, desc: z.green.desc, color: "text-efficiency-safe", action: z.green.action };
-        if (score >= 90) return { title: z.yellow.title, desc: z.yellow.desc, color: "text-efficiency-warning", action: z.yellow.action };
+        if (score >= 90) return { title: z.green.title, desc: z.green.desc, color: "text-efficiency-safe", action: z.green.action };
+        if (score >= 70) return { title: z.yellow.title, desc: z.yellow.desc, color: "text-efficiency-warning", action: z.yellow.action };
         return { title: z.red.title, desc: z.red.desc, color: "text-efficiency-critical", action: z.red.action };
     };
 
