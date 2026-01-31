@@ -114,11 +114,11 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.8 }}
-          className="mt-8"
+          className="mt-8 flex flex-col items-center gap-4 md:flex-row"
         >
           <Link
             href={`/${locale}/efficiency-index`}
-            className="group relative inline-flex items-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,148,0.2)]"
+            className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,148,0.2)] w-full md:w-auto"
           >
             <Calculator className="w-4 h-4" />
             <span>{dict.hero.cta}</span>
@@ -127,7 +127,7 @@ export default function Home() {
 
           <Link
             href="/ai-velocity-index"
-            className="group relative inline-flex items-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] ml-4"
+            className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] w-full md:w-auto"
           >
             <Brain className="w-4 h-4" />
             <span>{dict.hero.ctaAi}</span>

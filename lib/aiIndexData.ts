@@ -1,259 +1,222 @@
-
 export type Lang = "en" | "ru";
+export type Context = "self" | "team";
+
+export interface ZoneConfig {
+    min: number;
+    color: string;
+}
+
+export interface ZoneTranslation {
+    title: string;
+    slogan: string;
+    desc: string;
+}
+
+export interface OfferTranslation {
+    name: string;
+    price: string;
+}
+
+export interface QuestionOption {
+    label: {
+        ru: string;
+        en: string;
+    };
+    penalty: number;
+}
+
+export interface Question {
+    id: string;
+    category: {
+        ru: string;
+        en: string;
+    };
+    text: {
+        self: {
+            ru: string;
+            en: string;
+        };
+        team: {
+            ru: string;
+            en: string;
+        };
+    };
+    options: QuestionOption[];
+}
 
 export const aiIndexData = {
-    meta: {
-        start_score: 100, // Reverse scoring starts at 100
-        thresholds: {
-            architect: 90, // Green
-            executive: 60, // Yellow (60-89)
-            legacy: 0,     // Red (<60)
+    config: {
+        baseScore: 100,
+        zones: {
+            green: { min: 90, color: "#10B981" },
+            yellow: { min: 66, color: "#F59E0B" },
+            red: { min: 0, color: "#EF4444" }
         }
     },
-    content: {
-        en: {
-            text: {
-                title: "AI Velocity Index",
-                subtitle: "Measure your organization's speed to intelligence.",
-                context_toggle: {
-                    myself: "Assess Myself",
-                    team: "Assess My Team",
-                },
-                gauge_label: "Velocity Multiplier",
-                input_label: "Your Email (for report)",
-                cta: "Get Full Strategy",
-                calculating: "Analyzing Velocity...",
-                results: {
-                    title: "Your AI Velocity Profile",
-                    download_btn: "Download Strategy PDF"
-                },
-                zones: {
-                    architect: {
-                        title: "AI Architect (10x)",
-                        desc: "You are building software without code. Your speed is your moat.",
-                        color: "text-emerald-500",
-                        bg: "bg-emerald-500",
-                        badge: "Velocity: Supersonic"
-                    },
-                    executive: {
-                        title: "AI Executive (2x)",
-                        desc: "You have strategy, but execution is fragmented. You need a system.",
-                        color: "text-amber-500",
-                        bg: "bg-amber-500",
-                        badge: "Velocity: Accelerated"
-                    },
-                    legacy: {
-                        title: "Legacy Operator (1x)",
-                        desc: "Using a supercomputer like a typewriter. You are at risk of obsolescence.",
-                        color: "text-rose-500",
-                        bg: "bg-rose-500",
-                        badge: "Velocity: Stalled"
-                    }
-                }
+    translations: {
+        ru: {
+            title: "AI Velocity Index",
+            subtitle: "Оцените ваш реальный IQ в эпоху ИИ: от 'Пользователя' до 'Архитектора'.",
+            toggles: { self: "Оцениваю СЕБЯ", team: "Оцениваю КОМАНДУ" },
+            cta: "Скачать Отчет и План (PDF)",
+            zones: {
+                green: { title: "AI ARCHITECT (Создатель)", slogan: "«Перестань искать софт — создай его сам.»", desc: "Вы — Киборг. Вы переросли интерфейс чата. Вы готовы создавать собственные активы." },
+                yellow: { title: "AI EXECUTIVE (Профи)", slogan: "«Вам не нужно быстрее писать. Вам нужно масштабнее думать.»", desc: "Вы виртуозно владеете чатом, но у вас нет Системы. Превратите один чат в целый Департамент." },
+                red: { title: "LEGACY OPERATOR (Аналоговый)", slogan: "«Вы используете суперкомпьютер как печатную машинку.»", desc: "Вы работаете руками там, где конкуренты нажимают кнопку. Вы теряете ~15 часов в неделю." }
             },
-            questions: [
-                {
-                    id: 1,
-                    text_myself: "How do you write daily emails & reports?",
-                    text_team: "How does your team write daily emails & reports?",
-                    options: [
-                        { text: "Fully automated / ONE prompt generates 90%", penalty: 0 },
-                        { text: "I use ChatGPT to edit/refine drafts", penalty: 5 },
-                        { text: "I write everything manually from scratch", penalty: 15 }
-                    ]
-                },
-                {
-                    id: 2,
-                    text_myself: "How do you handle meeting notes?",
-                    text_team: "How does your team handle meeting notes?",
-                    options: [
-                        { text: "AI records, transcribes & emails action items instantly", penalty: 0 },
-                        { text: "I take notes, then clean them up later", penalty: 5 },
-                        { text: "Manual note-taking / No notes shared", penalty: 15 }
-                    ]
-                },
-                {
-                    id: 3,
-                    text_myself: "What is your approach to coding/automation?",
-                    text_team: "What is your team's approach to automation?",
-                    options: [
-                        { text: "I build my own tools using AI (Cursor/Replit)", penalty: 0 },
-                        { text: "I ask developers to build things for me", penalty: 10 },
-                        { text: "We use standard software only (Excel/SaaS)", penalty: 20 }
-                    ]
-                },
-                {
-                    id: 4,
-                    text_myself: "How do you analyze large documents?",
-                    text_team: "How does your team analyze large documents?",
-                    options: [
-                        { text: "Upload to AI -> Answer in seconds", penalty: 0 },
-                        { text: "Skim read manually + Ctrl+F", penalty: 10 },
-                        { text: "Read fully line-by-line", penalty: 20 }
-                    ]
-                },
-                {
-                    id: 5,
-                    text_myself: "How fast can you launch a new landing page/idea?",
-                    text_team: "How fast can your team launch a new idea?",
-                    options: [
-                        { text: "Hours (AI generated copy + code)", penalty: 0 },
-                        { text: "Days (Need checks/approvals)", penalty: 10 },
-                        { text: "Weeks/Months (Agency/IT dept)", penalty: 25 }
-                    ]
-                }
-            ],
-            report: {
-                title: "AI VELOCITY AUDIT",
-                role: "Strategic Assessment",
-                diagnosis_title: "DIAGNOSIS",
-                imperatives_title: "STRATEGIC IMPERATIVES"
-            },
-            deep_think: {
-                architect: {
-                    diagnosis: "You have achieved 'Escape Velocity'. You are no longer constrained by human typing speed or manual cognition.",
-                    imperatives: [
-                        { title: "Sovereign AI Infrastructure", desc: "Move from public models to private, fine-tuned local LLMs for IP protection." },
-                        { title: "Agentic Workflows", desc: "Replace discrete tasks with autonomous agents that run 24/7." }
-                    ]
-                },
-                executive: {
-                    diagnosis: "You understand the power of AI, but your implementation is sporadic. You are a 'Centaur'—human + AI, but still manual.",
-                    imperatives: [
-                        { title: "Systemization", desc: "Turn ad-hoc prompting into standardized prompts libraries." },
-                        { title: "Automation First", desc: "Default to AI for every text/code task. Stop typing." }
-                    ]
-                },
-                legacy: {
-                    diagnosis: "You are operating in the pre-2023 era. Your competitors are moving 10x faster using the same tools you ignore.",
-                    imperatives: [
-                        { title: "Radical Adoption", desc: "Force adoption of basic LLM tools for all communication." },
-                        { title: "Process Audit", desc: "Identify the 20% of tasks taking 80% of time and kill them with AI." }
-                    ]
-                }
+            offers: {
+                green: { name: "Mastermind: AI Architect (Cursor)", price: "$890" },
+                yellow: { name: "Intensive: AI Strategy & Agents", price: "$290" },
+                red: { name: "Course: AI Foundation (Start Now)", price: "$49" }
             }
         },
-        ru: {
-            text: {
-                title: "Индекс AI-Скорости",
-                subtitle: "Измерьте скорость вашего интеллекта.",
-                context_toggle: {
-                    myself: "Оценить Себя",
-                    team: "Оценить Команду",
-                },
-                gauge_label: "Множитель Скорости",
-                input_label: "Ваш Email (для отчета)",
-                cta: "Получить Стратегию",
-                calculating: "Расчет скорости...",
-                results: {
-                    title: "Ваш AI-Профиль",
-                    download_btn: "Скачать PDF Отчет"
-                },
-                zones: {
-                    architect: {
-                        title: "AI Архитектор (10x)",
-                        desc: "Вы создаете софт без кода. Ваша скорость — ваше главное преимущество.",
-                        color: "text-emerald-500",
-                        bg: "bg-emerald-500",
-                        badge: "Скорость: Сверхзвуковая"
-                    },
-                    executive: {
-                        title: "AI Экзекьютив (2x)",
-                        desc: "У вас есть стратегия, но исполнение фрагментарно. Вам нужна система.",
-                        color: "text-amber-500",
-                        bg: "bg-amber-500",
-                        badge: "Скорость: Высокая"
-                    },
-                    legacy: {
-                        title: "Legacy Оператор (1x)",
-                        desc: "Используете суперкомпьютер как печатную машинку. Риск устаревания критичен.",
-                        color: "text-rose-500",
-                        bg: "bg-rose-500",
-                        badge: "Скорость: Минимальная"
-                    }
-                }
+        en: {
+            title: "AI Velocity Index",
+            subtitle: "Assess your real AI IQ: From 'User' to 'Architect'.",
+            toggles: { self: "Assess MYSELF", team: "Assess MY TEAM" },
+            cta: "Download Report & Plan (PDF)",
+            zones: {
+                green: { title: "AI ARCHITECT (The Creator)", slogan: "'Stop looking for software — build it yourself.'", desc: "You are a Cyborg. You've outgrown the chat interface. You are ready to build assets." },
+                yellow: { title: "AI EXECUTIVE (Pro)", slogan: "'You don't need to write faster. You need to think bigger.'", desc: "You are a chat virtuoso, but you lack a System. Turn one chat into a Department." },
+                red: { title: "LEGACY OPERATOR (Analog)", slogan: "'You are using a supercomputer as a typewriter.'", desc: "You work manually where competitors push a button. You lose ~15 hours/week." }
             },
-            questions: [
-                {
-                    id: 1,
-                    text_myself: "Как вы пишете ежедневные письма и отчеты?",
-                    text_team: "Как ваша команда пишет письма и отчеты?",
-                    options: [
-                        { text: "Автоматически / ОДИН промпт делает 90%", penalty: 0 },
-                        { text: "Использую GPT для редактуры черновиков", penalty: 5 },
-                        { text: "Пишу всё вручную с нуля", penalty: 15 }
-                    ]
-                },
-                {
-                    id: 2,
-                    text_myself: "Как вы фиксируете итоги встреч?",
-                    text_team: "Как команда фиксирует итоги встреч?",
-                    options: [
-                        { text: "AI записывает, транскрибирует и шлет задачи", penalty: 0 },
-                        { text: "Делаю пометки, потом привожу в порядок", penalty: 5 },
-                        { text: "Ручные записи / Или вообще без записей", penalty: 15 }
-                    ]
-                },
-                {
-                    id: 3,
-                    text_myself: "Ваш подход к кодингу и автоматизации?",
-                    text_team: "Подход команды к автоматизации?",
-                    options: [
-                        { text: "Сам пишу инструменты с AI (Cursor, Replit)", penalty: 0 },
-                        { text: "Ставлю ТЗ разработчикам и жду", penalty: 10 },
-                        { text: "Используем только готовый софт (Excel/SaaS)", penalty: 20 }
-                    ]
-                },
-                {
-                    id: 4,
-                    text_myself: "Как вы анализируете большие документы?",
-                    text_team: "Как команда анализирует документы?",
-                    options: [
-                        { text: "Загружаю в AI -> Ответ за секунды", penalty: 0 },
-                        { text: "Бегло читаю + Ctrl+F", penalty: 10 },
-                        { text: "Читаю всё подряд построчно", penalty: 20 }
-                    ]
-                },
-                {
-                    id: 5,
-                    text_myself: "Как быстро вы можете запустить идею/лендинг?",
-                    text_team: "Скорость запуска идей в команде?",
-                    options: [
-                        { text: "Часы (AI пишет текст и код)", penalty: 0 },
-                        { text: "Дни (Согласования, проверки)", penalty: 10 },
-                        { text: "Недели/Месяцы (ТЗ, дизайн, IT отдел)", penalty: 25 }
-                    ]
-                }
-            ],
-            report: {
-                title: "АУДИТ AI-СКОРОСТИ",
-                role: "Стратегическая Оценка",
-                diagnosis_title: "ДИАГНОЗ",
-                imperatives_title: "СТРАТЕГИЧЕСКИЕ ИМПЕРАТИВЫ"
-            },
-            deep_think: {
-                architect: {
-                    diagnosis: "Вы достигли 'Второй Космической'. Вы больше не ограничены скоростью печати или ручной когнитивной нагрузкой.",
-                    imperatives: [
-                        { title: "Суверенный AI", desc: "Переход от публичных моделей к приватным локальным LLM для защиты IP." },
-                        { title: "Агентные Воркфлоу", desc: "Замена дискретных задач автономными агентами 24/7." }
-                    ]
-                },
-                executive: {
-                    diagnosis: "Вы понимаете мощь AI, но внедрение хаотично. Вы 'Кентавр' — человек + AI, но процесс всё ещё ручной.",
-                    imperatives: [
-                        { title: "Систематизация", desc: "Превращение хаотичных промптов в библиотеки стандартов." },
-                        { title: "Automation First", desc: "Принцип: не писать ни строчки текста/кода руками." }
-                    ]
-                },
-                legacy: {
-                    diagnosis: "Вы работаете в эпохе до 2023 года. Конкуренты с теми же ресурсами уже двигаются в 10 раз быстрее.",
-                    imperatives: [
-                        { title: "Радикальное Внедрение", desc: "Принудительное использование LLM для всех коммуникаций." },
-                        { title: "Аудит Процессов", desc: "Найти 20% рутины, занимающей 80% времени, и убить её через AI." }
-                    ]
-                }
+            offers: {
+                green: { name: "Mastermind: AI Architect (Cursor)", price: "£1,200" },
+                yellow: { name: "Intensive: AI Strategy & Agents", price: "£599" },
+                red: { name: "Course: AI Foundation (Start Now)", price: "£99" }
             }
         }
-    }
+    },
+    questions: [
+        {
+            id: "q1",
+            category: { ru: "Рефлекс", en: "Reflex" },
+            text: {
+                self: { ru: "Вам поручили задачу, в которой вы не эксперт. Ваши действия в первую минуту?", en: "You get a task you are not an expert in. Your first minute move?" },
+                team: { ru: "Что делают сотрудники при получении новой сложной задачи?", en: "What do employees do when facing a new complex task?" }
+            },
+            options: [
+                { label: { ru: "Открываю ИИ, задаю Роль и прошу структуру", en: "Open AI, define Role, ask for structure" }, penalty: 0 },
+                { label: { ru: "Иду в Google искать примеры", en: "Go to Google to search for examples" }, penalty: 5 },
+                { label: { ru: "Открываю пустой документ и думаю сам", en: "Open blank doc and brainstorm manually" }, penalty: 10 }
+            ]
+        },
+        {
+            id: "q2",
+            category: { ru: "Мышление", en: "Reasoning" },
+            text: {
+                self: { ru: "Нужно найти логическую ошибку в стратегии или финмодели.", en: "Need to find a logic flaw in strategy or model." },
+                team: { ru: "Различают ли сотрудники модели (o1 vs GPT-4)?", en: "Do employees distinguish models (o1 vs GPT-4)?" }
+            },
+            options: [
+                { label: { ru: "Использую «Рассуждающие» модели (o1, DeepSeek R1)", en: "Use 'Reasoning' models (o1, DeepSeek R1)" }, penalty: 0 },
+                { label: { ru: "Использую обычный ChatGPT (GPT-4o) для всего", en: "Use standard ChatGPT (GPT-4o) for everything" }, penalty: 4 },
+                { label: { ru: "Не знаю разницы / Бесплатная версия", en: "Don't know difference / Free version" }, penalty: 8 }
+            ]
+        },
+        {
+            id: "q3",
+            category: { ru: "Документы", en: "Docs" },
+            text: {
+                self: { ru: "Прислали 5 длинных PDF-отчетов. Нужно быстро понять риски.", en: "Received 5 long PDF reports. Need risks ASAP." },
+                team: { ru: "Как аналитики работают с базой знаний?", en: "How do analysts handle knowledge bases?" }
+            },
+            options: [
+                { label: { ru: "Загружаю в NotebookLM (RAG) и «допрашиваю» их", en: "Upload to NotebookLM (RAG) and 'interrogate' them" }, penalty: 0 },
+                { label: { ru: "Копирую кусками в чат и прошу саммари", en: "Copy-paste chunks into chat for summary" }, penalty: 5 },
+                { label: { ru: "Читаю сам / Ctrl+F", en: "Read manually / Ctrl+F" }, penalty: 10 }
+            ]
+        },
+        {
+            id: "q4",
+            category: { ru: "Строитель", en: "Builder" },
+            text: {
+                self: { ru: "Нужен калькулятор для сайта или скрипт для Excel.", en: "Need a web calculator or Excel script." },
+                team: { ru: "Могут ли менеджеры автоматизировать рутину?", en: "Can managers automate their routine?" }
+            },
+            options: [
+                { label: { ru: "Пишу задачу в Cursor/Replit (No-Code)", en: "Prompt in Cursor/Replit (No-Code)" }, penalty: 0 },
+                { label: { ru: "Пишу ТЗ программистам и жду неделю", en: "Write specs for IT and wait a week" }, penalty: 8 },
+                { label: { ru: "Ищу готовое / Делаю вручную", en: "Look for SaaS / Do manually" }, penalty: 15 }
+            ]
+        },
+        {
+            id: "q5",
+            category: { ru: "Визуал", en: "Visuals" },
+            text: {
+                self: { ru: "Срочно нужна презентация или схема.", en: "Urgent need for slides or chart." },
+                team: { ru: "Как создаются драфты презентаций?", en: "How are slide drafts created?" }
+            },
+            options: [
+                { label: { ru: "ИИ-холсты (Gemini Canvas / Napkin.ai)", en: "AI Canvas (Gemini / Napkin.ai)" }, penalty: 0 },
+                { label: { ru: "Текст в ИИ, слайды в PowerPoint", en: "Text in AI, slides in PPT" }, penalty: 5 },
+                { label: { ru: "Рисую квадратики вручную", en: "Draw manually" }, penalty: 10 }
+            ]
+        },
+        {
+            id: "q6",
+            category: { ru: "Агенты", en: "Agents" },
+            text: {
+                self: { ru: "Кто проверяет ваши идеи и письма?", en: "Who checks your ideas?" },
+                team: { ru: "Есть ли библиотека системных промптов?", en: "Is there a prompt library?" }
+            },
+            options: [
+                { label: { ru: "Мои GPTs: Критик, Редактор с инструкциями", en: "My Custom GPTs: Critic, Editor" }, penalty: 0 },
+                { label: { ru: "Иногда пишу: «Представь, что ты профи»", en: "Sometimes type: 'Act as a pro'" }, penalty: 4 },
+                { label: { ru: "Пишу в пустой чат", en: "Type in empty chat" }, penalty: 7 }
+            ]
+        },
+        {
+            id: "q7",
+            category: { ru: "Поиск", en: "Research" },
+            text: {
+                self: { ru: "Нужно найти тренды рынка с точными цифрами.", en: "Need market trends with exact numbers." },
+                team: { ru: "Как проводится анализ рынка?", en: "How is market research done?" }
+            },
+            options: [
+                { label: { ru: "Perplexity Pro / Deep Research", en: "Perplexity Pro / Deep Research" }, penalty: 0 },
+                { label: { ru: "Гуглю 10 вкладок + ChatGPT", en: "Google 10 tabs + ChatGPT" }, penalty: 5 },
+                { label: { ru: "Обычный ChatGPT (риск галлюцинаций)", en: "Standard ChatGPT (Risk of hallucinations)" }, penalty: 8 }
+            ]
+        },
+        {
+            id: "q8",
+            category: { ru: "Данные", en: "Data" },
+            text: {
+                self: { ru: "Excel на 5000 строк. Нужно найти инсайты.", en: "5000-row Excel. Need insights." },
+                team: { ru: "Как анализируют сырые данные?", en: "How is raw data analyzed?" }
+            },
+            options: [
+                { label: { ru: "Code Interpreter (Python): чистка + графики", en: "Code Interpreter (Python): clean + charts" }, penalty: 0 },
+                { label: { ru: "ВПР (VLOOKUP) / Сводные таблицы", en: "VLOOKUP / Pivot Tables" }, penalty: 6 },
+                { label: { ru: "Жду аналитика 2 дня", en: "Wait 2 days for analyst" }, penalty: 10 }
+            ]
+        },
+        {
+            id: "q9",
+            category: { ru: "Голос", en: "Voice" },
+            text: {
+                self: { ru: "Гениальная идея за рулем / на ходу.", en: "Brilliant idea while driving." },
+                team: { ru: "Используется ли голосовой ввод?", en: "Is voice input used?" }
+            },
+            options: [
+                { label: { ru: "Voice Mode -> Саммари на почту", en: "Voice Mode -> Summary to email" }, penalty: 0 },
+                { label: { ru: "Голосовое сообщение себе", en: "Voice note to self" }, penalty: 3 },
+                { label: { ru: "Надеюсь, что не забуду", en: "Hope I won't forget" }, penalty: 6 }
+            ]
+        },
+        {
+            id: "q10",
+            category: { ru: "Поток", en: "Workflow" },
+            text: {
+                self: { ru: "Как результат ИИ попадает в документ?", en: "How does AI result get into doc?" },
+                team: { ru: "Насколько бесшовна работа?", en: "How seamless is it?" }
+            },
+            options: [
+                { label: { ru: "Бесшовно (API / Zapier / Export)", en: "Seamless (API / Zapier / Export)" }, penalty: 0 },
+                { label: { ru: "Копировать — Вставить — Поправить", en: "Copy — Paste — Fix" }, penalty: 4 },
+                { label: { ru: "Перепечатываю руками", en: "Retype manually" }, penalty: 8 }
+            ]
+        }
+    ]
 };
