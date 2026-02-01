@@ -105,6 +105,15 @@ export default function AiVelocityClient() {
         }
     }, [formState.succeeded, isModalOpen, score, zoneKey, lang, context, email]);
 
+    // Zone Colors Helper
+    const zoneColors = useMemo(() => {
+        return {
+            green: { text: "text-emerald-500", border: "border-emerald-500", bg: "bg-emerald-500" },
+            yellow: { text: "text-amber-500", border: "border-amber-500", bg: "bg-amber-500" },
+            red: { text: "text-red-500", border: "border-red-500", bg: "bg-red-500" }
+        }[zoneKey];
+    }, [zoneKey]);
+
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-mono text-slate-900 dark:text-gray-100 transition-colors selection:bg-emerald-500/30">
 
@@ -285,14 +294,13 @@ export default function AiVelocityClient() {
                                     <div className="absolute inset-0 rounded-full border-4 border-slate-800 border-t-emerald-500/20 rotate-45" />
 
                                     {/* Score Circle */}
-                                    <div className={`w-64 h-64 rounded-full border-8 bg-slate-900 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden`}
-                                        style={{ borderColor: aiIndexData.config.zones[zoneKey].color }}
+                                    <div className={`w-64 h-64 rounded-full border-8 bg-slate-900 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden ${zoneColors.border}`}
                                     >
                                         <div className="text-7xl font-bold text-white relative z-10">{score}</div>
                                         <div className="text-sm text-slate-400 uppercase tracking-widest mt-2 relative z-10">VELOCITY</div>
 
                                         {/* Glow Behind */}
-                                        <div className="absolute inset-0 opacity-20 blur-xl" style={{ backgroundColor: aiIndexData.config.zones[zoneKey].color }} />
+                                        <div className={`absolute inset-0 opacity-20 blur-xl ${zoneColors.bg}`} />
                                     </div>
                                 </div>
 
@@ -301,7 +309,7 @@ export default function AiVelocityClient() {
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.2 }}
                                 >
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-2" style={{ color: aiIndexData.config.zones[zoneKey].color }}>
+                                    <h2 className={`text-3xl md:text-4xl font-bold mb-2 ${zoneColors.text}`}>
                                         {zoneData.title}
                                     </h2>
                                     <p className="text-lg text-slate-400 italic mb-8 max-w-lg mx-auto">
@@ -309,7 +317,7 @@ export default function AiVelocityClient() {
                                     </p>
 
                                     <div className="bg-slate-100 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 mb-8 text-left relative overflow-hidden">
-                                        <div className="absolute top-0 left-0 w-1 h-full" style={{ backgroundColor: aiIndexData.config.zones[zoneKey].color }} />
+                                        <div className={`absolute top-0 left-0 w-1 h-full ${zoneColors.bg}`} />
                                         <p className="text-slate-700 dark:text-slate-300 text-lg leading-relaxed">
                                             {zoneData.desc}
                                         </p>
@@ -355,7 +363,14 @@ export default function AiVelocityClient() {
                                         <Check className="w-10 h-10" />
                                     </div>
                                     <h3 className="text-2xl font-bold mb-2 text-white">Success!</h3>
-                                    <p className="text-slate-400">PDF Report is downloading...</p>
+                                    <p className="text-slate-400 mb-6">Your report is ready.</p>
+
+                                    <button
+                                        onClick={() => generateAiPdf(score, zoneKey, lang, context, email)}
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors shadow-lg"
+                                    >
+                                        <Download className="w-5 h-5" /> Download Report
+                                    </button>
                                 </div>
                             ) : (
                                 <form onSubmit={handleSubmit} className="space-y-6">
