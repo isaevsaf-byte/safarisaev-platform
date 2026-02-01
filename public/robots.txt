@@ -1,0 +1,11 @@
+# Robots.txt for safarisaev.ai
+# Allow all crawlers to index the site
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://safarisaev.ai/sitemap.xml
+
+# Disallow admin/api routes if any
+Disallow: /api/

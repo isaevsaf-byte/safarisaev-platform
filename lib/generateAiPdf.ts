@@ -91,17 +91,13 @@ export const generateAiPdf = async (
     const centerY = 100;
     const radius = 40;
 
-    // Draw Gauge Arc (Gray background)
+    // Draw Gauge Circle (Gray background)
     doc.setDrawColor(226, 232, 240); // Slate-200
     doc.setLineWidth(3);
-    doc.arc(centerX, centerY, radius, radius, 180, 0, 'S'); // Half circle
+    doc.circle(centerX, centerY, radius, 'S'); // Full circle as gauge background
 
-    // Draw Active Arc based on score
-    // Map score 0-100 to angle 180-0
+    // Draw Score indicator
     const angle = 180 - (score / 100 * 180);
-    doc.setDrawColor(config.color); // Zone Color
-    doc.setLineWidth(5);
-    // doc.arc is limited in jsPDF raw, using approximate line for 'needle' instead for reliability
 
     // Needle
     const needleLen = 35;

@@ -73,7 +73,7 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/ai-velocity-index"
+              href={`/${locale}/ai-velocity-index`}
               className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-emerald-500 transition-colors border border-transparent hover:border-emerald-500/20 px-3 py-1 rounded-sm"
             >
               {dict.header.aiIndex}
@@ -126,7 +126,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/ai-velocity-index"
+            href={`/${locale}/ai-velocity-index`}
             className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] w-full md:w-auto"
           >
             <Brain className="w-4 h-4" />
@@ -245,9 +245,111 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-secondary/20 py-8">
+      <footer className="relative z-10 border-t border-secondary/20 py-12">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col items-center gap-2 text-center md:flex-row md:justify-between">
+          {/* Navigation Links */}
+          <div className="grid grid-cols-2 gap-8 mb-8 md:grid-cols-4">
+            <div>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
+                {locale === "ru" ? "Инструменты" : "Tools"}
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link href={`/${locale}/efficiency-index`} className="text-sm text-secondary hover:text-accent transition-colors">
+                    Efficiency Index
+                  </Link>
+                </li>
+                <li>
+                  <Link href={`/${locale}/ai-velocity-index`} className="text-sm text-secondary hover:text-accent transition-colors">
+                    AI Velocity Index
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
+                {locale === "ru" ? "Услуги" : "Services"}
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/protocols" className="text-sm text-secondary hover:text-accent transition-colors">
+                    {locale === "ru" ? "Системные Протоколы" : "System Protocols"}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/resources" className="text-sm text-secondary hover:text-accent transition-colors">
+                    {locale === "ru" ? "Архитектура Ресурсов" : "Resource Architecture"}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/intelligence" className="text-sm text-secondary hover:text-accent transition-colors">
+                    {locale === "ru" ? "Когнитивный Интеллект" : "Cognitive Intelligence"}
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
+                {locale === "ru" ? "Контакт" : "Contact"}
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href={`mailto:${dict.footer.email}`}
+                    className="text-sm text-secondary hover:text-accent transition-colors"
+                  >
+                    Email
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://t.me/SafarIsaev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-secondary hover:text-accent transition-colors"
+                  >
+                    Telegram
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://cal.com/safarisaev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-secondary hover:text-accent transition-colors"
+                  >
+                    {locale === "ru" ? "Забронировать звонок" : "Book a Call"}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
+                {locale === "ru" ? "Язык" : "Language"}
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <button
+                    onClick={() => setLocale("en")}
+                    className={`text-sm transition-colors ${locale === "en" ? "text-accent" : "text-secondary hover:text-accent"}`}
+                  >
+                    English
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setLocale("ru")}
+                    className={`text-sm transition-colors ${locale === "ru" ? "text-accent" : "text-secondary hover:text-accent"}`}
+                  >
+                    Русский
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="pt-8 border-t border-secondary/20 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xs text-secondary">
                 {dict.footer.label}

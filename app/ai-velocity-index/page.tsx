@@ -1,12 +1,6 @@
+import { redirect } from "next/navigation";
 
-import { Metadata } from "next";
-import AiVelocityClient from "./AiVelocityClient";
-
-export const metadata: Metadata = {
-    title: "AI Velocity Index | Safar Isaev",
-    description: "Measure your organization's AI maturity and speed.",
-};
-
+// Redirect old URL to new localized URL
 export default function AiVelocityPage() {
-    return <AiVelocityClient />;
+    redirect("/en/ai-velocity-index");
 }

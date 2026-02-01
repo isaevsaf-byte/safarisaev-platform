@@ -8,8 +8,12 @@ import { ArrowLeft, Check, Globe, ArrowRight, Loader2, Download, Zap, RefreshCw,
 import Link from "next/link";
 import { useForm } from "@formspree/react";
 
-export default function AiVelocityClient() {
-    const [lang, setLang] = useState<Lang>("ru");
+interface AiVelocityClientProps {
+    initialLang?: Lang;
+}
+
+export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClientProps) {
+    const [lang, setLang] = useState<Lang>(initialLang);
     const [context, setContext] = useState<Context>("self");
     const [hasStarted, setHasStarted] = useState(false);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

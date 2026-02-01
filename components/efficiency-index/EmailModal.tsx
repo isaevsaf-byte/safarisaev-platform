@@ -45,7 +45,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
             }, 3000);
             return () => clearTimeout(timer);
         }
-    }, [state.succeeded, score, revenue, zone, lang, onClose]);
+    }, [state.succeeded, score, revenue, zone, lang, wastePercentage, onClose]);
 
     return (
         <AnimatePresence>
