@@ -1,6 +1,5 @@
 
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import { aiIndexData, Lang, Context } from "./aiIndexData";
 
 // Add font tracking to prevent multiple loads
@@ -51,6 +50,286 @@ async function loadFonts(doc: jsPDF) {
     }
 }
 
+// PDF Content by Zone
+const pdfContent = {
+    red: {
+        ru: {
+            page1: {
+                headline: "Вы работаете слишком много",
+                intro: "Вы попали в \"Красную Зону\". Это не значит, что вы плохой специалист. Это значит, что ваши инструменты устарели.",
+                trapTitle: "3 Признака \"Аналоговой Ловушки\":",
+                traps: [
+                    { title: "Google-зависимость", desc: "Вы ищете ответы в статьях, вместо того чтобы получить синтез данных от ИИ.", loss: "Потеря: 3 часа/неделю" },
+                    { title: "Ручной набор", desc: "Вы пишете письма, отчеты и планы с нуля. Вы тратите энергию на форму (слова), а не на суть (смысл).", loss: "Потеря: 5 часов/неделю" },
+                    { title: "Одиночество", desc: "Вы думаете в одиночку. У вас нет цифрового спарринг-партнера, который критикует и улучшает ваши идеи.", loss: "" }
+                ]
+            },
+            page2: {
+                headline: "Что сделать прямо завтра (3 шага)",
+                steps: [
+                    {
+                        title: "1. Запрет на \"Чистый лист\"",
+                        desc: "Никогда не начинайте писать сами.",
+                        oldWay: "Было: Открыл Word → Думаю.",
+                        newWay: "Стало: Пишу в ChatGPT: «Я хочу написать письмо клиенту о [суть]. Напиши 3 варианта: вежливый, напористый и короткий»."
+                    },
+                    {
+                        title: "2. Голосовой ввод",
+                        desc: "Перестаньте печатать большие тексты.",
+                        oldWay: "",
+                        newWay: "Скачайте ChatGPT на телефон → Нажмите иконку наушников → Надиктуйте мысль → Скопируйте идеальный текст."
+                    },
+                    {
+                        title: "3. Умный Поиск",
+                        desc: "Перестаньте гуглить факты.",
+                        oldWay: "",
+                        newWay: "Спросите Perplexity или ChatGPT: «Найди топ-5 поставщиков [товар] и сделай таблицу сравнения цен»."
+                    }
+                ]
+            },
+            page3: {
+                headline: "Ваш путь выхода: AI FOUNDATION",
+                intro: "Вам не нужны сложные агенты или код. Вам нужно освободить руки. На курсе AI Foundation мы не учим \"технологиям\". Мы учим делегировать рутину.",
+                benefits: [
+                    "Как сократить работу с почтой с 1 часа до 5 минут.",
+                    "Как получать готовые Excel-таблицы без формул.",
+                    "Как писать промпты, чтобы ИИ понимал вас с полуслова."
+                ],
+                cta: "Освободить 2 часа в день"
+            }
+        },
+        en: {
+            page1: {
+                headline: "The Hard Work Trap",
+                intro: "You landed in the \"Red Zone\". This doesn't mean you are incompetent. It means your toolkit is obsolete.",
+                trapTitle: "3 Signs of the \"Analog Trap\":",
+                traps: [
+                    { title: "Google-Dependency", desc: "You hunt for answers in articles instead of getting data synthesis from AI.", loss: "Loss: 3 hrs/week" },
+                    { title: "Manual Typing", desc: "You write emails, reports, and plans from scratch. You waste energy on form (words) instead of substance (meaning).", loss: "Loss: 5 hrs/week" },
+                    { title: "Solitude", desc: "You think alone. You lack a digital sparring partner to critique and elevate your ideas.", loss: "" }
+                ]
+            },
+            page2: {
+                headline: "Action Plan for Tomorrow (3 Steps)",
+                steps: [
+                    {
+                        title: "1. Ban the \"Blank Page\"",
+                        desc: "Never start writing from scratch.",
+                        oldWay: "Old Way: Open Word → Think.",
+                        newWay: "New Way: Prompt AI: \"I need to write an email to a client about [topic]. Draft 3 versions: polite, assertive, and short.\""
+                    },
+                    {
+                        title: "2. Voice First",
+                        desc: "Stop typing long texts.",
+                        oldWay: "",
+                        newWay: "Download ChatGPT App → Hit Headphone Icon → Ramble your thoughts → Copy the perfect summary."
+                    },
+                    {
+                        title: "3. Smart Search",
+                        desc: "Stop Googling facts.",
+                        oldWay: "",
+                        newWay: "Ask Perplexity or ChatGPT: \"Find top 5 suppliers for [product] and make a price comparison table.\""
+                    }
+                ]
+            },
+            page3: {
+                headline: "Your Path Out: AI FOUNDATION",
+                intro: "You don't need complex agents or code yet. You need to free your hands. In AI Foundation, we don't teach \"tech.\" We teach you to delegate the grunt work.",
+                benefits: [
+                    "How to cut email time from 1 hour to 5 mins.",
+                    "How to get ready-made Excel sheets without formulas.",
+                    "How to write prompts so AI understands you instantly."
+                ],
+                cta: "Reclaim 2 Hours/Day"
+            }
+        }
+    },
+    yellow: {
+        ru: {
+            page1: {
+                headline: "Ловушка Продуктивности",
+                intro: "Вы застряли в \"Желтой Зоне\". Вы делаете старые вещи быстрее, но не делаете новые вещи.",
+                trapTitle: "3 Признака \"Ловушки Продуктивности\":",
+                traps: [
+                    { title: "Копипаст-мастер", desc: "Вы используете ИИ для генерации текста, но потом вручную вставляете его в документы.", loss: "Потеря: 2 часа/неделю" },
+                    { title: "Отсутствие системы", desc: "У вас нет библиотеки промптов. Каждый раз пишете инструкции заново.", loss: "Потеря: 3 часа/неделю" },
+                    { title: "Ручное управление", desc: "Вы делегируете ИИ текст, но не решения и не процессы.", loss: "" }
+                ]
+            },
+            page2: {
+                headline: "Ваш План Действий (3 шага)",
+                steps: [
+                    {
+                        title: "1. Создайте Custom GPT",
+                        desc: "Превратите свои лучшие промпты в персонального агента.",
+                        oldWay: "Было: Каждый раз пишу \"Представь что ты...\"",
+                        newWay: "Стало: Открываю своего GPT \"Мой Редактор\" с зашитыми инструкциями."
+                    },
+                    {
+                        title: "2. Освойте No-Code",
+                        desc: "Начните создавать, а не искать.",
+                        oldWay: "",
+                        newWay: "Cursor или Replit: попросите ИИ написать скрипт для вашей задачи."
+                    },
+                    {
+                        title: "3. Делегируйте решения",
+                        desc: "ИИ может не только писать, но и думать.",
+                        oldWay: "",
+                        newWay: "\"Проанализируй эту стратегию. Найди 3 слабых места и предложи решения.\""
+                    }
+                ]
+            },
+            page3: {
+                headline: "Ваш путь: AI STRATEGY & AGENTS",
+                intro: "Вам пора перейти от \"пользователя\" к \"архитектору\". На интенсиве мы строим вашу персональную ИИ-систему.",
+                benefits: [
+                    "Как создать библиотеку агентов под ваши задачи.",
+                    "Как автоматизировать повторяющиеся процессы.",
+                    "Как использовать ИИ для принятия решений."
+                ],
+                cta: "Построить свою систему"
+            }
+        },
+        en: {
+            page1: {
+                headline: "The Productivity Trap",
+                intro: "You are stuck in the \"Yellow Zone\". You do old things faster, but don't do new things.",
+                trapTitle: "3 Signs of the \"Productivity Trap\":",
+                traps: [
+                    { title: "Copy-Paste Master", desc: "You use AI to generate text, but then manually paste it into documents.", loss: "Loss: 2 hrs/week" },
+                    { title: "No System", desc: "You don't have a prompt library. You write instructions from scratch every time.", loss: "Loss: 3 hrs/week" },
+                    { title: "Manual Control", desc: "You delegate text to AI, but not decisions or processes.", loss: "" }
+                ]
+            },
+            page2: {
+                headline: "Your Action Plan (3 Steps)",
+                steps: [
+                    {
+                        title: "1. Create a Custom GPT",
+                        desc: "Turn your best prompts into a personal agent.",
+                        oldWay: "Old Way: Every time write \"Act as...\"",
+                        newWay: "New Way: Open my GPT \"My Editor\" with embedded instructions."
+                    },
+                    {
+                        title: "2. Master No-Code",
+                        desc: "Start creating, not searching.",
+                        oldWay: "",
+                        newWay: "Cursor or Replit: ask AI to write a script for your task."
+                    },
+                    {
+                        title: "3. Delegate Decisions",
+                        desc: "AI can not only write, but also think.",
+                        oldWay: "",
+                        newWay: "\"Analyze this strategy. Find 3 weaknesses and suggest solutions.\""
+                    }
+                ]
+            },
+            page3: {
+                headline: "Your Path: AI STRATEGY & AGENTS",
+                intro: "It's time to move from \"user\" to \"architect\". In the intensive, we build your personal AI system.",
+                benefits: [
+                    "How to create an agent library for your tasks.",
+                    "How to automate repeating processes.",
+                    "How to use AI for decision-making."
+                ],
+                cta: "Build Your System"
+            }
+        }
+    },
+    green: {
+        ru: {
+            page1: {
+                headline: "На пике эффективности",
+                intro: "Вы в \"Зеленой Зоне\". Вы уже киборг. Но ваша главная угроза — самодовольство.",
+                trapTitle: "3 Вызова для Архитектора:",
+                traps: [
+                    { title: "Технологии меняются", desc: "То, что работает сегодня, устареет через 6 месяцев. Новые модели и инструменты появляются каждую неделю.", loss: "" },
+                    { title: "Ограниченный масштаб", desc: "Вы оптимизировали себя, но возможно не масштабировали это на команду.", loss: "" },
+                    { title: "Монетизация знаний", desc: "Вы накопили экспертизу, которую можно продавать.", loss: "" }
+                ]
+            },
+            page2: {
+                headline: "Ваш Следующий Уровень (3 шага)",
+                steps: [
+                    {
+                        title: "1. Fine-tuning моделей",
+                        desc: "Создайте собственные LLM-модели под ваши задачи.",
+                        oldWay: "",
+                        newWay: "Обучите модель на ваших данных для уникальных результатов."
+                    },
+                    {
+                        title: "2. Мультиагентные системы",
+                        desc: "Постройте оркестр агентов, которые работают вместе.",
+                        oldWay: "",
+                        newWay: "Агент-исследователь → Агент-аналитик → Агент-писатель."
+                    },
+                    {
+                        title: "3. Продавайте экспертизу",
+                        desc: "Ваши промпты и решения имеют рыночную ценность.",
+                        oldWay: "",
+                        newWay: "Создайте курс, консалтинг или SaaS-продукт."
+                    }
+                ]
+            },
+            page3: {
+                headline: "Ваш путь: MASTERMIND AI ARCHITECT",
+                intro: "Вам пора строить активы, а не просто использовать инструменты. В мастермайнде мы создаем вашу ИИ-империю.",
+                benefits: [
+                    "Как создать и продать собственные ИИ-решения.",
+                    "Как строить мультиагентные системы.",
+                    "Как оставаться на передовой технологий."
+                ],
+                cta: "Стать AI Архитектором"
+            }
+        },
+        en: {
+            page1: {
+                headline: "At Peak Efficiency",
+                intro: "You are in the \"Green Zone\". You are already a cyborg. But your main threat is complacency.",
+                trapTitle: "3 Challenges for the Architect:",
+                traps: [
+                    { title: "Technology Changes", desc: "What works today will be obsolete in 6 months. New models and tools appear every week.", loss: "" },
+                    { title: "Limited Scale", desc: "You've optimized yourself, but perhaps haven't scaled this to your team.", loss: "" },
+                    { title: "Knowledge Monetization", desc: "You've accumulated expertise that can be sold.", loss: "" }
+                ]
+            },
+            page2: {
+                headline: "Your Next Level (3 Steps)",
+                steps: [
+                    {
+                        title: "1. Fine-tune Models",
+                        desc: "Create custom LLM models for your tasks.",
+                        oldWay: "",
+                        newWay: "Train a model on your data for unique results."
+                    },
+                    {
+                        title: "2. Multi-Agent Systems",
+                        desc: "Build an orchestra of agents working together.",
+                        oldWay: "",
+                        newWay: "Research Agent → Analyst Agent → Writer Agent."
+                    },
+                    {
+                        title: "3. Sell Your Expertise",
+                        desc: "Your prompts and solutions have market value.",
+                        oldWay: "",
+                        newWay: "Create a course, consulting, or SaaS product."
+                    }
+                ]
+            },
+            page3: {
+                headline: "Your Path: MASTERMIND AI ARCHITECT",
+                intro: "It's time to build assets, not just use tools. In the mastermind, we create your AI empire.",
+                benefits: [
+                    "How to create and sell your own AI solutions.",
+                    "How to build multi-agent systems.",
+                    "How to stay at the forefront of technology."
+                ],
+                cta: "Become an AI Architect"
+            }
+        }
+    }
+};
+
 export const generateAiPdf = async (
     score: number,
     zoneKey: "green" | "yellow" | "red",
@@ -66,8 +345,9 @@ export const generateAiPdf = async (
     const zone = t.zones[zoneKey];
     const offer = t.offers[zoneKey];
     const config = aiIndexData.config.zones[zoneKey];
+    const content = pdfContent[zoneKey][lang];
 
-    // --- PAGE 1: SCORE & VERDICT ---
+    // --- PAGE 1: SCORE & DIAGNOSIS ---
 
     // Background Header
     doc.setFillColor(15, 23, 42); // Slate-950
@@ -81,139 +361,126 @@ export const generateAiPdf = async (
     doc.setTextColor(148, 163, 184); // Slate-400
     doc.text(`ASSESSMENT REPORT | ${context === 'self' ? 'INDIVIDUAL' : 'TEAM'}`, 14, 30);
 
-    // Date & Name
+    // Date & Email
     doc.setFontSize(8);
     doc.text(new Date().toLocaleDateString(), 180, 20, { align: 'right' });
     doc.text(email, 180, 28, { align: 'right' });
 
-    // Speedometer Visualization (Approximate)
+    // Score Circle
     const centerX = 105;
-    const centerY = 100;
-    const radius = 40;
+    const centerY = 80;
+    const radius = 30;
 
-    // Draw Gauge Circle (Gray background)
-    doc.setDrawColor(226, 232, 240); // Slate-200
+    doc.setDrawColor(226, 232, 240);
     doc.setLineWidth(3);
-    doc.circle(centerX, centerY, radius, 'S'); // Full circle as gauge background
-
-    // Draw Score indicator
-    const angle = 180 - (score / 100 * 180);
-
-    // Needle
-    const needleLen = 35;
-    const rad = (angle + 180) * (Math.PI / 180); // Adjust for canvas coordinates
-    // jsPDF coordinate system: 0 is right, 90 is down. 
-    // We want 180 (left) to 360/0 (right) going clockwise. 
-    // Actually simpler: 
-    // 0% = 180 deg (Left)
-    // 50% = 270 deg (Top)
-    // 100% = 360 deg (Right)
-    const needleAngle = (180 + (score / 100 * 180)) * (Math.PI / 180);
-    const nx = centerX + needleLen * Math.cos(needleAngle);
-    const ny = centerY + needleLen * Math.sin(needleAngle);
-
-    doc.setDrawColor(51, 65, 85); // Slate-700
-    doc.setLineWidth(2);
-    doc.line(centerX, centerY, nx, ny);
-    doc.circle(centerX, centerY, 3, 'F');
+    doc.circle(centerX, centerY, radius, 'S');
 
     // Score Text
     doc.setTextColor(config.color);
-    doc.setFontSize(50);
-    doc.text(`${score}`, centerX, centerY + 25, { align: 'center' });
+    doc.setFontSize(40);
+    doc.text(`${score}`, centerX, centerY + 5, { align: 'center' });
     doc.setFontSize(12);
     doc.setTextColor(100, 100, 100);
-    doc.text("/ 100", centerX, centerY + 35, { align: 'center' });
+    doc.text("/ 100", centerX, centerY + 15, { align: 'center' });
 
-    // Verdict Section
-    doc.setFontSize(18);
+    // Zone Title
+    doc.setFontSize(16);
     doc.setTextColor(0, 0, 0);
-    doc.text(zone.title.toUpperCase(), centerX, centerY + 60, { align: 'center' });
-
-    doc.setFontSize(12);
-    doc.setTextColor(80, 80, 80);
-    doc.setFont("Roboto", "italic");
-    doc.text(zone.slogan, centerX, centerY + 70, { align: 'center' });
-    doc.setFont("Roboto", "normal");
-
-    // Diagnosis Box
-    doc.setDrawColor(200, 200, 200);
-    doc.setFillColor(248, 250, 252); // Slate-50
-    doc.roundedRect(20, 190, 170, 40, 3, 3, 'FD');
+    doc.text(zone.title.toUpperCase(), centerX, centerY + 35, { align: 'center' });
 
     doc.setFontSize(11);
-    doc.setTextColor(30, 41, 59);
-    const splitDesc = doc.splitTextToSize(zone.desc, 160);
-    doc.text(splitDesc, 25, 200);
+    doc.setTextColor(80, 80, 80);
+    doc.text(zone.slogan, centerX, centerY + 45, { align: 'center' });
+
+    // Page 1 Content - The Truth Bomb
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text(content.page1.headline, 14, 145);
+
+    doc.setFontSize(10);
+    doc.setTextColor(60, 60, 60);
+    const introLines = doc.splitTextToSize(content.page1.intro, 180);
+    doc.text(introLines, 14, 155);
+
+    // Traps
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text(content.page1.trapTitle, 14, 175);
+
+    let yPos = 185;
+    content.page1.traps.forEach((trap, i) => {
+        doc.setFontSize(11);
+        doc.setTextColor(config.color);
+        doc.text(`${i + 1}. ${trap.title}`, 14, yPos);
+
+        doc.setFontSize(9);
+        doc.setTextColor(60, 60, 60);
+        const trapDesc = doc.splitTextToSize(trap.desc, 170);
+        doc.text(trapDesc, 20, yPos + 6);
+
+        if (trap.loss) {
+            doc.setTextColor(239, 68, 68); // Red
+            doc.text(trap.loss, 20, yPos + 6 + (trapDesc.length * 4));
+            yPos += 20 + (trapDesc.length * 4);
+        } else {
+            yPos += 16 + (trapDesc.length * 4);
+        }
+    });
 
     // Footer
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
-    doc.text("Powered by safarisaev.ai", 105, 280, { align: 'center' });
+    doc.text("Powered by safarisaev.ai", 105, 285, { align: 'center' });
 
 
-    // --- PAGE 2: ROADMAP (Static concept based on zone) ---
+    // --- PAGE 2: QUICK WINS ---
     doc.addPage();
 
     doc.setFillColor(15, 23, 42);
-    doc.rect(0, 0, 210, 20, 'F');
+    doc.rect(0, 0, 210, 25, 'F');
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(12);
-    doc.text("STRATEGIC DIAGNOSIS & ROADMAP", 14, 13);
+    doc.setFontSize(14);
+    doc.text(lang === 'ru' ? "ПЛАН ДЕЙСТВИЙ" : "ACTION PLAN", 14, 16);
 
     doc.setTextColor(0, 0, 0);
-    doc.setFontSize(14);
-    doc.text(lang === 'ru' ? "Что это значит для вас?" : "What this means for you", 14, 40);
+    doc.setFontSize(16);
+    doc.text(content.page2.headline, 14, 45);
 
-    // Generic Logic based on Zone (Hardcoded for prototype as per JSON lacks deep drill - using implicit knowledge based on prompt vibe)
-    let diagnosisText = "";
-    let steps = [];
+    yPos = 60;
+    content.page2.steps.forEach((step) => {
+        // Step title
+        doc.setFontSize(12);
+        doc.setTextColor(config.color);
+        doc.text(step.title, 14, yPos);
 
-    if (zoneKey === 'green') {
-        diagnosisText = lang === 'ru'
-            ? "Вы находитесь на пике эффективности. Ваша главная угроза — самодовольство. Технологии меняются каждую неделю."
-            : "You are at peak efficiency. Your main threat is complacency. Technology changes every week.";
-        steps = [
-            lang === 'ru' ? "1. Создайте собственные LLM-модели (Fine-tuning)" : "1. Build custom LLM models (Fine-tuning)",
-            lang === 'ru' ? "2. Автоматизируйте сложные цепочки задач агентами" : "2. Automate complex task chains with agents",
-            lang === 'ru' ? "3. Начните продавать свои промпты или решения" : "3. Start selling your prompts or solutions"
-        ];
-    } else if (zoneKey === 'yellow') {
-        diagnosisText = lang === 'ru'
-            ? "Вы застряли в 'Ловушке Продуктивности'. Вы делаете старые вещи быстрее, но не делаете новые вещи."
-            : "You are stuck in the 'Productivity Trap'. You do old things faster, but don't do new things.";
-        steps = [
-            lang === 'ru' ? "1. Превратите хаотичные промпты в Систему" : "1. Turn chaotic prompts into a System",
-            lang === 'ru' ? "2. Освойте No-Code инструменты (Cursor/Replit)" : "2. Master No-Code tools (Cursor/Replit)",
-            lang === 'ru' ? "3. Делегируйте ИИ не только текст, но и решения" : "3. Delegate decisions to AI, not just text"
-        ];
-    } else {
-        diagnosisText = lang === 'ru'
-            ? "Ваш бизнес/карьера в зоне риска. Вы конкурируете с людьми, которые в 10 раз быстрее вас."
-            : "Your business/career is at risk. You are competing with people who are 10x faster than you.";
-        steps = [
-            lang === 'ru' ? "1. Начните использовать ИИ для ВСЕХ текстов" : "1. Start using AI for ALL texts",
-            lang === 'ru' ? "2. Изучите основы промпт-инжиниринга" : "2. Learn basics of prompt engineering",
-            lang === 'ru' ? "3. Перестаньте гуглить — начните спрашивать ИИ" : "3. Stop Googling — start asking AI"
-        ];
-    }
+        // Description
+        doc.setFontSize(10);
+        doc.setTextColor(60, 60, 60);
+        doc.text(step.desc, 14, yPos + 8);
 
-    doc.setFontSize(11);
-    doc.setTextColor(60, 60, 60);
-    const splitDiag = doc.splitTextToSize(diagnosisText, 180);
-    doc.text(splitDiag, 14, 50);
+        yPos += 18;
 
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text(lang === 'ru' ? "Ваш План Действий:" : "Your Action Plan:", 14, 80);
+        // Old way (if exists)
+        if (step.oldWay) {
+            doc.setTextColor(200, 50, 50);
+            doc.setFontSize(9);
+            const oldLines = doc.splitTextToSize(step.oldWay, 170);
+            doc.text(oldLines, 20, yPos);
+            yPos += oldLines.length * 5 + 3;
+        }
 
-    let yPos = 90;
-    steps.forEach(step => {
-        doc.setFontSize(11);
-        doc.setTextColor(40, 40, 40);
-        doc.text(step, 20, yPos);
-        yPos += 15;
+        // New way
+        doc.setTextColor(16, 185, 129); // Green
+        doc.setFontSize(9);
+        const newLines = doc.splitTextToSize(step.newWay, 170);
+        doc.text(newLines, 20, yPos);
+        yPos += newLines.length * 5 + 15;
     });
+
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(150, 150, 150);
+    doc.text("Powered by safarisaev.ai", 105, 285, { align: 'center' });
 
 
     // --- PAGE 3: THE OFFER ---
@@ -221,35 +488,59 @@ export const generateAiPdf = async (
 
     // High impact header
     doc.setFillColor(config.color);
-    doc.rect(0, 0, 210, 60, 'F');
+    doc.rect(0, 0, 210, 50, 'F');
 
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(24);
-    doc.text(lang === 'ru' ? "РЕКОМЕНДОВАННОЕ РЕШЕНИЕ" : "RECOMMENDED SOLUTION", 105, 30, { align: 'center' });
+    doc.setFontSize(18);
+    const headlineLines = doc.splitTextToSize(content.page3.headline, 180);
+    doc.text(headlineLines, 105, 25, { align: 'center' });
+
+    // Intro
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(11);
+    const introText = doc.splitTextToSize(content.page3.intro, 180);
+    doc.text(introText, 14, 70);
+
+    // Benefits
+    doc.setFontSize(12);
+    doc.text(lang === 'ru' ? "Что вы получите:" : "What you'll learn:", 14, 95);
+
+    yPos = 105;
+    content.page3.benefits.forEach((benefit) => {
+        doc.setFontSize(10);
+        doc.setTextColor(16, 185, 129);
+        doc.text("✓", 14, yPos);
+        doc.setTextColor(60, 60, 60);
+        const benefitLines = doc.splitTextToSize(benefit, 165);
+        doc.text(benefitLines, 22, yPos);
+        yPos += benefitLines.length * 5 + 8;
+    });
 
     // Offer Card
     doc.setDrawColor(200, 200, 200);
-    doc.setFillColor(255, 255, 255);
-    doc.roundedRect(30, 80, 150, 100, 5, 5, 'FD');
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(30, 150, 150, 80, 5, 5, 'FD');
 
     doc.setTextColor(0, 0, 0);
-    doc.setFontSize(20);
-    const splitOffer = doc.splitTextToSize(offer.name, 120);
-    doc.text(splitOffer, 105, 110, { align: 'center' });
+    doc.setFontSize(16);
+    const offerLines = doc.splitTextToSize(offer.name, 130);
+    doc.text(offerLines, 105, 175, { align: 'center' });
 
     doc.setTextColor(config.color);
-    doc.setFontSize(30);
-    doc.setFont("Roboto", "bold");
-    doc.text(offer.price, 105, 150, { align: 'center' });
-    doc.setFont("Roboto", "normal");
+    doc.setFontSize(28);
+    doc.text(offer.price, 105, 200, { align: 'center' });
 
+    // CTA
+    doc.setFillColor(config.color);
+    doc.roundedRect(50, 240, 110, 20, 3, 3, 'F');
+    doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
-    doc.setTextColor(100, 100, 100);
-    doc.text(lang === 'ru' ? "Нажмите, чтобы получить доступ" : "Click to access", 105, 200, { align: 'center' });
+    doc.text(content.page3.cta, 105, 253, { align: 'center' });
 
-    // Manual Link (not clickable in basic jsPDF text usually without link annotation, but good enough for visual)
-    doc.setTextColor(59, 130, 246); // Blue
-    doc.textWithLink("safarisaev.ai/education", 105, 210, { url: "https://safarisaev.ai", align: 'center' });
+    // Link
+    doc.setFontSize(10);
+    doc.setTextColor(59, 130, 246);
+    doc.textWithLink("safarisaev.ai/education", 105, 275, { url: "https://safarisaev.ai", align: 'center' });
 
     doc.save('Safar_Isaev_AI_Velocity_Report.pdf');
 };
