@@ -277,7 +277,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                 </h2>
 
                                 <div className="grid gap-4">
-                                    {currentQuestion.options.map((opt, i) => (
+                                    {currentQuestion.options[context].map((opt, i) => (
                                         <button
                                             key={i}
                                             onClick={() => handleAnswer(opt.penalty)}
