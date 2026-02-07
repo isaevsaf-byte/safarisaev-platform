@@ -70,7 +70,7 @@ export const aiIndexData = {
             offers: {
                 green: { name: "AI Builder (Coding)", price: "$890" },
                 yellow: { name: "AI Executive Suite", price: "$290" },
-                red: { name: "Course: AI Foundation (Start Now)", price: "$49" }
+                red: { name: "AI Foundation: Early Access", price: "$19" }
             }
         },
         en: {

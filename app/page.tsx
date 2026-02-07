@@ -18,8 +18,8 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("en");
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  // Default to dark mode to match original design, but allow toggle
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Default to light mode for cleaner look
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const dict = getDictionary(locale);
 

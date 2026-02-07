@@ -88,14 +88,15 @@ const pdfContent = {
                 ]
             },
             page3: {
-                headline: "Ваш путь выхода: AI FOUNDATION",
-                intro: "Вам не нужны сложные агенты или код. Вам нужно освободить руки. На курсе AI Foundation мы не учим \"технологиям\". Мы учим делегировать рутину.",
+                headline: "AI FOUNDATION: РАННИЙ СПИСОК (EARLY ACCESS)",
+                intro: "Прямо сейчас я упаковываю этот опыт в короткий видео-курс. Я хочу, чтобы он был идеальным. Вы попали в список Beta-участников. Это значит, что вы получите курс первыми и по специальной цене.",
                 benefits: [
-                    "Как сократить работу с почтой с 1 часа до 5 минут.",
-                    "Как получать готовые Excel-таблицы без формул.",
-                    "Как писать промпты, чтобы ИИ понимал вас с полуслова."
+                    "Вы получите курс первыми.",
+                    "Специальная цена $19 (вместо $49) за отзыв.",
+                    "Плюс я лично разберу ваш кейс."
                 ],
-                cta: "Освободить 2 часа в день"
+                cta: "Занять место за $19 (Вместо $49)",
+                link: "https://safarisaev.ai" // Placeholder for [ВАША_ССЫЛКА_НА_SYSTEME_IO]
             }
         },
         en: {
@@ -536,6 +537,7 @@ export const generateAiPdf = async (
         cta: string;
         ctaSubtext?: string;
         contacts?: { telegram: string; email: string };
+        link?: string;
     };
 
     if (page3Content.contacts) {
@@ -588,9 +590,12 @@ export const generateAiPdf = async (
     }
 
     // Link
+    const linkUrl = page3Content.link || "https://safarisaev.ai";
+    const linkText = page3Content.link ? "safarisaev.ai" : "safarisaev.ai"; // Could customize text too if needed
+
     doc.setFontSize(10);
     doc.setTextColor(59, 130, 246);
-    doc.textWithLink("safarisaev.ai", 105, 275, { url: "https://safarisaev.ai", align: 'center' });
+    doc.textWithLink(linkText, 105, 275, { url: linkUrl, align: 'center' });
 
     doc.save('Safar_Isaev_AI_Velocity_Report.pdf');
 };

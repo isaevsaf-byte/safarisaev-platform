@@ -19,7 +19,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [isFinished, setIsFinished] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     // PDF Error State
     const [pdfError, setPdfError] = useState<string | null>(null);
