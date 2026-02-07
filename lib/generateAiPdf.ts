@@ -241,92 +241,92 @@ const pdfContent = {
     green: {
         ru: {
             page1: {
-                headline: "На пике эффективности",
-                intro: "Вы в \"Зеленой Зоне\". Вы уже киборг. Но ваша главная угроза — самодовольство.",
-                trapTitle: "3 Вызова для Архитектора:",
+                headline: "Вы — Главный Актив",
+                intro: "Вы уже заменили собой целый департамент. Но масштабируется ли это?",
+                trapTitle: "3 Признака \"Зеленой Ловушки\":",
                 traps: [
-                    { title: "Технологии меняются", desc: "То, что работает сегодня, устареет через 6 месяцев. Новые модели и инструменты появляются каждую неделю.", loss: "" },
-                    { title: "Ограниченный масштаб", desc: "Вы оптимизировали себя, но возможно не масштабировали это на команду.", loss: "" },
-                    { title: "Монетизация знаний", desc: "Вы накопили экспертизу, которую можно продавать.", loss: "" }
+                    { title: "Тинкеринг (Tinkering)", desc: "Вы бесконечно улучшаете свои промпты и системы \"для себя\". Вы тратите часы на оптимизацию того, что и так работает.", loss: "" },
+                    { title: "Зависимость", desc: "Всё держится на вас. Если вы уйдете в отпуск, ваши сложные AI-цепочки сломаются, потому что никто больше не понимает, как это работает.", loss: "" },
+                    { title: "Недо-реализация", desc: "Вы используете мощь ИИ для рабочих задач (скрипты, таблицы), но могли бы создать полноценный продукт (SaaS, Приложение), который приносит деньги.", loss: "" }
                 ]
             },
             page2: {
-                headline: "Ваш Следующий Уровень (3 шага)",
+                headline: "Как стать Создателем (3 шага)",
                 steps: [
                     {
-                        title: "1. Fine-tuning моделей",
-                        desc: "Создайте собственные LLM-модели под ваши задачи.",
+                        title: "1. Natural Language Coding (Cursor)",
+                        desc: "Перестаньте быть \"Продвинутым пользователем\". Станьте \"Разработчиком\".",
                         oldWay: "",
-                        newWay: "Обучите модель на ваших данных для уникальных результатов."
+                        newWay: "С современными ИИ (Claude 3.5 Sonnet + Cursor) вы можете написать полноценное веб-приложение, не зная синтаксиса Python или JS."
                     },
                     {
-                        title: "2. Мультиагентные системы",
-                        desc: "Постройте оркестр агентов, которые работают вместе.",
+                        title: "2. Productize It",
+                        desc: "Превратите ваши внутренние инструменты в продукты.",
                         oldWay: "",
-                        newWay: "Агент-исследователь → Агент-аналитик → Агент-писатель."
+                        newWay: "Ваш \"скрипт для отчетов\" может стать SaaS-сервисом для отрасли. Ваш \"Агент-Юрист\" может стать платным ботом в Telegram."
                     },
                     {
-                        title: "3. Продавайте экспертизу",
-                        desc: "Ваши промпты и решения имеют рыночную ценность.",
+                        title: "3. Kill The Middleman",
+                        desc: "Увольте IT-отдел из своей головы.",
                         oldWay: "",
-                        newWay: "Создайте курс, консалтинг или SaaS-продукт."
+                        newWay: "Вам больше не нужны программисты для проверки гипотез. Вы можете собрать MVP за выходные."
                     }
                 ]
             },
             page3: {
-                headline: "Ваш путь: MASTERMIND AI ARCHITECT",
-                intro: "Вам пора строить активы, а не просто использовать инструменты. В мастермайнде мы создаем вашу ИИ-империю.",
+                headline: "Ваш путь в космос: AI BUILDER (CODING)",
+                intro: "Самый дорогой навык будущего — умение превращать идеи в работающий софт. Курс AI Builder — это свобода создавать что угодно.",
                 benefits: [
-                    "Как создать и продать собственные ИИ-решения.",
-                    "Как строить мультиагентные системы.",
-                    "Как оставаться на передовой технологий."
+                    "Cursor + Replit: Как писать код на английском/русском языке.",
+                    "Building Assets: Создание калькуляторов, дашбордов и ботов.",
+                    "Deploy: Как запустить свое приложение в интернет за 1 час."
                 ],
-                cta: "Стать AI Архитектором"
+                cta: "Создать Свой Продукт"
             }
         },
         en: {
             page1: {
-                headline: "At Peak Efficiency",
-                intro: "You are in the \"Green Zone\". You are already a cyborg. But your main threat is complacency.",
-                trapTitle: "3 Challenges for the Architect:",
+                headline: "You Are The Asset",
+                intro: "You have already replaced an entire department. But does it scale?",
+                trapTitle: "3 Signs of the \"Green Trap\":",
                 traps: [
-                    { title: "Technology Changes", desc: "What works today will be obsolete in 6 months. New models and tools appear every week.", loss: "" },
-                    { title: "Limited Scale", desc: "You've optimized yourself, but perhaps haven't scaled this to your team.", loss: "" },
-                    { title: "Knowledge Monetization", desc: "You've accumulated expertise that can be sold.", loss: "" }
+                    { title: "Tinkering", desc: "You endlessly tweak your prompts and systems \"for yourself.\" You spend hours optimizing things that already work fine.", loss: "" },
+                    { title: "Dependency", desc: "Everything relies on you. If you go on vacation, your complex AI workflows break because no one else understands them.", loss: "" },
+                    { title: "Under-Achievement", desc: "You use AI power for work tasks (scripts, sheets), when you could be building a full product (SaaS, App) that generates revenue.", loss: "" }
                 ]
             },
             page2: {
-                headline: "Your Next Level (3 Steps)",
+                headline: "How to become a Creator (3 Steps)",
                 steps: [
                     {
-                        title: "1. Fine-tune Models",
-                        desc: "Create custom LLM models for your tasks.",
+                        title: "1. Natural Language Coding (Cursor)",
+                        desc: "Stop being a \"Power User.\" Become a \"Developer.\"",
                         oldWay: "",
-                        newWay: "Train a model on your data for unique results."
+                        newWay: "With modern AI (Claude 3.5 Sonnet + Cursor), you can build a full web app without knowing Python or JS syntax."
                     },
                     {
-                        title: "2. Multi-Agent Systems",
-                        desc: "Build an orchestra of agents working together.",
+                        title: "2. Productize It",
+                        desc: "Turn your internal tools into products.",
                         oldWay: "",
-                        newWay: "Research Agent → Analyst Agent → Writer Agent."
+                        newWay: "Your \"reporting script\" could be a SaaS for the industry. Your \"Lawyer Agent\" could be a paid Telegram bot."
                     },
                     {
-                        title: "3. Sell Your Expertise",
-                        desc: "Your prompts and solutions have market value.",
+                        title: "3. Kill The Middleman",
+                        desc: "Fire the IT department in your head.",
                         oldWay: "",
-                        newWay: "Create a course, consulting, or SaaS product."
+                        newWay: "You no longer need programmers to test hypotheses. You can build an MVP in a weekend."
                     }
                 ]
             },
             page3: {
-                headline: "Your Path: MASTERMIND AI ARCHITECT",
-                intro: "It's time to build assets, not just use tools. In the mastermind, we create your AI empire.",
+                headline: "Your Path to Space: AI BUILDER (CODING)",
+                intro: "The most valuable skill of the future is turning ideas into working software. AI Builder is the freedom to build anything.",
                 benefits: [
-                    "How to create and sell your own AI solutions.",
-                    "How to build multi-agent systems.",
-                    "How to stay at the forefront of technology."
+                    "Cursor + Replit: How to code in plain English/Russian.",
+                    "Building Assets: Creating calculators, dashboards, and bots.",
+                    "Deploy: How to launch your app to the web in 1 hour."
                 ],
-                cta: "Become an AI Architect"
+                cta: "Build My Product"
             }
         }
     }
