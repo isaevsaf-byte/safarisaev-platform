@@ -92,130 +92,190 @@ export const aiIndexData = {
             id: "q1",
             category: { ru: "Рефлекс", en: "Reflex" },
             text: {
-                self: { ru: "Вам поручили задачу, в которой вы не эксперт. Ваши действия в первую минуту?", en: "You get a task you are not an expert in. Your first minute move?" },
-                team: { ru: "Что делают сотрудники при получении новой сложной задачи?", en: "What do employees do when facing a new complex task?" }
+                self: {
+                    ru: "Вы столкнулись с абсолютно новой темой или задачей. Ваши действия в первую минуту?",
+                    en: "You are facing a completely new topic or task. Your move in the first minute?"
+                },
+                team: {
+                    ru: "Команда столкнулась с абсолютно новой темой или задачей. Их действия в первую минуту?",
+                    en: "The team faces a completely new topic or task. Their move in the first minute?"
+                }
             },
             options: [
-                { label: { ru: "Открываю ИИ, задаю Роль и прошу структуру", en: "Open AI, define Role, ask for structure" }, penalty: 0 },
-                { label: { ru: "Иду в Google искать примеры", en: "Go to Google to search for examples" }, penalty: 5 },
-                { label: { ru: "Открываю пустой документ и думаю сам", en: "Open blank doc and brainstorm manually" }, penalty: 10 }
+                { label: { ru: "Сразу открываю чат с ИИ. Мне быстрее спросить, чем искать.", en: "I open an AI chat immediately. It's faster to ask than to search." }, penalty: 0 },
+                { label: { ru: "Иду в Google или YouTube. Ищу статьи, видео, примеры.", en: "I go to Google or YouTube. I look for articles and videos." }, penalty: 5 },
+                { label: { ru: "Открываю пустой документ и пытаюсь набросать мысли из головы.", en: "I open a blank doc and try to figure it out with my own brain." }, penalty: 10 }
             ]
         },
         {
             id: "q2",
-            category: { ru: "Мышление", en: "Reasoning" },
+            category: { ru: "Критика", en: "Thinking" },
             text: {
-                self: { ru: "Нужно найти логическую ошибку в стратегии или финмодели.", en: "Need to find a logic flaw in strategy or model." },
-                team: { ru: "Различают ли сотрудники модели (o1 vs GPT-4)?", en: "Do employees distinguish models (o1 vs GPT-4)?" }
+                self: {
+                    ru: "У вас есть черновик важного письма, план проекта или просто спорная идея. Что вы попросите у ИИ?",
+                    en: "You have a draft of an important email, a plan, or just an idea. What do you ask AI to do?"
+                },
+                team: {
+                    ru: "У команды есть черновик важного документа или спорная идея. Что они попросят у ИИ?",
+                    en: "The team has a draft of an important document or idea. What do they ask AI to do?"
+                }
             },
             options: [
-                { label: { ru: "Использую «Рассуждающие» модели (o1, DeepSeek R1)", en: "Use 'Reasoning' models (o1, DeepSeek R1)" }, penalty: 0 },
-                { label: { ru: "Использую обычный ChatGPT (GPT-4o) для всего", en: "Use standard ChatGPT (GPT-4o) for everything" }, penalty: 4 },
-                { label: { ru: "Не знаю разницы / Бесплатная версия", en: "Don't know difference / Free version" }, penalty: 8 }
+                { label: { ru: "«Найди слабые места, логические дыры и покритикуй этот текст».", en: "\"Find logic gaps, potential risks, and criticize this text.\"" }, penalty: 0 },
+                { label: { ru: "«Исправь ошибки, сделай текст красивее и короче».", en: "\"Fix grammar, polish the tone, and make it shorter.\"" }, penalty: 5 },
+                { label: { ru: "Ничего. Я перечитываю и правлю всё сам.", en: "Nothing. I re-read and edit it myself." }, penalty: 10 }
             ]
         },
         {
             id: "q3",
-            category: { ru: "Документы", en: "Docs" },
+            category: { ru: "Документы", en: "Deep Dive" },
             text: {
-                self: { ru: "Прислали 5 длинных PDF-отчетов. Нужно быстро понять риски.", en: "Received 5 long PDF reports. Need risks ASAP." },
-                team: { ru: "Как аналитики работают с базой знаний?", en: "How do analysts handle knowledge bases?" }
+                self: {
+                    ru: "Перед вами длинный документ (договор, инструкция, статья или книга). Нужно найти конкретный ответ.",
+                    en: "You have a long document in front of you (contract, manual, article, or book). You need a specific answer."
+                },
+                team: {
+                    ru: "Перед командой длинный документ. Нужно найти конкретный ответ.",
+                    en: "The team has a long document. They need a specific answer."
+                }
             },
             options: [
-                { label: { ru: "Загружаю в NotebookLM (RAG) и «допрашиваю» их", en: "Upload to NotebookLM (RAG) and 'interrogate' them" }, penalty: 0 },
-                { label: { ru: "Копирую кусками в чат и прошу саммари", en: "Copy-paste chunks into chat for summary" }, penalty: 5 },
-                { label: { ru: "Читаю сам / Ctrl+F", en: "Read manually / Ctrl+F" }, penalty: 10 }
+                { label: { ru: "Загружаю файл целиком в ИИ и задаю ему вопросы по тексту.", en: "I upload the file to AI and ask specific questions about the content." }, penalty: 0 },
+                { label: { ru: "Копирую текст (или кусок) в чат и прошу: «Сделай краткий пересказ».", en: "I copy-paste the text (or chunk) into AI and ask: \"Summarize this.\"" }, penalty: 5 },
+                { label: { ru: "Читаю сам по диагонали или использую поиск (Ctrl+F).", en: "I read it diagonally or use the search function (Ctrl+F)." }, penalty: 10 }
             ]
         },
         {
             id: "q4",
-            category: { ru: "Строитель", en: "Builder" },
+            category: { ru: "Инструменты", en: "Builder" },
             text: {
-                self: { ru: "Нужен калькулятор для сайта или скрипт для Excel.", en: "Need a web calculator or Excel script." },
-                team: { ru: "Могут ли менеджеры автоматизировать рутину?", en: "Can managers automate their routine?" }
+                self: {
+                    ru: "Вам нужен специфический инструмент: например, калькулятор ипотеки, конвертер файлов или сложная формула.",
+                    en: "You need a specific tool: a custom mortgage calculator, a file converter, or a complex formula."
+                },
+                team: {
+                    ru: "Команде нужен специфический инструмент: калькулятор, конвертер или сложная формула.",
+                    en: "The team needs a specific tool: a calculator, converter, or complex formula."
+                }
             },
             options: [
-                { label: { ru: "Пишу задачу в Cursor/Replit (No-Code)", en: "Prompt in Cursor/Replit (No-Code)" }, penalty: 0 },
-                { label: { ru: "Пишу ТЗ программистам и жду неделю", en: "Write specs for IT and wait a week" }, penalty: 8 },
-                { label: { ru: "Ищу готовое / Делаю вручную", en: "Look for SaaS / Do manually" }, penalty: 15 }
+                { label: { ru: "Пишу ИИ: «Напиши мне код/скрипт для этого», даже если я не умею программировать.", en: "I ask AI: \"Write the code/script for this,\" even if I don't know how to code." }, penalty: 0 },
+                { label: { ru: "Ищу в Google готовое приложение, сайт или плагин, который это делает.", en: "I search Google for an existing app, website, or plugin that does this." }, penalty: 5 },
+                { label: { ru: "Пытаюсь посчитать/сделать это вручную или ищу знакомого программиста.", en: "I try to calculate/do it manually or look for a friend who can help." }, penalty: 10 }
             ]
         },
         {
             id: "q5",
-            category: { ru: "Визуал", en: "Visuals" },
+            category: { ru: "Визуализация", en: "Visuals" },
             text: {
-                self: { ru: "Срочно нужна презентация или схема.", en: "Urgent need for slides or chart." },
-                team: { ru: "Как создаются драфты презентаций?", en: "How are slide drafts created?" }
+                self: {
+                    ru: "Вам нужно подготовить презентацию или нарисовать схему, чтобы объяснить сложную идею.",
+                    en: "You need to prepare a presentation or draw a diagram to explain a complex idea."
+                },
+                team: {
+                    ru: "Команде нужно подготовить презентацию или схему для сложной идеи.",
+                    en: "The team needs to prepare a presentation or diagram for a complex idea."
+                }
             },
             options: [
-                { label: { ru: "ИИ-холсты (Gemini Canvas / Napkin.ai)", en: "AI Canvas (Gemini / Napkin.ai)" }, penalty: 0 },
-                { label: { ru: "Текст в ИИ, слайды в PowerPoint", en: "Text in AI, slides in PPT" }, penalty: 5 },
-                { label: { ru: "Рисую квадратики вручную", en: "Draw manually" }, penalty: 10 }
+                { label: { ru: "Прошу ИИ: «Нарисуй схему/график» или «Собери готовые слайды».", en: "I ask AI: \"Draw a diagram/chart\" or \"Generate the actual slides.\"" }, penalty: 0 },
+                { label: { ru: "Прошу ИИ написать текст для слайдов, а потом вручную копирую его в PowerPoint.", en: "I ask AI to write the text, then I manually copy-paste it into PowerPoint." }, penalty: 5 },
+                { label: { ru: "Рисую квадратики, стрелочки и подбираю картинки сам.", en: "I draw boxes, arrows, and search for images manually." }, penalty: 10 }
             ]
         },
         {
             id: "q6",
-            category: { ru: "Агенты", en: "Agents" },
+            category: { ru: "Контекст", en: "Context" },
             text: {
-                self: { ru: "Кто проверяет ваши идеи и письма?", en: "Who checks your ideas?" },
-                team: { ru: "Есть ли библиотека системных промптов?", en: "Is there a prompt library?" }
+                self: {
+                    ru: "Вы садитесь писать типичное для вас письмо, пост или задачу. Как вы объясняете ИИ, что нужно делать?",
+                    en: "You sit down to write a typical email, post, or task. How do you explain to AI what you need?"
+                },
+                team: {
+                    ru: "Команда садится писать типичное письмо или задачу. Как они объясняют ИИ, что нужно?",
+                    en: "The team sits down to write a typical email or task. How do they explain to AI what they need?"
+                }
             },
             options: [
-                { label: { ru: "Мои GPTs: Критик, Редактор с инструкциями", en: "My Custom GPTs: Critic, Editor" }, penalty: 0 },
-                { label: { ru: "Иногда пишу: «Представь, что ты профи»", en: "Sometimes type: 'Act as a pro'" }, penalty: 4 },
-                { label: { ru: "Пишу в пустой чат", en: "Type in empty chat" }, penalty: 7 }
+                { label: { ru: "Открываю своего настроенного бота (Custom GPT), который уже знает мой стиль и правила.", en: "I open my custom bot (Custom GPT) that already knows my style and rules." }, penalty: 0 },
+                { label: { ru: "Каждый раз пишу вступление: «Представь, что ты профи, пиши в таком-то стиле...»", en: "I type an intro every time: \"Act as a pro, write in this style, here is the context...\"" }, penalty: 5 },
+                { label: { ru: "Просто пишу задачу в пустую строку. Если результат плохой — переспрашиваю.", en: "I just type the task into the blank bar. If the result is bad, I ask again." }, penalty: 10 }
             ]
         },
         {
             id: "q7",
             category: { ru: "Поиск", en: "Research" },
             text: {
-                self: { ru: "Нужно найти тренды рынка с точными цифрами.", en: "Need market trends with exact numbers." },
-                team: { ru: "Как проводится анализ рынка?", en: "How is market research done?" }
+                self: {
+                    ru: "Вам нужно выбрать лучший товар (ноутбук/пылесос), найти отель или сравнить цены конкурентов.",
+                    en: "You need to choose the best product (laptop/vacuum), find a hotel, or compare prices."
+                },
+                team: {
+                    ru: "Команде нужно выбрать лучший товар, найти отель или сравнить цены.",
+                    en: "The team needs to choose the best product, find a hotel, or compare prices."
+                }
             },
             options: [
-                { label: { ru: "Perplexity Pro / Deep Research", en: "Perplexity Pro / Deep Research" }, penalty: 0 },
-                { label: { ru: "Гуглю 10 вкладок + ChatGPT", en: "Google 10 tabs + ChatGPT" }, penalty: 5 },
-                { label: { ru: "Обычный ChatGPT (риск галлюцинаций)", en: "Standard ChatGPT (Risk of hallucinations)" }, penalty: 8 }
+                { label: { ru: "Пишу ИИ: «Найди в интернете 5 лучших вариантов, сравни цены и сделай сводную таблицу».", en: "I ask AI: \"Search the web, compare top 5 options, and make a comparison table.\"" }, penalty: 0 },
+                { label: { ru: "Гуглю запрос, открываю 10–15 вкладок и прыгаю между ними, сравнивая вручную.", en: "I Google it, open 10–15 tabs, and jump between them comparing manually." }, penalty: 5 },
+                { label: { ru: "Спрашиваю обычного чат-бота (без доступа в сеть) и верю его ответу, даже если он выдумал цены.", en: "I ask a standard chatbot (offline) and trust the answer, even if it hallucinates the prices." }, penalty: 10 }
             ]
         },
         {
             id: "q8",
             category: { ru: "Данные", en: "Data" },
             text: {
-                self: { ru: "Excel на 5000 строк. Нужно найти инсайты.", en: "5000-row Excel. Need insights." },
-                team: { ru: "Как анализируют сырые данные?", en: "How is raw data analyzed?" }
+                self: {
+                    ru: "У вас есть «страшная» таблица (семейный бюджет, список клиентов или выгрузка продаж). Нужно навести порядок.",
+                    en: "You have a \"messy\" spreadsheet (expenses, client list, or sales data). You need to fix it."
+                },
+                team: {
+                    ru: "У команды есть «страшная» таблица с данными. Нужно навести порядок.",
+                    en: "The team has a \"messy\" spreadsheet with data. They need to fix it."
+                }
             },
             options: [
-                { label: { ru: "Code Interpreter (Python): чистка + графики", en: "Code Interpreter (Python): clean + charts" }, penalty: 0 },
-                { label: { ru: "ВПР (VLOOKUP) / Сводные таблицы", en: "VLOOKUP / Pivot Tables" }, penalty: 6 },
-                { label: { ru: "Жду аналитика 2 дня", en: "Wait 2 days for analyst" }, penalty: 10 }
+                { label: { ru: "Кидаю файл в ИИ и говорю: «Почисти данные, посчитай итоги и нарисуй графики».", en: "I drop the file into AI and say: \"Clean this up, calculate totals, and show me charts.\"" }, penalty: 0 },
+                { label: { ru: "Прошу ИИ: «Напиши мне формулу для Excel, чтобы я мог это посчитать».", en: "I ask AI: \"Write me an Excel formula so I can calculate this myself.\"" }, penalty: 5 },
+                { label: { ru: "Сижу, выделяю ячейки мышкой и считаю вручную или на калькуляторе.", en: "I sit there, highlighting cells and calculating manually." }, penalty: 10 }
             ]
         },
         {
             id: "q9",
-            category: { ru: "Голос", en: "Voice" },
+            category: { ru: "На ходу", en: "Voice" },
             text: {
-                self: { ru: "Гениальная идея за рулем / на ходу.", en: "Brilliant idea while driving." },
-                team: { ru: "Используется ли голосовой ввод?", en: "Is voice input used?" }
+                self: {
+                    ru: "Вам пришла гениальная идея (или вы вспомнили о деле) в неудобный момент: за рулем, на беговой дорожке или на прогулке.",
+                    en: "You get a brilliant idea (or remember a task) at a bad time: driving, running, or walking."
+                },
+                team: {
+                    ru: "Сотруднику пришла идея в неудобный момент: за рулем или на ходу.",
+                    en: "A team member gets an idea at a bad time: driving or on the go."
+                }
             },
             options: [
-                { label: { ru: "Voice Mode -> Саммари на почту", en: "Voice Mode -> Summary to email" }, penalty: 0 },
-                { label: { ru: "Голосовое сообщение себе", en: "Voice note to self" }, penalty: 3 },
-                { label: { ru: "Надеюсь, что не забуду", en: "Hope I won't forget" }, penalty: 6 }
+                { label: { ru: "Включаю Голосовой Режим (Voice Mode), обсуждаю идею с ИИ вслух и прошу прислать резюме на почту.", en: "I turn on Voice Mode, talk it out with AI, and ask it to email me the summary." }, penalty: 0 },
+                { label: { ru: "Останавливаюсь и пытаюсь быстро набить заметку в телефоне пальцами или записываю голосовое «сам себе».", en: "I stop and try to type a note with my thumbs or record a voice memo to myself." }, penalty: 5 },
+                { label: { ru: "Говорю себе: «Запомни это!» (Спойлер: вы это забудете).", en: "I tell myself: \"Remember this!\" (Spoiler: You will forget it)." }, penalty: 10 }
             ]
         },
         {
             id: "q10",
-            category: { ru: "Поток", en: "Workflow" },
+            category: { ru: "Рутина", en: "The Loop" },
             text: {
-                self: { ru: "Как результат ИИ попадает в документ?", en: "How does AI result get into doc?" },
-                team: { ru: "Насколько бесшовна работа?", en: "How seamless is it?" }
+                self: {
+                    ru: "У вас есть нудная задача, которая повторяется каждую неделю (отчет, контент-план, разбор почты).",
+                    en: "You have a boring task that repeats every week (report, content plan, cleaning inbox)."
+                },
+                team: {
+                    ru: "У команды есть нудная задача, которая повторяется каждую неделю.",
+                    en: "The team has a boring task that repeats every week."
+                }
             },
             options: [
-                { label: { ru: "Бесшовно (API / Zapier / Export)", en: "Seamless (API / Zapier / Export)" }, penalty: 0 },
-                { label: { ru: "Копировать — Вставить — Поправить", en: "Copy — Paste — Fix" }, penalty: 4 },
-                { label: { ru: "Перепечатываю руками", en: "Retype manually" }, penalty: 8 }
+                { label: { ru: "Один раз настроил цепочку (или скрипт), и теперь это работает само, пока я сплю.", en: "I built a workflow (or script) once. Now it runs on autopilot while I sleep." }, penalty: 0 },
+                { label: { ru: "Каждый раз захожу в чат, копирую прошлый промпт и прошу: «Сделай это снова».", en: "I open the chat every time, paste the old prompt, and ask: \"Do this again.\"" }, penalty: 5 },
+                { label: { ru: "Делаю руками. Это же моя работа!", en: "I do it manually. It's my job, isn't it?" }, penalty: 10 }
             ]
         }
     ]
