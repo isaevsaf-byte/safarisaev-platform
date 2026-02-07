@@ -241,92 +241,102 @@ const pdfContent = {
     green: {
         ru: {
             page1: {
-                headline: "Вы — Главный Актив",
-                intro: "Вы уже заменили собой целый департамент. Но масштабируется ли это?",
-                trapTitle: "3 Признака \"Зеленой Ловушки\":",
+                headline: "Вы — Главный Актив (и это проблема)",
+                intro: "Поздравляю. Вы — редкий вид. Вы не просто \"используете ИИ\", вы им управляете. Но есть ловушка: Золотая Клетка.",
+                trapTitle: "Почему это ловушка:",
                 traps: [
-                    { title: "Тинкеринг (Tinkering)", desc: "Вы бесконечно улучшаете свои промпты и системы \"для себя\". Вы тратите часы на оптимизацию того, что и так работает.", loss: "" },
-                    { title: "Зависимость", desc: "Всё держится на вас. Если вы уйдете в отпуск, ваши сложные AI-цепочки сломаются, потому что никто больше не понимает, как это работает.", loss: "" },
-                    { title: "Недо-реализация", desc: "Вы используете мощь ИИ для рабочих задач (скрипты, таблицы), но могли бы создать полноценный продукт (SaaS, Приложение), который приносит деньги.", loss: "" }
+                    { title: "Вы — Бутылочное Горлышко", desc: "Вы настолько эффективны, что все процессы идут через вас. Без вас ничего не работает. Это не актив, это зависимость.", loss: "" },
+                    { title: "Вы Делаете, а не Владеете", desc: "Вы пишете скрипты, собираете агентов, автоматизируете рутину. Но всё это — внутренние инструменты. Они не приносят денег, пока вы спите.", loss: "" },
+                    { title: "Время — Ваш Потолок", desc: "Вы продаете часы, а не системы. Ваша экспертиза умирает вместе с рабочим днем. Пора это изменить.", loss: "" }
                 ]
             },
             page2: {
-                headline: "Как стать Создателем (3 шага)",
+                headline: "От Исполнителя к Создателю (3 шага)",
                 steps: [
                     {
-                        title: "1. Natural Language Coding (Cursor)",
-                        desc: "Перестаньте быть \"Продвинутым пользователем\". Станьте \"Разработчиком\".",
+                        title: "1. Natural Language Coding",
+                        desc: "Перестаньте быть \"юзером\". Станьте Создателем.",
                         oldWay: "",
-                        newWay: "С современными ИИ (Claude 3.5 Sonnet + Cursor) вы можете написать полноценное веб-приложение, не зная синтаксиса Python или JS."
+                        newWay: "Cursor + Claude 3.5 = полноценный софт без знания синтаксиса. Вы уже думаете как разработчик. Осталось начать создавать как разработчик."
                     },
                     {
-                        title: "2. Productize It",
-                        desc: "Превратите ваши внутренние инструменты в продукты.",
+                        title: "2. Productize Yourself",
+                        desc: "Превратите внутренние инструменты в продукты.",
                         oldWay: "",
-                        newWay: "Ваш \"скрипт для отчетов\" может стать SaaS-сервисом для отрасли. Ваш \"Агент-Юрист\" может стать платным ботом в Telegram."
+                        newWay: "Ваш \"скрипт для отчетов\" — это SaaS за $49/мес для 1000 клиентов. Ваш \"GPT-юрист\" — это Telegram-бот с подпиской. Хватит работать бесплатно."
                     },
                     {
                         title: "3. Kill The Middleman",
-                        desc: "Увольте IT-отдел из своей головы.",
+                        desc: "Увольте \"внутренний IT-отдел\" в своей голове.",
                         oldWay: "",
-                        newWay: "Вам больше не нужны программисты для проверки гипотез. Вы можете собрать MVP за выходные."
+                        newWay: "Вам не нужны программисты для проверки гипотез. MVP за выходные. Запуск в понедельник. Один. Без зависимостей."
                     }
                 ]
             },
             page3: {
-                headline: "Ваш путь в космос: AI BUILDER (CODING)",
-                intro: "Самый дорогой навык будущего — умение превращать идеи в работающий софт. Курс AI Builder — это свобода создавать что угодно.",
+                headline: "AI ARCHITECT MASTERMIND",
+                intro: "Это не курс. Здесь не учат \"нажимать кнопки\". Это закрытая группа, где мы строим ваши ИИ-активы и продукты. Работа в малой группе равных.",
                 benefits: [
-                    "Cursor + Replit: Как писать код на английском/русском языке.",
-                    "Building Assets: Создание калькуляторов, дашбордов и ботов.",
-                    "Deploy: Как запустить свое приложение в интернет за 1 час."
+                    "Еженедельные сессии: разбор ваших проектов и узких мест.",
+                    "Совместная сборка: от идеи до деплоя за 4-6 недель.",
+                    "Нетворк: доступ к сообществу таких же \"киборгов\"."
                 ],
-                cta: "Создать Свой Продукт"
+                cta: "Напишите мне лично",
+                ctaSubtext: "Чтобы обсудить формат и понять, подходим ли мы друг другу.",
+                contacts: {
+                    telegram: "@SafarIsaev",
+                    email: "safarisaev@gmail.com"
+                }
             }
         },
         en: {
             page1: {
-                headline: "You Are The Asset",
-                intro: "You have already replaced an entire department. But does it scale?",
-                trapTitle: "3 Signs of the \"Green Trap\":",
+                headline: "You Are The Asset (And That's The Problem)",
+                intro: "Congratulations. You're a rare breed. You don't just \"use AI\" — you command it. But there's a trap: The Golden Cage.",
+                trapTitle: "Why this is a trap:",
                 traps: [
-                    { title: "Tinkering", desc: "You endlessly tweak your prompts and systems \"for yourself.\" You spend hours optimizing things that already work fine.", loss: "" },
-                    { title: "Dependency", desc: "Everything relies on you. If you go on vacation, your complex AI workflows break because no one else understands them.", loss: "" },
-                    { title: "Under-Achievement", desc: "You use AI power for work tasks (scripts, sheets), when you could be building a full product (SaaS, App) that generates revenue.", loss: "" }
+                    { title: "You Are The Bottleneck", desc: "You're so efficient that everything runs through you. Without you, nothing works. That's not an asset, that's a liability.", loss: "" },
+                    { title: "You Execute, You Don't Own", desc: "You write scripts, build agents, automate workflows. But these are internal tools. They don't make money while you sleep.", loss: "" },
+                    { title: "Time Is Your Ceiling", desc: "You're selling hours, not systems. Your expertise dies with the workday. Time to change that.", loss: "" }
                 ]
             },
             page2: {
-                headline: "How to become a Creator (3 Steps)",
+                headline: "From Executor to Creator (3 Steps)",
                 steps: [
                     {
-                        title: "1. Natural Language Coding (Cursor)",
-                        desc: "Stop being a \"Power User.\" Become a \"Developer.\"",
+                        title: "1. Natural Language Coding",
+                        desc: "Stop being a \"user.\" Become a Creator.",
                         oldWay: "",
-                        newWay: "With modern AI (Claude 3.5 Sonnet + Cursor), you can build a full web app without knowing Python or JS syntax."
+                        newWay: "Cursor + Claude 3.5 = full-stack software without knowing syntax. You already think like a developer. Time to build like one."
                     },
                     {
-                        title: "2. Productize It",
+                        title: "2. Productize Yourself",
                         desc: "Turn your internal tools into products.",
                         oldWay: "",
-                        newWay: "Your \"reporting script\" could be a SaaS for the industry. Your \"Lawyer Agent\" could be a paid Telegram bot."
+                        newWay: "Your \"reporting script\" is a $49/mo SaaS for 1000 clients. Your \"GPT Lawyer\" is a Telegram bot with subscriptions. Stop working for free."
                     },
                     {
                         title: "3. Kill The Middleman",
-                        desc: "Fire the IT department in your head.",
+                        desc: "Fire the \"internal IT department\" in your head.",
                         oldWay: "",
-                        newWay: "You no longer need programmers to test hypotheses. You can build an MVP in a weekend."
+                        newWay: "You don't need developers to test hypotheses. MVP in a weekend. Launch on Monday. Alone. No dependencies."
                     }
                 ]
             },
             page3: {
-                headline: "Your Path to Space: AI BUILDER (CODING)",
-                intro: "The most valuable skill of the future is turning ideas into working software. AI Builder is the freedom to build anything.",
+                headline: "AI ARCHITECT MASTERMIND",
+                intro: "This is not a course. We don't teach you to \"click buttons.\" This is a closed group where we build your AI assets and products. Work in a small group of equals.",
                 benefits: [
-                    "Cursor + Replit: How to code in plain English/Russian.",
-                    "Building Assets: Creating calculators, dashboards, and bots.",
-                    "Deploy: How to launch your app to the web in 1 hour."
+                    "Weekly sessions: review of your projects and bottlenecks.",
+                    "Co-building: from idea to deploy in 4-6 weeks.",
+                    "Network: access to a community of fellow \"cyborgs.\""
                 ],
-                cta: "Build My Product"
+                cta: "Message me personally",
+                ctaSubtext: "To discuss the format and see if we're a good fit.",
+                contacts: {
+                    telegram: "@SafarIsaev",
+                    email: "safarisaev@gmail.com"
+                }
             }
         }
     }
@@ -505,7 +515,7 @@ export const generateAiPdf = async (
 
     // Benefits
     doc.setFontSize(12);
-    doc.text(lang === 'ru' ? "Что вы получите:" : "What you'll learn:", 14, 95);
+    doc.text(lang === 'ru' ? "Что вы получите:" : "What you'll get:", 14, 95);
 
     yPos = 105;
     content.page3.benefits.forEach((benefit) => {
@@ -518,31 +528,69 @@ export const generateAiPdf = async (
         yPos += benefitLines.length * 5 + 8;
     });
 
-    // Offer Card
-    doc.setDrawColor(200, 200, 200);
-    doc.setFillColor(248, 250, 252);
-    doc.roundedRect(30, 150, 150, 80, 5, 5, 'FD');
+    // Check if this is the Mastermind format (green zone with contacts)
+    const page3Content = content.page3 as {
+        headline: string;
+        intro: string;
+        benefits: string[];
+        cta: string;
+        ctaSubtext?: string;
+        contacts?: { telegram: string; email: string };
+    };
 
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(16);
-    const offerLines = doc.splitTextToSize(offer.name, 130);
-    doc.text(offerLines, 105, 175, { align: 'center' });
+    if (page3Content.contacts) {
+        // Mastermind format - personal contact instead of price
+        doc.setDrawColor(200, 200, 200);
+        doc.setFillColor(248, 250, 252);
+        doc.roundedRect(30, 145, 150, 90, 5, 5, 'FD');
 
-    doc.setTextColor(config.color);
-    doc.setFontSize(28);
-    doc.text(offer.price, 105, 200, { align: 'center' });
+        // CTA
+        doc.setTextColor(config.color);
+        doc.setFontSize(16);
+        doc.text(page3Content.cta, 105, 165, { align: 'center' });
 
-    // CTA
-    doc.setFillColor(config.color);
-    doc.roundedRect(50, 240, 110, 20, 3, 3, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(12);
-    doc.text(content.page3.cta, 105, 253, { align: 'center' });
+        // Subtext
+        if (page3Content.ctaSubtext) {
+            doc.setFontSize(10);
+            doc.setTextColor(80, 80, 80);
+            const subtextLines = doc.splitTextToSize(page3Content.ctaSubtext, 130);
+            doc.text(subtextLines, 105, 178, { align: 'center' });
+        }
+
+        // Contact info
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Telegram: ${page3Content.contacts.telegram}`, 105, 205, { align: 'center' });
+        doc.setTextColor(59, 130, 246);
+        doc.text(page3Content.contacts.email, 105, 220, { align: 'center' });
+
+    } else {
+        // Standard offer format with price
+        doc.setDrawColor(200, 200, 200);
+        doc.setFillColor(248, 250, 252);
+        doc.roundedRect(30, 150, 150, 80, 5, 5, 'FD');
+
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(16);
+        const offerLines = doc.splitTextToSize(offer.name, 130);
+        doc.text(offerLines, 105, 175, { align: 'center' });
+
+        doc.setTextColor(config.color);
+        doc.setFontSize(28);
+        doc.text(offer.price, 105, 200, { align: 'center' });
+
+        // CTA Button
+        doc.setFillColor(config.color);
+        doc.roundedRect(50, 240, 110, 20, 3, 3, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(12);
+        doc.text(page3Content.cta, 105, 253, { align: 'center' });
+    }
 
     // Link
     doc.setFontSize(10);
     doc.setTextColor(59, 130, 246);
-    doc.textWithLink("safarisaev.ai/education", 105, 275, { url: "https://safarisaev.ai", align: 'center' });
+    doc.textWithLink("safarisaev.ai", 105, 275, { url: "https://safarisaev.ai", align: 'center' });
 
     doc.save('Safar_Isaev_AI_Velocity_Report.pdf');
 };
