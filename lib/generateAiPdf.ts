@@ -147,92 +147,94 @@ const pdfContent = {
     yellow: {
         ru: {
             page1: {
-                headline: "Ловушка Продуктивности",
-                intro: "Вы застряли в \"Желтой Зоне\". Вы делаете старые вещи быстрее, но не делаете новые вещи.",
-                trapTitle: "3 Признака \"Ловушки Продуктивности\":",
+                headline: "Вы уперлись в интерфейс чата",
+                intro: "Вы отлично генерируете тексты. Но бизнес — это не только текст. Это цифры, стратегии и визуализация.",
+                trapTitle: "3 Признака \"Желтой Ловушки\":",
                 traps: [
-                    { title: "Копипаст-мастер", desc: "Вы используете ИИ для генерации текста, но потом вручную вставляете его в документы.", loss: "Потеря: 2 часа/неделю" },
-                    { title: "Отсутствие системы", desc: "У вас нет библиотеки промптов. Каждый раз пишете инструкции заново.", loss: "Потеря: 3 часа/неделю" },
-                    { title: "Ручное управление", desc: "Вы делегируете ИИ текст, но не решения и не процессы.", loss: "" }
+                    { title: "Амнезия", desc: "Вы начинаете каждый чат с нуля. У вас нет настроенных \"Агентов\", которые помнят ваш бизнес. Вы тратите время на объяснение контекста.", loss: "" },
+                    { title: "Ручной мостик", desc: "Вы — «живой буфер» между ИИ и результатом. ИИ пишет код — вы не знаете, куда его вставить. ИИ пишет структуру слайдов — вы рисуете их в PowerPoint.", loss: "" },
+                    { title: "Иллюзия Аналитики", desc: "Вы просите ИИ \"подумать\", но используете обычные модели (GPT-4o), вместо рассуждающих (o1 / DeepSeek), которые реально умеют строить стратегии.", loss: "" }
                 ]
             },
             page2: {
-                headline: "Ваш План Действий (3 шага)",
+                headline: "Как стать One-Man Army (3 шага)",
                 steps: [
                     {
-                        title: "1. Создайте Custom GPT",
-                        desc: "Превратите свои лучшие промпты в персонального агента.",
-                        oldWay: "Было: Каждый раз пишу \"Представь что ты...\"",
-                        newWay: "Стало: Открываю своего GPT \"Мой Редактор\" с зашитыми инструкциями."
+                        title: "1. Создайте Агентов (Custom GPTs)",
+                        desc: "Перестаньте писать промпты.",
+                        oldWay: "",
+                        newWay: "Создайте \"Личного Маркетолога\" и \"Личного Юриста\". Загрузите в них свои файлы и правила один раз. Теперь они работают на вас вечно."
                     },
                     {
-                        title: "2. Освойте No-Code",
-                        desc: "Начните создавать, а не искать.",
+                        title: "2. Визуализируйте (Gemini Canvas / Artifacts)",
+                        desc: "Хватит читать текст.",
                         oldWay: "",
-                        newWay: "Cursor или Replit: попросите ИИ написать скрипт для вашей задачи."
+                        newWay: "Просите ИИ: \"Нарисуй мне схему воронки продаж\" или \"Сделай дашборд\". Превращайте слова в активы."
                     },
                     {
-                        title: "3. Делегируйте решения",
-                        desc: "ИИ может не только писать, но и думать.",
+                        title: "3. Глубокий Анализ (NotebookLM)",
+                        desc: "Не копируйте куски текста.",
                         oldWay: "",
-                        newWay: "\"Проанализируй эту стратегию. Найди 3 слабых места и предложи решения.\""
+                        newWay: "Загрузите 50 PDF-отчетов конкурентов в NotebookLM и устройте им перекрестный допрос. Это уровень аналитика за $5000/мес."
                     }
                 ]
             },
             page3: {
-                headline: "Ваш путь: AI STRATEGY & AGENTS",
-                intro: "Вам пора перейти от \"пользователя\" к \"архитектору\". На интенсиве мы строим вашу персональную ИИ-систему.",
+                headline: "Ваш путь наверх: AI EXECUTIVE SUITE",
+                intro: "Вы уже умеете \"общаться\". Пора научиться \"управлять\". Курс AI Executive — это превращение вас в Цифровой Штаб.",
                 benefits: [
-                    "Как создать библиотеку агентов под ваши задачи.",
-                    "Как автоматизировать повторяющиеся процессы.",
-                    "Как использовать ИИ для принятия решений."
+                    "Deep Research: Как делать анализ рынка за 15 минут с пруфами.",
+                    "Reasoning: Стратегическое мышление с моделями o1.",
+                    "Visuals: Создание презентаций и схем внутри диалога.",
+                    "Agents: Сборка своей команды ботов."
                 ],
-                cta: "Построить свою систему"
+                cta: "Стать One-Man Army"
             }
         },
         en: {
             page1: {
-                headline: "The Productivity Trap",
-                intro: "You are stuck in the \"Yellow Zone\". You do old things faster, but don't do new things.",
-                trapTitle: "3 Signs of the \"Productivity Trap\":",
+                headline: "Stuck in the Chat Interface",
+                intro: "You generate great text. But business is not just text. It's numbers, strategy, and visuals.",
+                trapTitle: "3 Signs of the \"Yellow Trap\":",
                 traps: [
-                    { title: "Copy-Paste Master", desc: "You use AI to generate text, but then manually paste it into documents.", loss: "Loss: 2 hrs/week" },
-                    { title: "No System", desc: "You don't have a prompt library. You write instructions from scratch every time.", loss: "Loss: 3 hrs/week" },
-                    { title: "Manual Control", desc: "You delegate text to AI, but not decisions or processes.", loss: "" }
+                    { title: "Amnesia", desc: "You start every chat from scratch. You lack \"Agents\" that remember your business context. You waste time explaining the rules again.", loss: "" },
+                    { title: "The Human Bridge", desc: "You are the buffer between AI and the result. AI writes code — you don't know where to put it. AI structures slides — you draw them manually in PowerPoint.", loss: "" },
+                    { title: "The Analysis Illusion", desc: "You ask AI to \"think,\" but you use standard models (GPT-4o) instead of reasoning models (o1 / DeepSeek) that can actually strategize.", loss: "" }
                 ]
             },
             page2: {
-                headline: "Your Action Plan (3 Steps)",
+                headline: "How to become a One-Man Army (3 Steps)",
                 steps: [
                     {
-                        title: "1. Create a Custom GPT",
-                        desc: "Turn your best prompts into a personal agent.",
-                        oldWay: "Old Way: Every time write \"Act as...\"",
-                        newWay: "New Way: Open my GPT \"My Editor\" with embedded instructions."
+                        title: "1. Build Agents (Custom GPTs)",
+                        desc: "Stop writing prompts.",
+                        oldWay: "",
+                        newWay: "Create a \"Personal Marketer\" and \"Personal Lawyer.\" Upload your files and rules once. Now they work for you forever."
                     },
                     {
-                        title: "2. Master No-Code",
-                        desc: "Start creating, not searching.",
+                        title: "2. Visualize (Gemini Canvas / Artifacts)",
+                        desc: "Stop reading text.",
                         oldWay: "",
-                        newWay: "Cursor or Replit: ask AI to write a script for your task."
+                        newWay: "Ask AI: \"Draw a sales funnel diagram\" or \"Create a dashboard.\" Turn words into assets."
                     },
                     {
-                        title: "3. Delegate Decisions",
-                        desc: "AI can not only write, but also think.",
+                        title: "3. Deep Analysis (NotebookLM)",
+                        desc: "Don't copy-paste text chunks.",
                         oldWay: "",
-                        newWay: "\"Analyze this strategy. Find 3 weaknesses and suggest solutions.\""
+                        newWay: "Upload 50 competitor PDF reports into NotebookLM and cross-examine them. This is $5,000/month analyst level work."
                     }
                 ]
             },
             page3: {
-                headline: "Your Path: AI STRATEGY & AGENTS",
-                intro: "It's time to move from \"user\" to \"architect\". In the intensive, we build your personal AI system.",
+                headline: "Your Path Up: AI EXECUTIVE SUITE",
+                intro: "You know how to \"chat.\" It's time to learn how to \"command.\" AI Executive transforms you into a Digital HQ.",
                 benefits: [
-                    "How to create an agent library for your tasks.",
-                    "How to automate repeating processes.",
-                    "How to use AI for decision-making."
+                    "Deep Research: Market analysis in 15 mins with citations.",
+                    "Reasoning: Strategic thinking with o1 models.",
+                    "Visuals: Creating slides and diagrams within the chat.",
+                    "Agents: Assembling your own bot team."
                 ],
-                cta: "Build Your System"
+                cta: "Become a One-Man Army"
             }
         }
     },

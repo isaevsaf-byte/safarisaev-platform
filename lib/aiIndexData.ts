@@ -64,12 +64,12 @@ export const aiIndexData = {
             cta: "Скачать Отчет и План (PDF)",
             zones: {
                 green: { title: "AI ARCHITECT (Создатель)", slogan: "«Перестань искать софт — создай его сам.»", desc: "Вы — Киборг. Вы переросли интерфейс чата. Вы готовы создавать собственные активы." },
-                yellow: { title: "AI EXECUTIVE (Профи)", slogan: "«Вам не нужно быстрее писать. Вам нужно масштабнее думать.»", desc: "Вы виртуозно владеете чатом, но у вас нет Системы. Превратите один чат в целый Департамент." },
+                yellow: { title: "AI EXECUTIVE (Профи / Цифровой Штаб)", slogan: "«Вы — Пилот, который летит на ручном управлении.»", desc: "Вы входите в топ-20% пользователей. Вы умеете писать отличные промпты и экономить время. Но вы попали в «Ловушку Продуктивности»: вы делаете старые задачи быстрее, вместо того чтобы делать новые задачи, которые раньше были невозможны. Вы используете ИИ как Умного Секретаря, но не как Партнера." },
                 red: { title: "LEGACY OPERATOR (Аналоговый Режим)", slogan: "«Вы используете суперкомпьютер как печатную машинку.»", desc: "Вы — добросовестный профессионал, но вы работаете методами 2019 года. Пока конкуренты генерируют решения за секунды, вы тратите часы на ручной поиск, набор текста и форматирование. Вы теряете минимум 10-15 часов в неделю на задачи, которые ИИ решает за один клик. Ваша главная проблема: Страх чистого листа и привычка делать всё «своими руками»." }
             },
             offers: {
                 green: { name: "Mastermind: AI Architect (Cursor)", price: "$890" },
-                yellow: { name: "Intensive: AI Strategy & Agents", price: "$290" },
+                yellow: { name: "AI Executive Suite", price: "$290" },
                 red: { name: "Course: AI Foundation (Start Now)", price: "$49" }
             }
         },
@@ -80,12 +80,12 @@ export const aiIndexData = {
             cta: "Download Report & Plan (PDF)",
             zones: {
                 green: { title: "AI ARCHITECT (The Creator)", slogan: "'Stop looking for software — build it yourself.'", desc: "You are a Cyborg. You've outgrown the chat interface. You are ready to build assets." },
-                yellow: { title: "AI EXECUTIVE (Pro)", slogan: "'You don't need to write faster. You need to think bigger.'", desc: "You are a chat virtuoso, but you lack a System. Turn one chat into a Department." },
+                yellow: { title: "AI EXECUTIVE", slogan: "'You are a Pilot flying on manual mode.'", desc: "You are in the top 20% of users. You write great prompts and save time. But you are stuck in the \"Productivity Trap\": you do old tasks faster, instead of doing new things that were previously impossible. You use AI as a Smart Secretary (write, edit, search), but not as a Partner." },
                 red: { title: "LEGACY OPERATOR", slogan: "'You are using a supercomputer as a typewriter.'", desc: "You are a hard worker, but you are running on 2019 operating systems. While competitors generate solutions in seconds, you spend hours manually searching, typing, and formatting. You are losing at least 10-15 hours a week on tasks that AI solves in one click. Your Main Problem: Fear of the blank page and the habit of doing everything \"by hand.\"" }
             },
             offers: {
                 green: { name: "Mastermind: AI Architect (Cursor)", price: "£1,200" },
-                yellow: { name: "Intensive: AI Strategy & Agents", price: "£599" },
+                yellow: { name: "AI Executive Suite", price: "£599" },
                 red: { name: "Course: AI Foundation (Start Now)", price: "£99" }
             }
         }
