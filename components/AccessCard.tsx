@@ -72,7 +72,7 @@ export function AccessCard({
           ) : (
             <a
               href={href}
-              className="inline-block border border-accent bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-all hover:bg-accent hover:text-background"
+              className="inline-block border border-accent bg-accent/10 px-4 py-2 font-mono text-sm text-accent transition-all hover:bg-accent hover:text-background focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
             >
               {cta}
             </a>

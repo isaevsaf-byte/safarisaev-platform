@@ -32,6 +32,11 @@ export default function Home() {
     }
   }, [isDarkMode]);
 
+  // Sync html lang attribute for accessibility
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   const toggleLocale = () => {
     setLocale(locale === "en" ? "ru" : "en");
   };
@@ -60,6 +65,7 @@ export default function Home() {
             {/* Theme Toggle */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
+              aria-label={isDarkMode ? "Light mode" : "Dark mode"}
               className="p-2 rounded-full hover:bg-secondary/10 transition-colors"
             >
               {isDarkMode ? <Sun className="w-4 h-4 text-white" /> : <Moon className="w-4 h-4 text-slate-900" />}
@@ -156,7 +162,7 @@ export default function Home() {
               title={dict.protocols.cardB.title}
               desc={dict.protocols.cardB.desc}
               cta={dict.protocols.cardB.cta}
-              href="#gumroad-link"
+              onClick={() => setIsContactModalOpen(true)}
             />
           </div>
         </div>

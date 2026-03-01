@@ -32,11 +32,19 @@ export function BookingModal({ isOpen, onClose, lang }: BookingModalProps) {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
                         className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+                        onClick={onClose}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={t.modal_title}
                     >
-                        <div className="relative w-full max-w-md overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-2xl">
+                        <div
+                            className="relative w-full max-w-md overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             {/* Close Button */}
                             <button
                                 onClick={onClose}
+                                aria-label={t.cancel}
                                 className="absolute right-4 top-4 p-2 text-slate-400 hover:text-slate-900 dark:text-zinc-500 dark:hover:text-white transition-colors"
                             >
                                 <X className="w-5 h-5" />

@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 interface AuditModalProps {
   isOpen: boolean;
@@ -26,7 +25,6 @@ export function AuditModal({ isOpen, onClose, dictionary }: AuditModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Audit Request:", { companyUrl, email });
-    // Reset form
     setCompanyUrl("");
     setEmail("");
     onClose();
@@ -48,6 +46,10 @@ export function AuditModal({ isOpen, onClose, dictionary }: AuditModalProps) {
             initial={{ opacity: 0, scale: 0.9, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={dictionary.modal.title}
           >
             <div className="mb-4 flex items-center justify-between border-b border-secondary/20 pb-3">
               <h2 className="text-lg font-semibold text-foreground">
@@ -55,6 +57,7 @@ export function AuditModal({ isOpen, onClose, dictionary }: AuditModalProps) {
               </h2>
               <button
                 onClick={onClose}
+                aria-label={dictionary.modal.close}
                 className="text-secondary transition-colors hover:text-foreground"
               >
                 <X className="h-5 w-5" />
@@ -63,10 +66,11 @@ export function AuditModal({ isOpen, onClose, dictionary }: AuditModalProps) {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="mb-2 block text-sm text-secondary">
+                <label htmlFor="audit-company-url" className="mb-2 block text-sm text-secondary">
                   {dictionary.modal.companyUrl}
                 </label>
                 <input
+                  id="audit-company-url"
                   type="url"
                   value={companyUrl}
                   onChange={(e) => setCompanyUrl(e.target.value)}
@@ -76,10 +80,11 @@ export function AuditModal({ isOpen, onClose, dictionary }: AuditModalProps) {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-secondary">
+                <label htmlFor="audit-email" className="mb-2 block text-sm text-secondary">
                   {dictionary.modal.email}
                 </label>
                 <input
+                  id="audit-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -110,4 +115,3 @@ export function AuditModal({ isOpen, onClose, dictionary }: AuditModalProps) {
     </AnimatePresence>
   );
 }
-

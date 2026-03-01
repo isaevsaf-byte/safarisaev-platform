@@ -1,19 +1,26 @@
-import { useState, useMemo, useEffect } from "react";
-import { efficiencyData, Lang, Option } from "../components/efficiency-index/data";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { efficiencyData, Lang } from "../components/efficiency-index/data";
 
 export function useEfficiencyCalculator(initialLang: Lang = "en") {
-    // We can allow some external control or default to initialLang
     const [lang, setLang] = useState<Lang>(initialLang);
 
-    // Sync state if prop changes (optional, but good for reliable routing update)
+    // Sync state if prop changes
     useEffect(() => {
         setLang(initialLang);
     }, [initialLang]);
-    const [answers, setAnswers] = useState<Record<number, number>>({}); // questionId -> penalty
+
+    const [answers, setAnswers] = useState<Record<number, number>>({});
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // We rely on new data structure
+    // Cleanup timer on unmount
+    useEffect(() => {
+        return () => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+        };
+    }, []);
+
     const content = efficiencyData.content[lang];
     const questions = content.questions;
     const currentQuestion = questions[currentQuestionIndex];
@@ -24,17 +31,12 @@ export function useEfficiencyCalculator(initialLang: Lang = "en") {
         const totalPenalty = Object.values(answers).reduce((acc, val) => acc + val, 0);
         const calculatedScore = start_score - totalPenalty;
         const minScore = 100 - cap_waste;
-        // Ensure we don't go below minScore even if calculated says so
         return Math.max(calculatedScore, minScore);
     }, [answers, start_score, cap_waste]);
 
-    const wastePercentage = Math.round((100 - score) / 3);
+    const wastePercentage = useMemo(() => Math.round((100 - score) / 3), [score]);
 
-    // Progress logic
     const progress = useMemo(() => {
-        // 10% per question (since there are 10 questions)
-        // We want to show progress filling UP.
-        // If not started: 0%. After Q1: 10%. After Q10: 100%.
         return Math.min(((currentQuestionIndex) / questions.length) * 100, 100);
     }, [currentQuestionIndex, questions.length]);
 
@@ -44,12 +46,14 @@ export function useEfficiencyCalculator(initialLang: Lang = "en") {
             [currentQuestion.id]: penalty,
         }));
 
+        if (timerRef.current) clearTimeout(timerRef.current);
+
         if (currentQuestionIndex < questions.length - 1) {
-            setTimeout(() => {
+            timerRef.current = setTimeout(() => {
                 setCurrentQuestionIndex((prev) => prev + 1);
             }, 400);
         } else {
-            setTimeout(() => {
+            timerRef.current = setTimeout(() => {
                 setIsFinished(true);
             }, 400);
         }
@@ -83,7 +87,7 @@ export function useEfficiencyCalculator(initialLang: Lang = "en") {
         isFinished,
         handleAnswer,
         reset,
-        progress, // Exposed for progress bar
+        progress,
         goBack,
     };
 }

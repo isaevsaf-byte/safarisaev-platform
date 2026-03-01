@@ -73,7 +73,7 @@ export const generateEfficiencyReport = async (
 
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
-        doc.text(`Date: ${new Date().toLocaleDateString()} | ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 14, 28);
+        doc.text(`Date: ${new Date().toLocaleDateString()} | ID: ${Math.random().toString(36).substring(2, 11).toUpperCase()}`, 14, 28);
 
         // Score Section
         doc.setFontSize(40);
@@ -108,8 +108,7 @@ export const generateEfficiencyReport = async (
 
         // Imperatives
         const imperativesData = content.imperatives.map(imp => [`${imp.title}\n${imp.desc}`]);
-        // @ts-ignore
-        const nextY = doc.lastAutoTable.finalY + 10;
+        const nextY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
 
         autoTable(doc, {
             startY: nextY,
@@ -121,8 +120,7 @@ export const generateEfficiencyReport = async (
         });
 
         // Pitch
-        // @ts-ignore
-        const finalY = doc.lastAutoTable.finalY + 15;
+        const finalY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 15;
 
         autoTable(doc, {
             startY: finalY,

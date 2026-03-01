@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface GlitchTextProps {
   children: React.ReactNode;
@@ -10,10 +10,18 @@ interface GlitchTextProps {
 
 export function GlitchText({ children, className = "" }: GlitchTextProps) {
   const [isGlitching, setIsGlitching] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const handleClick = () => {
     setIsGlitching(true);
-    setTimeout(() => setIsGlitching(false), 600);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setIsGlitching(false), 600);
   };
 
   return (

@@ -44,6 +44,11 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
         }
     }, [isDarkMode]);
 
+    // Sync html lang attribute for accessibility
+    useEffect(() => {
+        document.documentElement.lang = lang;
+    }, [lang]);
+
     const t = efficiencyData.content[lang].text;
 
     // Determine Tank State
@@ -76,6 +81,7 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
                     {/* Theme Toggle */}
                     <button
                         onClick={() => setIsDarkMode(!isDarkMode)}
+                        aria-label={isDarkMode ? (lang === "ru" ? "Светлая тема" : "Light mode") : (lang === "ru" ? "Темная тема" : "Dark mode")}
                         className="p-2 rounded-full border border-slate-200 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors bg-white/50 dark:bg-black/50 backdrop-blur-sm"
                     >
                         {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
@@ -84,6 +90,7 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
                     {/* Lang Toggle */}
                     <button
                         onClick={() => setLang(lang === "en" ? "ru" : "en")}
+                        aria-label={lang === "en" ? "Switch to Russian" : "Switch to English"}
                         className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors bg-white/50 dark:bg-black/50 backdrop-blur-sm"
                     >
                         <Globe className="w-4 h-4 text-slate-500 dark:text-zinc-400" />
@@ -105,14 +112,18 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
 
                         <div className="mt-8 text-center transition-opacity duration-500" style={{ opacity: isFinished ? 1 : 0.5 }}>
                             <div className="text-xs text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">
-                                {isFinished ? "Current Score" : "Progress"}
+                                {isFinished
+                                    ? (lang === "ru" ? "Текущий результат" : "Current Score")
+                                    : (lang === "ru" ? "Прогресс" : "Progress")}
                             </div>
                             <div className="text-4xl font-bold text-slate-900 dark:text-white">
                                 {Math.round(tankLevel)}%
                             </div>
                             {isFinished && (
                                 <div className="text-xs text-red-500 mt-2 font-bold uppercase tracking-widest">
-                                    {wastePercentage > 0 ? `-${wastePercentage}% Waste Limit` : "Optimal"}
+                                    {wastePercentage > 0
+                                        ? `-${wastePercentage}% ${lang === "ru" ? "Потери" : "Waste Limit"}`
+                                        : (lang === "ru" ? "Оптимально" : "Optimal")}
                                 </div>
                             )}
                         </div>
@@ -146,7 +157,7 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
                                     className="group relative px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-lg rounded overflow-hidden shadow-lg hover:shadow-xl transition-all"
                                 >
                                     <span className="relative z-10 flex items-center gap-2">
-                                        START ANALYSIS <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        {lang === "ru" ? "НАЧАТЬ АНАЛИЗ" : "START ANALYSIS"} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                     </span>
                                     <div className="absolute inset-0 bg-accent opacity-0 dark:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 </button>
@@ -182,7 +193,7 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
                                         onClick={reset}
                                         className="text-xs text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-white underline underline-offset-4"
                                     >
-                                        RESTART ANALYSIS
+                                        {lang === "ru" ? "ПЕРЕЗАПУСК" : "RESTART ANALYSIS"}
                                     </button>
                                 </div>
                                 <ResultDashboard score={score} wastePercentage={wastePercentage} lang={lang} />
@@ -200,7 +211,7 @@ export default function EfficiencyIndexClient({ lang }: EfficiencyIndexContentPr
     return (
         <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center bg-black text-white font-mono">
-                LOADING SYSTEM...
+                {lang === "ru" ? "ЗАГРУЗКА..." : "LOADING SYSTEM..."}
             </div>
         }>
             <EfficiencyIndexContent lang={lang} />

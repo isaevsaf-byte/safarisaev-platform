@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Question, efficiencyData } from "./data";
 import { ArrowLeft } from "lucide-react";
@@ -18,7 +20,7 @@ export function QuestionCard({ question, onAnswer, onBack, lang, currentIndex, t
         <div className="w-full max-w-2xl mx-auto p-4 md:p-8">
             {/* Progress Indicator */}
             <div className="mb-6 md:mb-8 flex items-center gap-2 text-xs font-mono text-slate-400 dark:text-zinc-500">
-                <span className="text-blue-500 dark:text-accent font-bold">0{currentIndex + 1}</span>
+                <span className="text-blue-500 dark:text-accent font-bold">{String(currentIndex + 1).padStart(2, '0')}</span>
                 <div className="h-[2px] flex-1 bg-slate-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                     <motion.div
                         className="h-full bg-blue-500 dark:bg-accent"

@@ -41,6 +41,9 @@ export function ContactModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={dictionary.title}
           >
             <div className="mb-6 flex items-center justify-between border-b border-secondary/20 pb-3">
               <h2 className="text-lg font-semibold text-foreground leading-tight">
@@ -48,6 +51,7 @@ export function ContactModal({
               </h2>
               <button
                 onClick={onClose}
+                aria-label={dictionary.close}
                 className="text-secondary transition-colors hover:text-foreground flex-shrink-0 ml-4"
               >
                 <X className="h-5 w-5" />

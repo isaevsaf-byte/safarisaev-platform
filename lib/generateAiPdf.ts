@@ -2,55 +2,147 @@
 import jsPDF from "jspdf";
 import { aiIndexData, Lang, Context } from "./aiIndexData";
 
-// Add font tracking to prevent multiple loads
-let fontLoaded = false;
+// Cache font data to avoid re-fetching, but register on each new jsPDF instance
+let cachedFontBase64: string | null = null;
 
 // Helper to fetch font as Base64/Binary
 async function loadFonts(doc: jsPDF) {
-    if (fontLoaded) return;
-
     try {
-        const fontUrl = window.location.origin + '/fonts/Roboto-Regular.ttf';
-        console.log(`[PDF] Fetching font from: ${fontUrl}`);
+        if (!cachedFontBase64) {
+            const fontUrl = window.location.origin + '/fonts/Roboto-Regular.ttf';
 
-        const response = await fetch(fontUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch font: ${response.status} ${response.statusText} at ${fontUrl}`);
+            const response = await fetch(fontUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch font: ${response.status} ${response.statusText} at ${fontUrl}`);
+            }
+
+            const blob = await response.blob();
+
+            cachedFontBase64 = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    if (typeof reader.result === 'string') {
+                        const base64 = reader.result.split(',')[1];
+                        if (base64) {
+                            resolve(base64);
+                        } else {
+                            reject(new Error("Empty base64 result from FileReader"));
+                        }
+                    } else {
+                        reject(new Error("FileReader result is not a string"));
+                    }
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
         }
 
-        const blob = await response.blob();
-
-        return new Promise<void>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                if (typeof reader.result === 'string') {
-                    const base64 = reader.result.split(',')[1];
-                    if (base64) {
-                        doc.addFileToVFS("Roboto-Regular.ttf", base64);
-                        doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-                        doc.setFont("Roboto");
-                        console.log("[PDF] Font loaded and registered successfully");
-                        fontLoaded = true;
-                        resolve();
-                    } else {
-                        reject(new Error("Empty base64 result from FileReader"));
-                    }
-                } else {
-                    reject(new Error("FileReader result is not a string"));
-                }
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-        });
+        // Register font on every new jsPDF instance
+        doc.addFileToVFS("Roboto-Regular.ttf", cachedFontBase64);
+        doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+        doc.addFont("Roboto-Regular.ttf", "Roboto", "bold");
+        doc.setFont("Roboto");
 
     } catch (err) {
         console.error("Font loading error:", err);
-        // Fallback to standard font if custom fails (will break Cyrillic but prevent crash)
-        console.warn("Falling back to standard fonts (Cyrillic will be broken)");
+        throw new Error("Failed to load font for PDF. Cyrillic characters may not render correctly.");
     }
 }
 
-// PDF Content by Zone
+// ── Design System Constants ──────────────────────────────────────────
+
+const COLORS = {
+    SLATE_950: [15, 23, 42] as const,
+    SLATE_600: [71, 85, 105] as const,
+    SLATE_400: [148, 163, 184] as const,
+    SLATE_200: [226, 232, 240] as const,
+    SLATE_100: [241, 245, 249] as const,
+    SLATE_50: [248, 250, 252] as const,
+    WHITE: [255, 255, 255] as const,
+    NEAR_BLACK: [15, 23, 42] as const,
+    ACCENT_BLUE: [59, 130, 246] as const,
+    LOSS_RED: [239, 68, 68] as const,
+    BEFORE_BG: [254, 242, 242] as const,
+    BEFORE_TEXT: [153, 27, 27] as const,
+    AFTER_BG: [236, 253, 245] as const,
+    AFTER_TEXT: [6, 95, 70] as const,
+};
+
+const ML = 20;    // Margin left
+const MR = 190;   // Margin right (x-coordinate)
+const CW = 170;   // Content width
+const CX = 105;   // Page center X
+const PAGE_BOTTOM = 275; // Safe bottom for content before footer
+
+type RGB = readonly [number, number, number];
+
+function hexToRgb(hex: string): RGB {
+    const h = hex.replace('#', '');
+    return [
+        parseInt(h.substring(0, 2), 16),
+        parseInt(h.substring(2, 4), 16),
+        parseInt(h.substring(4, 6), 16),
+    ];
+}
+
+function setFill(doc: jsPDF, c: RGB) { doc.setFillColor(c[0], c[1], c[2]); }
+function setDraw(doc: jsPDF, c: RGB) { doc.setDrawColor(c[0], c[1], c[2]); }
+function setText(doc: jsPDF, c: RGB) { doc.setTextColor(c[0], c[1], c[2]); }
+
+// ── Reusable Drawing Helpers ─────────────────────────────────────────
+
+function drawPageHeader(doc: jsPDF, leftLabel: string, zoneRgb: RGB, height: number) {
+    // Dark background block
+    setFill(doc, COLORS.SLATE_950);
+    doc.rect(0, 0, 210, height, 'F');
+
+    // Zone-color accent line at bottom
+    setFill(doc, zoneRgb);
+    doc.rect(0, height, 210, 2, 'F');
+
+    // Left label
+    doc.setFontSize(14);
+    setText(doc, COLORS.WHITE);
+    doc.text(leftLabel, ML, height / 2 + 2);
+
+    // Right branding
+    doc.setFontSize(8);
+    setText(doc, COLORS.SLATE_400);
+    doc.text("AI VELOCITY INDEX", MR, height / 2 + 2, { align: 'right' });
+}
+
+function drawFooter(doc: jsPDF) {
+    setDraw(doc, COLORS.SLATE_200);
+    doc.setLineWidth(0.3);
+    doc.line(70, 286, 140, 286);
+
+    doc.setFontSize(8);
+    setText(doc, COLORS.SLATE_400);
+    doc.text("safarisaev.ai", CX, 291, { align: 'center' });
+}
+
+function drawAccentBar(doc: jsPDF, x: number, y: number, h: number, color: RGB) {
+    setFill(doc, color);
+    doc.rect(x, y, 3, h, 'F');
+}
+
+function drawCard(doc: jsPDF, x: number, y: number, w: number, h: number) {
+    setFill(doc, COLORS.SLATE_50);
+    setDraw(doc, COLORS.SLATE_200);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(x, y, w, h, 3, 3, 'FD');
+}
+
+function drawNumberBadge(doc: jsPDF, x: number, y: number, num: number, color: RGB) {
+    setFill(doc, color);
+    doc.circle(x, y, 5, 'F');
+    doc.setFontSize(11);
+    setText(doc, COLORS.WHITE);
+    doc.text(String(num), x, y + 1.5, { align: 'center' });
+}
+
+// ── PDF Content by Zone ──────────────────────────────────────────────
+
 const pdfContent = {
     red: {
         ru: {
@@ -68,22 +160,22 @@ const pdfContent = {
                 headline: "Что сделать прямо завтра (3 шага)",
                 steps: [
                     {
-                        title: "1. Запрет на \"Чистый лист\"",
+                        title: "Запрет на \"Чистый лист\"",
                         desc: "Никогда не начинайте писать сами.",
-                        oldWay: "Было: Открыл Word → Думаю.",
-                        newWay: "Стало: Пишу в ChatGPT: «Я хочу написать письмо клиенту о [суть]. Напиши 3 варианта: вежливый, напористый и короткий»."
+                        oldWay: "Было: Открыл Word \u2192 Думаю.",
+                        newWay: "Стало: Пишу в ChatGPT: \u00ABЯ хочу написать письмо клиенту о [суть]. Напиши 3 варианта: вежливый, напористый и короткий\u00BB."
                     },
                     {
-                        title: "2. Голосовой ввод",
+                        title: "Голосовой ввод",
                         desc: "Перестаньте печатать большие тексты.",
                         oldWay: "",
-                        newWay: "Скачайте ChatGPT на телефон → Нажмите иконку наушников → Надиктуйте мысль → Скопируйте идеальный текст."
+                        newWay: "Скачайте ChatGPT на телефон \u2192 Нажмите иконку наушников \u2192 Надиктуйте мысль \u2192 Скопируйте идеальный текст."
                     },
                     {
-                        title: "3. Умный Поиск",
+                        title: "Умный Поиск",
                         desc: "Перестаньте гуглить факты.",
                         oldWay: "",
-                        newWay: "Спросите Perplexity или ChatGPT: «Найди топ-5 поставщиков [товар] и сделай таблицу сравнения цен»."
+                        newWay: "Спросите Perplexity или ChatGPT: \u00ABНайди топ-5 поставщиков [товар] и сделай таблицу сравнения цен\u00BB."
                     }
                 ]
             },
@@ -96,7 +188,7 @@ const pdfContent = {
                     "Плюс я лично разберу ваш кейс."
                 ],
                 cta: "Занять место за $19 (Вместо $49)",
-                link: "https://safarisaev.ai" // Placeholder for [ВАША_ССЫЛКА_НА_SYSTEME_IO]
+                link: "https://safarisaev.ai"
             }
         },
         en: {
@@ -114,19 +206,19 @@ const pdfContent = {
                 headline: "Action Plan for Tomorrow (3 Steps)",
                 steps: [
                     {
-                        title: "1. Ban the \"Blank Page\"",
+                        title: "Ban the \"Blank Page\"",
                         desc: "Never start writing from scratch.",
-                        oldWay: "Old Way: Open Word → Think.",
+                        oldWay: "Old Way: Open Word \u2192 Think.",
                         newWay: "New Way: Prompt AI: \"I need to write an email to a client about [topic]. Draft 3 versions: polite, assertive, and short.\""
                     },
                     {
-                        title: "2. Voice First",
+                        title: "Voice First",
                         desc: "Stop typing long texts.",
                         oldWay: "",
-                        newWay: "Download ChatGPT App → Hit Headphone Icon → Ramble your thoughts → Copy the perfect summary."
+                        newWay: "Download ChatGPT App \u2192 Hit Headphone Icon \u2192 Ramble your thoughts \u2192 Copy the perfect summary."
                     },
                     {
-                        title: "3. Smart Search",
+                        title: "Smart Search",
                         desc: "Stop Googling facts.",
                         oldWay: "",
                         newWay: "Ask Perplexity or ChatGPT: \"Find top 5 suppliers for [product] and make a price comparison table.\""
@@ -153,31 +245,16 @@ const pdfContent = {
                 trapTitle: "3 Признака \"Желтой Ловушки\":",
                 traps: [
                     { title: "Амнезия", desc: "Вы начинаете каждый чат с нуля. У вас нет настроенных \"Агентов\", которые помнят ваш бизнес. Вы тратите время на объяснение контекста.", loss: "" },
-                    { title: "Ручной мостик", desc: "Вы — «живой буфер» между ИИ и результатом. ИИ пишет код — вы не знаете, куда его вставить. ИИ пишет структуру слайдов — вы рисуете их в PowerPoint.", loss: "" },
+                    { title: "Ручной мостик", desc: "Вы — \u00ABживой буфер\u00BB между ИИ и результатом. ИИ пишет код — вы не знаете, куда его вставить. ИИ пишет структуру слайдов — вы рисуете их в PowerPoint.", loss: "" },
                     { title: "Иллюзия Аналитики", desc: "Вы просите ИИ \"подумать\", но используете обычные модели (GPT-4o), вместо рассуждающих (o1 / DeepSeek), которые реально умеют строить стратегии.", loss: "" }
                 ]
             },
             page2: {
                 headline: "Как стать One-Man Army (3 шага)",
                 steps: [
-                    {
-                        title: "1. Создайте Агентов (Custom GPTs)",
-                        desc: "Перестаньте писать промпты.",
-                        oldWay: "",
-                        newWay: "Создайте \"Личного Маркетолога\" и \"Личного Юриста\". Загрузите в них свои файлы и правила один раз. Теперь они работают на вас вечно."
-                    },
-                    {
-                        title: "2. Визуализируйте (Gemini Canvas / Artifacts)",
-                        desc: "Хватит читать текст.",
-                        oldWay: "",
-                        newWay: "Просите ИИ: \"Нарисуй мне схему воронки продаж\" или \"Сделай дашборд\". Превращайте слова в активы."
-                    },
-                    {
-                        title: "3. Глубокий Анализ (NotebookLM)",
-                        desc: "Не копируйте куски текста.",
-                        oldWay: "",
-                        newWay: "Загрузите 50 PDF-отчетов конкурентов в NotebookLM и устройте им перекрестный допрос. Это уровень аналитика за $5000/мес."
-                    }
+                    { title: "Создайте Агентов (Custom GPTs)", desc: "Перестаньте писать промпты.", oldWay: "", newWay: "Создайте \"Личного Маркетолога\" и \"Личного Юриста\". Загрузите в них свои файлы и правила один раз. Теперь они работают на вас вечно." },
+                    { title: "Визуализируйте (Gemini Canvas / Artifacts)", desc: "Хватит читать текст.", oldWay: "", newWay: "Просите ИИ: \"Нарисуй мне схему воронки продаж\" или \"Сделай дашборд\". Превращайте слова в активы." },
+                    { title: "Глубокий Анализ (NotebookLM)", desc: "Не копируйте куски текста.", oldWay: "", newWay: "Загрузите 50 PDF-отчетов конкурентов в NotebookLM и устройте им перекрестный допрос. Это уровень аналитика за $5000/мес." }
                 ]
             },
             page3: {
@@ -199,31 +276,16 @@ const pdfContent = {
                 trapTitle: "3 Signs of the \"Yellow Trap\":",
                 traps: [
                     { title: "Amnesia", desc: "You start every chat from scratch. You lack \"Agents\" that remember your business context. You waste time explaining the rules again.", loss: "" },
-                    { title: "The Human Bridge", desc: "You are the buffer between AI and the result. AI writes code — you don't know where to put it. AI structures slides — you draw them manually in PowerPoint.", loss: "" },
+                    { title: "The Human Bridge", desc: "You are the buffer between AI and the result. AI writes code \u2014 you don't know where to put it. AI structures slides \u2014 you draw them manually in PowerPoint.", loss: "" },
                     { title: "The Analysis Illusion", desc: "You ask AI to \"think,\" but you use standard models (GPT-4o) instead of reasoning models (o1 / DeepSeek) that can actually strategize.", loss: "" }
                 ]
             },
             page2: {
                 headline: "How to become a One-Man Army (3 Steps)",
                 steps: [
-                    {
-                        title: "1. Build Agents (Custom GPTs)",
-                        desc: "Stop writing prompts.",
-                        oldWay: "",
-                        newWay: "Create a \"Personal Marketer\" and \"Personal Lawyer.\" Upload your files and rules once. Now they work for you forever."
-                    },
-                    {
-                        title: "2. Visualize (Gemini Canvas / Artifacts)",
-                        desc: "Stop reading text.",
-                        oldWay: "",
-                        newWay: "Ask AI: \"Draw a sales funnel diagram\" or \"Create a dashboard.\" Turn words into assets."
-                    },
-                    {
-                        title: "3. Deep Analysis (NotebookLM)",
-                        desc: "Don't copy-paste text chunks.",
-                        oldWay: "",
-                        newWay: "Upload 50 competitor PDF reports into NotebookLM and cross-examine them. This is $5,000/month analyst level work."
-                    }
+                    { title: "Build Agents (Custom GPTs)", desc: "Stop writing prompts.", oldWay: "", newWay: "Create a \"Personal Marketer\" and \"Personal Lawyer.\" Upload your files and rules once. Now they work for you forever." },
+                    { title: "Visualize (Gemini Canvas / Artifacts)", desc: "Stop reading text.", oldWay: "", newWay: "Ask AI: \"Draw a sales funnel diagram\" or \"Create a dashboard.\" Turn words into assets." },
+                    { title: "Deep Analysis (NotebookLM)", desc: "Don't copy-paste text chunks.", oldWay: "", newWay: "Upload 50 competitor PDF reports into NotebookLM and cross-examine them. This is $5,000/month analyst level work." }
                 ]
             },
             page3: {
@@ -254,24 +316,9 @@ const pdfContent = {
             page2: {
                 headline: "От Исполнителя к Создателю (3 шага)",
                 steps: [
-                    {
-                        title: "1. Natural Language Coding",
-                        desc: "Перестаньте быть \"юзером\". Станьте Создателем.",
-                        oldWay: "",
-                        newWay: "Cursor + Claude 3.5 = полноценный софт без знания синтаксиса. Вы уже думаете как разработчик. Осталось начать создавать как разработчик."
-                    },
-                    {
-                        title: "2. Productize Yourself",
-                        desc: "Превратите внутренние инструменты в продукты.",
-                        oldWay: "",
-                        newWay: "Ваш \"скрипт для отчетов\" — это SaaS за $49/мес для 1000 клиентов. Ваш \"GPT-юрист\" — это Telegram-бот с подпиской. Хватит работать бесплатно."
-                    },
-                    {
-                        title: "3. Kill The Middleman",
-                        desc: "Увольте \"внутренний IT-отдел\" в своей голове.",
-                        oldWay: "",
-                        newWay: "Вам не нужны программисты для проверки гипотез. MVP за выходные. Запуск в понедельник. Один. Без зависимостей."
-                    }
+                    { title: "Natural Language Coding", desc: "Перестаньте быть \"юзером\". Станьте Создателем.", oldWay: "", newWay: "Cursor + Claude 3.5 = полноценный софт без знания синтаксиса. Вы уже думаете как разработчик. Осталось начать создавать как разработчик." },
+                    { title: "Productize Yourself", desc: "Превратите внутренние инструменты в продукты.", oldWay: "", newWay: "Ваш \"скрипт для отчетов\" — это SaaS за $49/мес для 1000 клиентов. Ваш \"GPT-юрист\" — это Telegram-бот с подпиской. Хватит работать бесплатно." },
+                    { title: "Kill The Middleman", desc: "Увольте \"внутренний IT-отдел\" в своей голове.", oldWay: "", newWay: "Вам не нужны программисты для проверки гипотез. MVP за выходные. Запуск в понедельник. Один. Без зависимостей." }
                 ]
             },
             page3: {
@@ -284,16 +331,13 @@ const pdfContent = {
                 ],
                 cta: "Напишите мне лично",
                 ctaSubtext: "Чтобы обсудить формат и понять, подходим ли мы друг другу.",
-                contacts: {
-                    telegram: "@SafarIsaev",
-                    email: "safarisaev@gmail.com"
-                }
+                contacts: { telegram: "@SafarIsaev", email: "safarisaev@gmail.com" }
             }
         },
         en: {
             page1: {
                 headline: "You Are The Asset (And That's The Problem)",
-                intro: "Congratulations. You're a rare breed. You don't just \"use AI\" — you command it. But there's a trap: The Golden Cage.",
+                intro: "Congratulations. You're a rare breed. You don't just \"use AI\" \u2014 you command it. But there's a trap: The Golden Cage.",
                 trapTitle: "Why this is a trap:",
                 traps: [
                     { title: "You Are The Bottleneck", desc: "You're so efficient that everything runs through you. Without you, nothing works. That's not an asset, that's a liability.", loss: "" },
@@ -304,24 +348,9 @@ const pdfContent = {
             page2: {
                 headline: "From Executor to Creator (3 Steps)",
                 steps: [
-                    {
-                        title: "1. Natural Language Coding",
-                        desc: "Stop being a \"user.\" Become a Creator.",
-                        oldWay: "",
-                        newWay: "Cursor + Claude 3.5 = full-stack software without knowing syntax. You already think like a developer. Time to build like one."
-                    },
-                    {
-                        title: "2. Productize Yourself",
-                        desc: "Turn your internal tools into products.",
-                        oldWay: "",
-                        newWay: "Your \"reporting script\" is a $49/mo SaaS for 1000 clients. Your \"GPT Lawyer\" is a Telegram bot with subscriptions. Stop working for free."
-                    },
-                    {
-                        title: "3. Kill The Middleman",
-                        desc: "Fire the \"internal IT department\" in your head.",
-                        oldWay: "",
-                        newWay: "You don't need developers to test hypotheses. MVP in a weekend. Launch on Monday. Alone. No dependencies."
-                    }
+                    { title: "Natural Language Coding", desc: "Stop being a \"user.\" Become a Creator.", oldWay: "", newWay: "Cursor + Claude 3.5 = full-stack software without knowing syntax. You already think like a developer. Time to build like one." },
+                    { title: "Productize Yourself", desc: "Turn your internal tools into products.", oldWay: "", newWay: "Your \"reporting script\" is a $49/mo SaaS for 1000 clients. Your \"GPT Lawyer\" is a Telegram bot with subscriptions. Stop working for free." },
+                    { title: "Kill The Middleman", desc: "Fire the \"internal IT department\" in your head.", oldWay: "", newWay: "You don't need developers to test hypotheses. MVP in a weekend. Launch on Monday. Alone. No dependencies." }
                 ]
             },
             page3: {
@@ -334,14 +363,13 @@ const pdfContent = {
                 ],
                 cta: "Message me personally",
                 ctaSubtext: "To discuss the format and see if we're a good fit.",
-                contacts: {
-                    telegram: "@SafarIsaev",
-                    email: "safarisaev@gmail.com"
-                }
+                contacts: { telegram: "@SafarIsaev", email: "safarisaev@gmail.com" }
             }
         }
     }
 };
+
+// ── Main PDF Generator ───────────────────────────────────────────────
 
 export const generateAiPdf = async (
     score: number,
@@ -359,177 +387,316 @@ export const generateAiPdf = async (
     const offer = t.offers[zoneKey];
     const config = aiIndexData.config.zones[zoneKey];
     const content = pdfContent[zoneKey][lang];
+    const zoneRgb = hexToRgb(config.color);
 
-    // --- PAGE 1: SCORE & DIAGNOSIS ---
+    // ════════════════════════════════════════════════════════════════
+    // PAGE 1: SCORE & DIAGNOSIS
+    // ════════════════════════════════════════════════════════════════
 
-    // Background Header
-    doc.setFillColor(15, 23, 42); // Slate-950
-    doc.rect(0, 0, 210, 40, 'F');
+    // ── Dark Hero Header (60mm tall) ──
+    setFill(doc, COLORS.SLATE_950);
+    doc.rect(0, 0, 210, 60, 'F');
 
-    // Title
-    doc.setTextColor(255, 255, 255);
+    // Zone accent line
+    setFill(doc, zoneRgb);
+    doc.rect(0, 60, 210, 2, 'F');
+
+    // Header text - left
     doc.setFontSize(22);
-    doc.text("AI VELOCITY INDEX", 14, 20);
-    doc.setFontSize(10);
-    doc.setTextColor(148, 163, 184); // Slate-400
-    doc.text(`ASSESSMENT REPORT | ${context === 'self' ? 'INDIVIDUAL' : 'TEAM'}`, 14, 30);
+    setText(doc, COLORS.WHITE);
+    doc.text("AI VELOCITY INDEX", ML, 25);
 
-    // Date & Email
+    doc.setFontSize(10);
+    setText(doc, COLORS.SLATE_400);
+    const contextLabel = context === 'self'
+        ? (lang === 'ru' ? 'ИНДИВИДУАЛЬНЫЙ' : 'INDIVIDUAL')
+        : (lang === 'ru' ? 'КОМАНДА' : 'TEAM');
+    doc.text(`${lang === 'ru' ? 'ОТЧЕТ' : 'ASSESSMENT REPORT'} | ${contextLabel}`, ML, 36);
+
+    // Header text - right
     doc.setFontSize(8);
-    doc.text(new Date().toLocaleDateString(), 180, 20, { align: 'right' });
-    doc.text(email, 180, 28, { align: 'right' });
+    setText(doc, COLORS.SLATE_400);
+    doc.text(new Date().toLocaleDateString(), MR, 25, { align: 'right' });
+    doc.text(email, MR, 33, { align: 'right' });
 
-    // Score Circle
-    const centerX = 105;
-    const centerY = 80;
-    const radius = 30;
+    // Small zone badge in header
+    setFill(doc, zoneRgb);
+    doc.roundedRect(MR - 30, 42, 30, 10, 2, 2, 'F');
+    doc.setFontSize(7);
+    setText(doc, COLORS.WHITE);
+    doc.text(zoneKey.toUpperCase() + " ZONE", MR - 15, 48.5, { align: 'center' });
 
-    doc.setDrawColor(226, 232, 240);
+    // ── Score Section (centered, y≈100) ──
+    const scoreY = 100;
+
+    // Outer light ring
+    setDraw(doc, COLORS.SLATE_200);
+    doc.setLineWidth(1.5);
+    doc.circle(CX, scoreY, 32, 'S');
+
+    // Zone-colored ring overlay
+    setDraw(doc, zoneRgb);
     doc.setLineWidth(3);
-    doc.circle(centerX, centerY, radius, 'S');
+    doc.circle(CX, scoreY, 32, 'S');
 
-    // Score Text
-    doc.setTextColor(config.color);
-    doc.setFontSize(40);
-    doc.text(`${score}`, centerX, centerY + 5, { align: 'center' });
-    doc.setFontSize(12);
-    doc.setTextColor(100, 100, 100);
-    doc.text("/ 100", centerX, centerY + 15, { align: 'center' });
+    // Inner circle fill (subtle)
+    setFill(doc, COLORS.SLATE_50);
+    doc.circle(CX, scoreY, 28, 'F');
 
-    // Zone Title
-    doc.setFontSize(16);
-    doc.setTextColor(0, 0, 0);
-    doc.text(zone.title.toUpperCase(), centerX, centerY + 35, { align: 'center' });
+    // Score number
+    doc.setFontSize(48);
+    setText(doc, zoneRgb);
+    doc.text(`${score}`, CX, scoreY + 6, { align: 'center' });
 
-    doc.setFontSize(11);
-    doc.setTextColor(80, 80, 80);
-    doc.text(zone.slogan, centerX, centerY + 45, { align: 'center' });
-
-    // Page 1 Content - The Truth Bomb
+    // Denominator
     doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text(content.page1.headline, 14, 145);
+    setText(doc, COLORS.SLATE_400);
+    doc.text("/ 100", CX, scoreY + 17, { align: 'center' });
 
+    // Zone title
+    doc.setFontSize(14);
+    setText(doc, COLORS.NEAR_BLACK);
+    doc.text(zone.title.toUpperCase(), CX, scoreY + 38, { align: 'center' });
+
+    // Zone slogan
     doc.setFontSize(10);
-    doc.setTextColor(60, 60, 60);
-    const introLines = doc.splitTextToSize(content.page1.intro, 180);
-    doc.text(introLines, 14, 155);
+    setText(doc, COLORS.SLATE_600);
+    const sloganLines = doc.splitTextToSize(zone.slogan, 150);
+    doc.text(sloganLines, CX, scoreY + 47, { align: 'center' });
 
-    // Traps
+    // Decorative center divider
+    const dividerY = scoreY + 47 + (sloganLines.length * 5) + 5;
+    setDraw(doc, COLORS.SLATE_200);
+    doc.setLineWidth(0.3);
+    doc.line(60, dividerY, 150, dividerY);
+
+    // ── Diagnosis Section ──
+    let yPos = dividerY + 10;
+
+    // Headline with accent bar
+    drawAccentBar(doc, ML, yPos - 2, 12, zoneRgb);
+    doc.setFontSize(14);
+    setText(doc, COLORS.NEAR_BLACK);
+    doc.text(content.page1.headline, ML + 7, yPos + 6);
+    yPos += 16;
+
+    // Intro paragraph
+    doc.setFontSize(10);
+    setText(doc, COLORS.SLATE_600);
+    const introLines = doc.splitTextToSize(content.page1.intro, CW - 7);
+    doc.text(introLines, ML + 7, yPos);
+    yPos += introLines.length * 5 + 8;
+
+    // Trap section title
     doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-    doc.text(content.page1.trapTitle, 14, 175);
+    setText(doc, COLORS.NEAR_BLACK);
+    doc.text(content.page1.trapTitle, ML, yPos);
+    yPos += 10;
 
-    let yPos = 185;
-    content.page1.traps.forEach((trap, i) => {
-        doc.setFontSize(11);
-        doc.setTextColor(config.color);
-        doc.text(`${i + 1}. ${trap.title}`, 14, yPos);
-
+    // ── Trap Cards ──
+    content.page1.traps.forEach((trap) => {
+        // Calculate card height
         doc.setFontSize(9);
-        doc.setTextColor(60, 60, 60);
-        const trapDesc = doc.splitTextToSize(trap.desc, 170);
-        doc.text(trapDesc, 20, yPos + 6);
+        const descLines = doc.splitTextToSize(trap.desc, 148);
+        const cardH = 14 + (descLines.length * 4) + (trap.loss ? 10 : 4);
 
-        if (trap.loss) {
-            doc.setTextColor(239, 68, 68); // Red
-            doc.text(trap.loss, 20, yPos + 6 + (trapDesc.length * 4));
-            yPos += 20 + (trapDesc.length * 4);
-        } else {
-            yPos += 16 + (trapDesc.length * 4);
+        // Page break check
+        if (yPos + cardH > PAGE_BOTTOM) {
+            drawFooter(doc);
+            doc.addPage();
+            yPos = 20;
         }
+
+        // Card background
+        drawCard(doc, ML, yPos, CW, cardH);
+
+        // Zone-colored dot
+        setFill(doc, zoneRgb);
+        doc.circle(ML + 8, yPos + 10, 2, 'F');
+
+        // Trap title
+        doc.setFontSize(11);
+        setText(doc, COLORS.NEAR_BLACK);
+        doc.text(trap.title, ML + 14, yPos + 11);
+
+        // Trap description
+        doc.setFontSize(9);
+        setText(doc, COLORS.SLATE_600);
+        doc.text(descLines, ML + 14, yPos + 18);
+
+        // Loss text (if present)
+        if (trap.loss) {
+            const lossY = yPos + 18 + (descLines.length * 4) + 2;
+            doc.setFontSize(9);
+            setText(doc, COLORS.LOSS_RED);
+            doc.text(trap.loss, ML + 14, lossY);
+        }
+
+        yPos += cardH + 5;
     });
 
-    // Footer
-    doc.setFontSize(8);
-    doc.setTextColor(150, 150, 150);
-    doc.text("Powered by safarisaev.ai", 105, 285, { align: 'center' });
+    // Page 1 Footer
+    drawFooter(doc);
 
-
-    // --- PAGE 2: QUICK WINS ---
+    // ════════════════════════════════════════════════════════════════
+    // PAGE 2: ACTION PLAN
+    // ════════════════════════════════════════════════════════════════
     doc.addPage();
 
-    doc.setFillColor(15, 23, 42);
-    doc.rect(0, 0, 210, 25, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14);
-    doc.text(lang === 'ru' ? "ПЛАН ДЕЙСТВИЙ" : "ACTION PLAN", 14, 16);
+    // Header
+    drawPageHeader(doc, lang === 'ru' ? 'ПЛАН ДЕЙСТВИЙ' : 'ACTION PLAN', zoneRgb, 30);
 
-    doc.setTextColor(0, 0, 0);
+    // Section headline
+    yPos = 46;
     doc.setFontSize(16);
-    doc.text(content.page2.headline, 14, 45);
+    setText(doc, COLORS.NEAR_BLACK);
+    const headlineLines = doc.splitTextToSize(content.page2.headline, CW);
+    doc.text(headlineLines, ML, yPos);
+    yPos += headlineLines.length * 7;
 
-    yPos = 60;
-    content.page2.steps.forEach((step) => {
+    // Zone-color underline accent
+    setFill(doc, zoneRgb);
+    doc.rect(ML, yPos + 1, 40, 1.5, 'F');
+    yPos += 10;
+
+    // ── Step Cards ──
+    content.page2.steps.forEach((step, i) => {
+        // Pre-calculate heights for page break check
+        doc.setFontSize(9);
+        const newLines = doc.splitTextToSize(step.newWay, step.oldWay ? 72 : 152);
+        const oldLines = step.oldWay ? doc.splitTextToSize(step.oldWay, 72) : [];
+        const compH = step.oldWay
+            ? Math.max(oldLines.length, newLines.length) * 4 + 18
+            : newLines.length * 4 + 14;
+        const totalH = 22 + compH;
+
+        // Page break check
+        if (yPos + totalH > PAGE_BOTTOM) {
+            drawFooter(doc);
+            doc.addPage();
+            drawPageHeader(doc, lang === 'ru' ? 'ПЛАН ДЕЙСТВИЙ' : 'ACTION PLAN', zoneRgb, 30);
+            yPos = 44;
+        }
+
+        // Number badge
+        drawNumberBadge(doc, ML + 7, yPos + 3, i + 1, zoneRgb);
+
         // Step title
         doc.setFontSize(12);
-        doc.setTextColor(config.color);
-        doc.text(step.title, 14, yPos);
+        setText(doc, COLORS.NEAR_BLACK);
+        doc.text(step.title, ML + 16, yPos + 5);
 
-        // Description
+        // Step description
         doc.setFontSize(10);
-        doc.setTextColor(60, 60, 60);
-        doc.text(step.desc, 14, yPos + 8);
+        setText(doc, COLORS.SLATE_600);
+        doc.text(step.desc, ML + 16, yPos + 13);
 
-        yPos += 18;
+        const compY = yPos + 20;
 
-        // Old way (if exists)
         if (step.oldWay) {
-            doc.setTextColor(200, 50, 50);
+            // ── Two-tone comparison card ──
+            setDraw(doc, COLORS.SLATE_200);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(ML, compY, CW, compH, 3, 3, 'S');
+
+            // Left half: light red (BEFORE)
+            setFill(doc, COLORS.BEFORE_BG);
+            doc.rect(ML + 0.5, compY + 0.5, CW / 2 - 0.5, compH - 1, 'F');
+
+            // Right half: light green (AFTER)
+            setFill(doc, COLORS.AFTER_BG);
+            doc.rect(ML + CW / 2, compY + 0.5, CW / 2 - 0.5, compH - 1, 'F');
+
+            // Vertical divider
+            setDraw(doc, COLORS.SLATE_200);
+            doc.line(ML + CW / 2, compY + 3, ML + CW / 2, compY + compH - 3);
+
+            // BEFORE label + text
+            doc.setFontSize(7);
+            setText(doc, COLORS.LOSS_RED);
+            doc.text(lang === 'ru' ? 'БЫЛО' : 'BEFORE', ML + 6, compY + 7);
             doc.setFontSize(9);
-            const oldLines = doc.splitTextToSize(step.oldWay, 170);
-            doc.text(oldLines, 20, yPos);
-            yPos += oldLines.length * 5 + 3;
+            setText(doc, COLORS.BEFORE_TEXT);
+            doc.text(oldLines, ML + 6, compY + 13);
+
+            // AFTER label + text
+            doc.setFontSize(7);
+            setText(doc, [16, 185, 129]);
+            doc.text(lang === 'ru' ? 'СТАЛО' : 'AFTER', ML + CW / 2 + 6, compY + 7);
+            doc.setFontSize(9);
+            setText(doc, COLORS.AFTER_TEXT);
+            doc.text(newLines, ML + CW / 2 + 6, compY + 13);
+        } else {
+            // ── Single green action card ──
+            setFill(doc, COLORS.AFTER_BG);
+            setDraw(doc, [16, 185, 129]);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(ML, compY, CW, compH, 3, 3, 'FD');
+
+            // Left accent bar inside card
+            setFill(doc, [16, 185, 129]);
+            doc.rect(ML + 1, compY + 4, 2, compH - 8, 'F');
+
+            // Arrow + text
+            doc.setFontSize(9);
+            setText(doc, COLORS.AFTER_TEXT);
+            doc.text(newLines, ML + 10, compY + 9);
         }
 
-        // New way
-        doc.setTextColor(16, 185, 129); // Green
-        doc.setFontSize(9);
-        const newLines = doc.splitTextToSize(step.newWay, 170);
-        doc.text(newLines, 20, yPos);
-        yPos += newLines.length * 5 + 15;
+        yPos = compY + compH + 12;
     });
 
-    // Footer
-    doc.setFontSize(8);
-    doc.setTextColor(150, 150, 150);
-    doc.text("Powered by safarisaev.ai", 105, 285, { align: 'center' });
+    // Page 2 Footer
+    drawFooter(doc);
 
-
-    // --- PAGE 3: THE OFFER ---
+    // ════════════════════════════════════════════════════════════════
+    // PAGE 3: THE OFFER / CTA
+    // ════════════════════════════════════════════════════════════════
     doc.addPage();
 
-    // High impact header
-    doc.setFillColor(config.color);
-    doc.rect(0, 0, 210, 50, 'F');
+    // Header
+    drawPageHeader(doc, lang === 'ru' ? 'ВАШ СЛЕДУЮЩИЙ ШАГ' : 'YOUR NEXT STEP', zoneRgb, 30);
 
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(18);
-    const headlineLines = doc.splitTextToSize(content.page3.headline, 180);
-    doc.text(headlineLines, 105, 25, { align: 'center' });
+    // Headline with accent bar
+    yPos = 44;
+    drawAccentBar(doc, ML, yPos - 2, 14, zoneRgb);
+    doc.setFontSize(14);
+    setText(doc, COLORS.NEAR_BLACK);
+    const p3HeadlineLines = doc.splitTextToSize(content.page3.headline, CW - 7);
+    doc.text(p3HeadlineLines, ML + 7, yPos + 6);
+    yPos += p3HeadlineLines.length * 7 + 8;
 
-    // Intro
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(11);
-    const introText = doc.splitTextToSize(content.page3.intro, 180);
-    doc.text(introText, 14, 70);
+    // Intro paragraph
+    doc.setFontSize(10);
+    setText(doc, COLORS.SLATE_600);
+    const introText = doc.splitTextToSize(content.page3.intro, CW);
+    doc.text(introText, ML, yPos);
+    yPos += introText.length * 5 + 10;
 
-    // Benefits
+    // Benefits label
     doc.setFontSize(12);
-    doc.text(lang === 'ru' ? "Что вы получите:" : "What you'll get:", 14, 95);
+    setText(doc, COLORS.NEAR_BLACK);
+    doc.text(lang === 'ru' ? "Что вы получите:" : "What you'll get:", ML, yPos);
+    yPos += 10;
 
-    yPos = 105;
+    // Benefit items with colored square bullets
     content.page3.benefits.forEach((benefit) => {
         doc.setFontSize(10);
-        doc.setTextColor(16, 185, 129);
-        doc.text("✓", 14, yPos);
-        doc.setTextColor(60, 60, 60);
-        const benefitLines = doc.splitTextToSize(benefit, 165);
-        doc.text(benefitLines, 22, yPos);
-        yPos += benefitLines.length * 5 + 8;
+        const benefitLines = doc.splitTextToSize(benefit, CW - 14);
+
+        // Zone-colored square bullet
+        setFill(doc, zoneRgb);
+        doc.rect(ML + 2, yPos - 3, 3, 3, 'F');
+
+        // Benefit text
+        setText(doc, COLORS.SLATE_600);
+        doc.text(benefitLines, ML + 12, yPos);
+        yPos += benefitLines.length * 5 + 6;
     });
 
-    // Check if this is the Mastermind format (green zone with contacts)
+    yPos += 6;
+
+    // ── CTA Card ──
     const page3Content = content.page3 as {
         headline: string;
         intro: string;
@@ -541,61 +708,93 @@ export const generateAiPdf = async (
     };
 
     if (page3Content.contacts) {
-        // Mastermind format - personal contact instead of price
-        doc.setDrawColor(200, 200, 200);
-        doc.setFillColor(248, 250, 252);
-        doc.roundedRect(30, 145, 150, 90, 5, 5, 'FD');
+        // ══ Variant B: Mastermind (green zone with contacts) ══
+        const cardH = 90;
+        const ctaY = yPos;
 
-        // CTA
-        doc.setTextColor(config.color);
-        doc.setFontSize(16);
-        doc.text(page3Content.cta, 105, 165, { align: 'center' });
+        // Card
+        drawCard(doc, 25, ctaY, 160, cardH);
+
+        // Zone-color top strip
+        setFill(doc, zoneRgb);
+        doc.rect(25, ctaY, 160, 3, 'F');
+
+        // CTA headline
+        doc.setFontSize(14);
+        setText(doc, zoneRgb);
+        doc.text(page3Content.cta, CX, ctaY + 22, { align: 'center' });
 
         // Subtext
         if (page3Content.ctaSubtext) {
             doc.setFontSize(10);
-            doc.setTextColor(80, 80, 80);
+            setText(doc, COLORS.SLATE_600);
             const subtextLines = doc.splitTextToSize(page3Content.ctaSubtext, 130);
-            doc.text(subtextLines, 105, 178, { align: 'center' });
+            doc.text(subtextLines, CX, ctaY + 32, { align: 'center' });
         }
 
-        // Contact info
+        // Divider inside card
+        setDraw(doc, COLORS.SLATE_200);
+        doc.setLineWidth(0.3);
+        doc.line(45, ctaY + 45, 165, ctaY + 45);
+
+        // Telegram
+        doc.setFontSize(10);
+        setText(doc, COLORS.SLATE_600);
+        doc.text("Telegram:", 60, ctaY + 58);
         doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Telegram: ${page3Content.contacts.telegram}`, 105, 205, { align: 'center' });
-        doc.setTextColor(59, 130, 246);
-        doc.text(page3Content.contacts.email, 105, 220, { align: 'center' });
+        setText(doc, COLORS.NEAR_BLACK);
+        doc.text(page3Content.contacts.telegram, 95, ctaY + 58);
+
+        // Email
+        doc.setFontSize(10);
+        setText(doc, COLORS.SLATE_600);
+        doc.text("Email:", 60, ctaY + 70);
+        doc.setFontSize(12);
+        setText(doc, COLORS.ACCENT_BLUE);
+        doc.text(page3Content.contacts.email, 95, ctaY + 70);
 
     } else {
-        // Standard offer format with price
-        doc.setDrawColor(200, 200, 200);
-        doc.setFillColor(248, 250, 252);
-        doc.roundedRect(30, 150, 150, 80, 5, 5, 'FD');
+        // ══ Variant A: Standard Offer (red/yellow zones) ══
+        const cardH = 80;
+        const ctaY = yPos;
 
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(16);
+        // Card
+        drawCard(doc, 25, ctaY, 160, cardH);
+
+        // Zone-color top strip
+        setFill(doc, zoneRgb);
+        doc.rect(25, ctaY, 160, 3, 'F');
+
+        // Offer name
+        doc.setFontSize(12);
+        setText(doc, COLORS.NEAR_BLACK);
         const offerLines = doc.splitTextToSize(offer.name, 130);
-        doc.text(offerLines, 105, 175, { align: 'center' });
+        doc.text(offerLines, CX, ctaY + 22, { align: 'center' });
 
-        doc.setTextColor(config.color);
+        // Price
         doc.setFontSize(28);
-        doc.text(offer.price, 105, 200, { align: 'center' });
+        setText(doc, zoneRgb);
+        doc.text(offer.price, CX, ctaY + 40, { align: 'center' });
 
         // CTA Button
-        doc.setFillColor(config.color);
-        doc.roundedRect(50, 240, 110, 20, 3, 3, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(12);
-        doc.text(page3Content.cta, 105, 253, { align: 'center' });
+        setFill(doc, zoneRgb);
+        doc.roundedRect(45, ctaY + 52, 120, 18, 4, 4, 'F');
+        doc.setFontSize(13);
+        setText(doc, COLORS.WHITE);
+        doc.text(page3Content.cta, CX, ctaY + 63.5, { align: 'center' });
     }
 
-    // Link
+    // Website link (clickable)
     const linkUrl = page3Content.link || "https://safarisaev.ai";
-    const linkText = page3Content.link ? "safarisaev.ai" : "safarisaev.ai"; // Could customize text too if needed
-
+    const linkText = "safarisaev.ai";
     doc.setFontSize(10);
-    doc.setTextColor(59, 130, 246);
-    doc.textWithLink(linkText, 105, 275, { url: linkUrl, align: 'center' });
+    setText(doc, COLORS.ACCENT_BLUE);
+    const linkWidth = doc.getTextWidth(linkText);
+    doc.textWithLink(linkText, CX - linkWidth / 2, 272, { url: linkUrl });
 
+    // Page 3 Footer
+    drawFooter(doc);
+
+    // ── Save ──
     doc.save('Safar_Isaev_AI_Velocity_Report.pdf');
 };

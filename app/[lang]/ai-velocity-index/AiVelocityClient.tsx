@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { aiIndexData, Lang, Context } from "@/lib/aiIndexData";
 import { generateAiPdf } from "@/lib/generateAiPdf";
-import { ArrowLeft, Check, Globe, ArrowRight, Loader2, Download, Zap, RefreshCw, Moon, Sun, User, Users } from "lucide-react";
+import { ArrowLeft, Check, ArrowRight, Loader2, Download, Zap, RefreshCw, Sun, Moon, User, Users } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "@formspree/react";
 
@@ -20,6 +20,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [isFinished, setIsFinished] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [formKey, setFormKey] = useState(0);
 
     // PDF Error State
     const [pdfError, setPdfError] = useState<string | null>(null);
@@ -28,6 +29,16 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [formState, handleSubmit] = useForm("xzddelvr");
+    const answerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const modalCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Cleanup timers on unmount
+    useEffect(() => {
+        return () => {
+            if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
+            if (modalCloseTimerRef.current) clearTimeout(modalCloseTimerRef.current);
+        };
+    }, []);
 
     useEffect(() => {
         // Sync dark mode class
@@ -38,6 +49,11 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
             html.classList.remove("dark");
         }
     }, [isDarkMode]);
+
+    // Sync html lang attribute for accessibility
+    useEffect(() => {
+        document.documentElement.lang = lang;
+    }, [lang]);
 
     const t = aiIndexData.translations[lang];
     const questions = aiIndexData.questions;
@@ -81,10 +97,12 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const handleAnswer = (penalty: number) => {
         setAnswers(prev => ({ ...prev, [currentQuestion.id]: penalty }));
 
+        if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
+
         if (currentQuestionIndex < questions.length - 1) {
-            setTimeout(() => setCurrentQuestionIndex(prev => prev + 1), 300);
+            answerTimerRef.current = setTimeout(() => setCurrentQuestionIndex(prev => prev + 1), 300);
         } else {
-            setTimeout(() => setIsFinished(true), 300);
+            answerTimerRef.current = setTimeout(() => setIsFinished(true), 300);
         }
     };
 
@@ -107,6 +125,8 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
         setIsFinished(false);
         setIsModalOpen(false);
         setPdfError(null);
+        setEmail("");
+        setFormKey(prev => prev + 1); // Reset form state by forcing remount
     };
 
     const handlePdfDownload = useCallback(async () => {
@@ -126,7 +146,8 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     useEffect(() => {
         if (formState.succeeded && isModalOpen) {
             handlePdfDownload().then(() => {
-                setTimeout(() => setIsModalOpen(false), 3000);
+                if (modalCloseTimerRef.current) clearTimeout(modalCloseTimerRef.current);
+                modalCloseTimerRef.current = setTimeout(() => setIsModalOpen(false), 3000);
             });
         }
     }, [formState.succeeded, isModalOpen, handlePdfDownload]);
@@ -180,13 +201,15 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
 
                         <button
                             onClick={() => setIsDarkMode(!isDarkMode)}
+                            aria-label={isDarkMode ? (lang === 'ru' ? 'Светлая тема' : 'Light mode') : (lang === 'ru' ? 'Темная тема' : 'Dark mode')}
                             className="bg-slate-100 dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-colors"
                         >
-                            {isDarkMode ? <Moon className="w-4 h-4 text-slate-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
+                            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-slate-400" />}
                         </button>
 
                         <button
                             onClick={() => setLang(l => l === 'en' ? 'ru' : 'en')}
+                            aria-label={lang === 'en' ? 'Switch to Russian' : 'Switch to English'}
                             className="bg-slate-100 dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-colors"
                         >
                             <span className="text-xs font-bold uppercase w-6 block text-center">{lang}</span>
@@ -256,7 +279,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                     onClick={() => setHasStarted(true)}
                                     className="group relative px-8 py-5 bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-bold text-xl rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_40px_rgba(16,185,129,0.5)] transition-all flex items-center gap-3 mx-auto"
                                 >
-                                    START ASSESSMENT <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                                    {lang === 'ru' ? 'НАЧАТЬ ОЦЕНКУ' : 'START ASSESSMENT'} <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                                 </motion.button>
                             </motion.div>
                         ) : !isFinished ? (
@@ -359,7 +382,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                             onClick={handleRestart}
                                             className="w-full px-8 py-4 bg-transparent border border-slate-700 text-slate-500 hover:text-white hover:border-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                         >
-                                            <RefreshCw className="w-4 h-4" /> RESTART
+                                            <RefreshCw className="w-4 h-4" /> {lang === 'ru' ? 'ЗАНОВО' : 'RESTART'}
                                         </button>
                                     </div>
                                 </motion.div>
@@ -372,22 +395,30 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
             {/* Modal */}
             <AnimatePresence>
                 {isModalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <div
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+                        onClick={() => setIsModalOpen(false)}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={lang === 'ru' ? 'Скачать отчет' : 'Download Report'}
+                    >
                         <motion.div
+                            key={formKey}
                             initial={{ scale: 0.95, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.95, opacity: 0 }}
                             className="bg-slate-900 w-full max-w-md p-8 rounded-2xl shadow-2xl border border-slate-700 relative"
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-slate-500 hover:text-white">✕</button>
+                            <button onClick={() => setIsModalOpen(false)} aria-label={lang === 'ru' ? 'Закрыть' : 'Close'} className="absolute top-4 right-4 text-slate-500 hover:text-white">✕</button>
 
                             {formState.succeeded ? (
                                 <div className="text-center py-8">
                                     <div className="w-20 h-20 bg-emerald-900/50 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-500">
                                         <Check className="w-10 h-10" />
                                     </div>
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Success!</h3>
-                                    <p className="text-slate-400 mb-6">Your report is ready.</p>
+                                    <h3 className="text-2xl font-bold mb-2 text-white">{lang === 'ru' ? 'Готово!' : 'Success!'}</h3>
+                                    <p className="text-slate-400 mb-6">{lang === 'ru' ? 'Ваш отчет готов.' : 'Your report is ready.'}</p>
 
                                     {/* PDF Error Display */}
                                     {pdfError && (
@@ -400,7 +431,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                         onClick={handlePdfDownload}
                                         className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors shadow-lg"
                                     >
-                                        <Download className="w-5 h-5" /> {pdfError ? "Retry Download" : "Download Report"}
+                                        <Download className="w-5 h-5" /> {pdfError ? (lang === 'ru' ? 'Повторить' : 'Retry Download') : (lang === 'ru' ? 'Скачать отчет' : 'Download Report')}
                                     </button>
                                 </div>
                             ) : (
@@ -410,11 +441,11 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                             <Download className="w-6 h-6" />
                                         </div>
                                         <h3 className="text-xl font-bold text-white mb-2">{t.cta}</h3>
-                                        <p className="text-sm text-slate-400">Enter your email to receive the detailed strategy and roadmap.</p>
+                                        <p className="text-sm text-slate-400">{lang === 'ru' ? 'Введите email для получения детальной стратегии.' : 'Enter your email to receive the detailed strategy and roadmap.'}</p>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Email Address</label>
+                                        <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">{lang === 'ru' ? 'Email адрес' : 'Email Address'}</label>
                                         <input
                                             type="email"
                                             name="email"
@@ -435,7 +466,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                         disabled={formState.submitting}
                                         className="w-full py-4 bg-emerald-500 text-black font-bold text-lg rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.2)]"
                                     >
-                                        {formState.submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : "Download PDF Now"}
+                                        {formState.submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : (lang === 'ru' ? 'Скачать PDF' : 'Download PDF Now')}
                                     </button>
                                 </form>
                             )}

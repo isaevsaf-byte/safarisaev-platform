@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, useSpring, useTransform } from "framer-motion";
 import { efficiencyData } from "./data";
 import { Loader2 } from "lucide-react";
@@ -21,26 +21,30 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
     const [isCalculating, setIsCalculating] = useState(false);
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+    const calcTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Status Logic
+    // Status Logic - derive zone directly from score, not CSS strings
     const getStatus = () => {
-        if (score >= 90) return { title: z.green.title, desc: z.green.desc, color: "text-efficiency-safe", action: z.green.action };
-        if (score >= 75) return { title: z.yellow.title, desc: z.yellow.desc, color: "text-efficiency-warning", action: z.yellow.action };
-        return { title: z.red.title, desc: z.red.desc, color: "text-efficiency-critical", action: z.red.action };
+        if (score >= 90) return { title: z.green.title, desc: z.green.desc, zone: "green" as const, color: "text-efficiency-safe", action: z.green.action };
+        if (score >= 75) return { title: z.yellow.title, desc: z.yellow.desc, zone: "yellow" as const, color: "text-efficiency-warning", action: z.yellow.action };
+        return { title: z.red.title, desc: z.red.desc, zone: "red" as const, color: "text-efficiency-critical", action: z.red.action };
     };
 
     const status = getStatus();
 
-    // Handle Input Change
+    // Handle Input Change - store raw numeric value, format only for display
     const handleRevenueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Remove non-numeric chars for calculation
         const rawValue = e.target.value.replace(/[^0-9]/g, "");
-        setRevenue(Number(rawValue).toLocaleString()); // Format display
+        setRevenue(rawValue);
+
+        // Clear previous timer to prevent stacking
+        if (calcTimerRef.current) {
+            clearTimeout(calcTimerRef.current);
+        }
 
         if (rawValue) {
             setIsCalculating(true);
-            // Simulate calculation delay for effect
-            setTimeout(() => {
+            calcTimerRef.current = setTimeout(() => {
                 const val = parseInt(rawValue, 10);
                 const loss = val * (wastePercentage / 100);
                 setEstimatedLoss(loss);
@@ -48,8 +52,28 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
             }, 500);
         } else {
             setEstimatedLoss(0);
+            setIsCalculating(false);
         }
     };
+
+    // Cleanup timer on unmount
+    useEffect(() => {
+        return () => {
+            if (calcTimerRef.current) {
+                clearTimeout(calcTimerRef.current);
+            }
+        };
+    }, []);
+
+    // Format revenue for display
+    const formattedRevenue = useMemo(() => {
+        if (!revenue) return "";
+        return Number(revenue).toLocaleString();
+    }, [revenue]);
+
+    // Memoize onClose callbacks to prevent unnecessary re-renders
+    const handleBookingClose = useCallback(() => setIsBookingModalOpen(false), []);
+    const handleEmailClose = useCallback(() => setIsEmailModalOpen(false), []);
 
     // Counting Animation for Loss
     const springValue = useSpring(0, { bounce: 0, duration: 1000 });
@@ -104,7 +128,7 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-zinc-500 text-lg">$</span>
                         <input
                             type="text"
-                            value={revenue}
+                            value={formattedRevenue}
                             onChange={handleRevenueChange}
                             placeholder="1,000,000"
                             className="w-full bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-700 text-slate-900 dark:text-white rounded-lg py-4 pl-10 pr-4 text-xl font-mono focus:outline-none focus:border-blue-500 dark:focus:border-accent focus:ring-1 focus:ring-blue-500 dark:focus:ring-accent transition-all placeholder:text-slate-300 dark:placeholder:text-zinc-700"
@@ -129,7 +153,9 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                             )}
                         </div>
                         <p className="text-xs text-slate-500 dark:text-zinc-600 mt-2 font-mono">
-                            Based on {wastePercentage}% calculated waste
+                            {lang === "ru"
+                                ? `На основе ${wastePercentage}% расчетных потерь`
+                                : `Based on ${wastePercentage}% calculated waste`}
                         </p>
                     </div>
 
@@ -155,18 +181,18 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
 
             <BookingModal
                 isOpen={isBookingModalOpen}
-                onClose={() => setIsBookingModalOpen(false)}
+                onClose={handleBookingClose}
                 lang={lang}
             />
 
             <EmailModal
                 isOpen={isEmailModalOpen}
-                onClose={() => setIsEmailModalOpen(false)}
+                onClose={handleEmailClose}
                 lang={lang}
                 score={score}
                 revenue={revenue}
                 wastePercentage={wastePercentage}
-                zone={status.color.includes("safe") ? "green" : status.color.includes("warning") ? "yellow" : "red"}
+                zone={status.zone}
             />
         </motion.div>
     );
