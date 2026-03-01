@@ -117,8 +117,10 @@ function drawFooter(doc: jsPDF) {
     doc.line(70, 286, 140, 286);
 
     doc.setFontSize(8);
-    setText(doc, COLORS.SLATE_400);
-    doc.text("safarisaev.ai", CX, 291, { align: 'center' });
+    setText(doc, COLORS.ACCENT_BLUE);
+    const footerText = "safarisaev.ai";
+    const footerW = doc.getTextWidth(footerText);
+    doc.textWithLink(footerText, CX - footerW / 2, 291, { url: "https://safarisaev.ai" });
 }
 
 function drawAccentBar(doc: jsPDF, x: number, y: number, h: number, color: RGB) {
@@ -331,7 +333,7 @@ const pdfContent = {
                 ],
                 cta: "Напишите мне лично",
                 ctaSubtext: "Чтобы обсудить формат и понять, подходим ли мы друг другу.",
-                contacts: { telegram: "@SafarIsaev", email: "safarisaev@gmail.com" }
+                contacts: { telegram: "@SafarIsaev", email: "saf@safarisaev.ai" }
             }
         },
         en: {
@@ -363,7 +365,7 @@ const pdfContent = {
                 ],
                 cta: "Message me personally",
                 ctaSubtext: "To discuss the format and see if we're a good fit.",
-                contacts: { telegram: "@SafarIsaev", email: "safarisaev@gmail.com" }
+                contacts: { telegram: "@SafarIsaev", email: "saf@safarisaev.ai" }
             }
         }
     }
@@ -393,112 +395,114 @@ export const generateAiPdf = async (
     // PAGE 1: SCORE & DIAGNOSIS
     // ════════════════════════════════════════════════════════════════
 
-    // ── Dark Hero Header (60mm tall) ──
+    // ── Dark Hero Header (48mm tall) ──
+    const HEADER_H = 48;
     setFill(doc, COLORS.SLATE_950);
-    doc.rect(0, 0, 210, 60, 'F');
+    doc.rect(0, 0, 210, HEADER_H, 'F');
 
     // Zone accent line
     setFill(doc, zoneRgb);
-    doc.rect(0, 60, 210, 2, 'F');
+    doc.rect(0, HEADER_H, 210, 2, 'F');
 
     // Header text - left
-    doc.setFontSize(22);
+    doc.setFontSize(20);
     setText(doc, COLORS.WHITE);
-    doc.text("AI VELOCITY INDEX", ML, 25);
+    doc.text("AI VELOCITY INDEX", ML, 20);
 
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     setText(doc, COLORS.SLATE_400);
     const contextLabel = context === 'self'
         ? (lang === 'ru' ? 'ИНДИВИДУАЛЬНЫЙ' : 'INDIVIDUAL')
         : (lang === 'ru' ? 'КОМАНДА' : 'TEAM');
-    doc.text(`${lang === 'ru' ? 'ОТЧЕТ' : 'ASSESSMENT REPORT'} | ${contextLabel}`, ML, 36);
+    doc.text(`${lang === 'ru' ? 'ОТЧЕТ' : 'ASSESSMENT REPORT'} | ${contextLabel}`, ML, 29);
 
     // Header text - right
     doc.setFontSize(8);
     setText(doc, COLORS.SLATE_400);
-    doc.text(new Date().toLocaleDateString(), MR, 25, { align: 'right' });
-    doc.text(email, MR, 33, { align: 'right' });
+    doc.text(new Date().toLocaleDateString(), MR, 20, { align: 'right' });
+    doc.text(email, MR, 28, { align: 'right' });
 
     // Small zone badge in header
     setFill(doc, zoneRgb);
-    doc.roundedRect(MR - 30, 42, 30, 10, 2, 2, 'F');
+    doc.roundedRect(MR - 30, 35, 30, 9, 2, 2, 'F');
     doc.setFontSize(7);
     setText(doc, COLORS.WHITE);
-    doc.text(zoneKey.toUpperCase() + " ZONE", MR - 15, 48.5, { align: 'center' });
+    doc.text(zoneKey.toUpperCase() + " ZONE", MR - 15, 41, { align: 'center' });
 
-    // ── Score Section (centered, y≈100) ──
-    const scoreY = 100;
+    // ── Score Section (centered, y≈80) ──
+    const scoreY = 80;
+    const scoreR = 24;
 
     // Outer light ring
     setDraw(doc, COLORS.SLATE_200);
     doc.setLineWidth(1.5);
-    doc.circle(CX, scoreY, 32, 'S');
+    doc.circle(CX, scoreY, scoreR, 'S');
 
     // Zone-colored ring overlay
     setDraw(doc, zoneRgb);
     doc.setLineWidth(3);
-    doc.circle(CX, scoreY, 32, 'S');
+    doc.circle(CX, scoreY, scoreR, 'S');
 
     // Inner circle fill (subtle)
     setFill(doc, COLORS.SLATE_50);
-    doc.circle(CX, scoreY, 28, 'F');
+    doc.circle(CX, scoreY, scoreR - 4, 'F');
 
     // Score number
-    doc.setFontSize(48);
+    doc.setFontSize(40);
     setText(doc, zoneRgb);
-    doc.text(`${score}`, CX, scoreY + 6, { align: 'center' });
+    doc.text(`${score}`, CX, scoreY + 5, { align: 'center' });
 
     // Denominator
-    doc.setFontSize(14);
+    doc.setFontSize(12);
     setText(doc, COLORS.SLATE_400);
-    doc.text("/ 100", CX, scoreY + 17, { align: 'center' });
+    doc.text("/ 100", CX, scoreY + 14, { align: 'center' });
 
     // Zone title
-    doc.setFontSize(14);
+    doc.setFontSize(13);
     setText(doc, COLORS.NEAR_BLACK);
-    doc.text(zone.title.toUpperCase(), CX, scoreY + 38, { align: 'center' });
+    doc.text(zone.title.toUpperCase(), CX, scoreY + 30, { align: 'center' });
 
     // Zone slogan
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     setText(doc, COLORS.SLATE_600);
-    const sloganLines = doc.splitTextToSize(zone.slogan, 150);
-    doc.text(sloganLines, CX, scoreY + 47, { align: 'center' });
+    const sloganLines = doc.splitTextToSize(zone.slogan, 140);
+    doc.text(sloganLines, CX, scoreY + 38, { align: 'center' });
 
     // Decorative center divider
-    const dividerY = scoreY + 47 + (sloganLines.length * 5) + 5;
+    const dividerY = scoreY + 38 + (sloganLines.length * 4) + 4;
     setDraw(doc, COLORS.SLATE_200);
     doc.setLineWidth(0.3);
-    doc.line(60, dividerY, 150, dividerY);
+    doc.line(65, dividerY, 145, dividerY);
 
     // ── Diagnosis Section ──
-    let yPos = dividerY + 10;
+    let yPos = dividerY + 7;
 
     // Headline with accent bar
-    drawAccentBar(doc, ML, yPos - 2, 12, zoneRgb);
-    doc.setFontSize(14);
+    drawAccentBar(doc, ML, yPos - 2, 10, zoneRgb);
+    doc.setFontSize(13);
     setText(doc, COLORS.NEAR_BLACK);
-    doc.text(content.page1.headline, ML + 7, yPos + 6);
-    yPos += 16;
+    doc.text(content.page1.headline, ML + 7, yPos + 5);
+    yPos += 13;
 
     // Intro paragraph
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     setText(doc, COLORS.SLATE_600);
     const introLines = doc.splitTextToSize(content.page1.intro, CW - 7);
     doc.text(introLines, ML + 7, yPos);
-    yPos += introLines.length * 5 + 8;
+    yPos += introLines.length * 4 + 6;
 
     // Trap section title
-    doc.setFontSize(12);
+    doc.setFontSize(11);
     setText(doc, COLORS.NEAR_BLACK);
     doc.text(content.page1.trapTitle, ML, yPos);
-    yPos += 10;
+    yPos += 8;
 
     // ── Trap Cards ──
     content.page1.traps.forEach((trap) => {
         // Calculate card height
         doc.setFontSize(9);
         const descLines = doc.splitTextToSize(trap.desc, 148);
-        const cardH = 14 + (descLines.length * 4) + (trap.loss ? 10 : 4);
+        const cardH = 12 + (descLines.length * 4) + (trap.loss ? 8 : 3);
 
         // Page break check
         if (yPos + cardH > PAGE_BOTTOM) {
@@ -512,27 +516,27 @@ export const generateAiPdf = async (
 
         // Zone-colored dot
         setFill(doc, zoneRgb);
-        doc.circle(ML + 8, yPos + 10, 2, 'F');
+        doc.circle(ML + 8, yPos + 9, 2, 'F');
 
         // Trap title
-        doc.setFontSize(11);
+        doc.setFontSize(10);
         setText(doc, COLORS.NEAR_BLACK);
-        doc.text(trap.title, ML + 14, yPos + 11);
+        doc.text(trap.title, ML + 14, yPos + 10);
 
         // Trap description
         doc.setFontSize(9);
         setText(doc, COLORS.SLATE_600);
-        doc.text(descLines, ML + 14, yPos + 18);
+        doc.text(descLines, ML + 14, yPos + 16);
 
         // Loss text (if present)
         if (trap.loss) {
-            const lossY = yPos + 18 + (descLines.length * 4) + 2;
+            const lossY = yPos + 16 + (descLines.length * 4) + 1;
             doc.setFontSize(9);
             setText(doc, COLORS.LOSS_RED);
             doc.text(trap.loss, ML + 14, lossY);
         }
 
-        yPos += cardH + 5;
+        yPos += cardH + 4;
     });
 
     // Page 1 Footer
@@ -784,16 +788,17 @@ export const generateAiPdf = async (
         doc.text(page3Content.cta, CX, ctaY + 63.5, { align: 'center' });
     }
 
-    // Website link (clickable)
-    const linkUrl = page3Content.link || "https://safarisaev.ai";
-    const linkText = "safarisaev.ai";
-    doc.setFontSize(10);
-    setText(doc, COLORS.ACCENT_BLUE);
-    const linkWidth = doc.getTextWidth(linkText);
-    doc.textWithLink(linkText, CX - linkWidth / 2, 272, { url: linkUrl });
+    // Page 3 Footer (with clickable link)
+    setDraw(doc, COLORS.SLATE_200);
+    doc.setLineWidth(0.3);
+    doc.line(70, 282, 140, 282);
 
-    // Page 3 Footer
-    drawFooter(doc);
+    const linkUrl = page3Content.link || "https://safarisaev.ai";
+    doc.setFontSize(9);
+    setText(doc, COLORS.ACCENT_BLUE);
+    const linkText = "safarisaev.ai";
+    const linkWidth = doc.getTextWidth(linkText);
+    doc.textWithLink(linkText, CX - linkWidth / 2, 288, { url: linkUrl });
 
     // ── Save ──
     doc.save('Safar_Isaev_AI_Velocity_Report.pdf');
