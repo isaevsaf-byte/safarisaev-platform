@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon } from "lucide-react";
+import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon, Layers } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { AccessCard } from "@/components/AccessCard";
@@ -145,6 +145,15 @@ export default function Home() {
             <Brain className="w-4 h-4" />
             <span>{dict.hero.ctaAi}</span>
             <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </Link>
+
+          <Link
+            href="/portfolio"
+            className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent/60 hover:shadow-[0_0_15px_rgba(0,255,148,0.15)] w-full md:w-auto"
+          >
+            <Layers className="w-4 h-4" />
+            <span>{dict.hero.ctaWork}</span>
+            <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
         </motion.div>
       </section>
