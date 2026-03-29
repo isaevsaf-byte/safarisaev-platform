@@ -12,7 +12,7 @@ const content = {
   en: {
     back: "SAFARISAEV.AI",
     eyebrow: "— Selected Work",
-    title: "Projects",
+    title: "Portfolio",
     subtitle: "Sites built for founders, brands, and operators. Fast, clean, no agency markup.",
     visit: "VISIT",
     visitSite: "VISIT SITE",
@@ -24,7 +24,7 @@ const content = {
   ru: {
     back: "SAFARISAEV.AI",
     eyebrow: "— Избранные работы",
-    title: "Проекты",
+    title: "Работы",
     subtitle: "Сайты для основателей, брендов и операционных команд. Быстро, чисто, без агентской накрутки.",
     visit: "ОТКРЫТЬ",
     visitSite: "ОТКРЫТЬ САЙТ",
@@ -35,6 +35,7 @@ const content = {
   },
 };
 
+// Ordered: featured hero first, then by visual complexity / beauty
 const projects = {
   en: [
     {
@@ -44,6 +45,22 @@ const projects = {
       category: "AgriTech",
       description: "Wholesale beekeeping export from Uzbekistan to UK",
       featured: true,
+    },
+    {
+      slug: "cpowatchtower",
+      name: "CPO Watchtower",
+      url: "https://cpo-watchtower.co.uk",
+      category: "Procurement",
+      description: "Procurement intelligence platform",
+      featured: false,
+    },
+    {
+      slug: "beautasy",
+      name: "Beautasy Atelier",
+      url: "https://beautasy.co.uk/atelier",
+      category: "Beauty",
+      description: "Luxury beauty atelier",
+      featured: false,
     },
     {
       slug: "safarisaev",
@@ -59,22 +76,6 @@ const projects = {
       url: "https://bektothefuture.com",
       category: "Music",
       description: "Tech House DJ personal brand",
-      featured: false,
-    },
-    {
-      slug: "beautasy",
-      name: "Beautasy Atelier",
-      url: "https://beautasy.co.uk/atelier",
-      category: "Beauty",
-      description: "Luxury beauty atelier",
-      featured: false,
-    },
-    {
-      slug: "cpowatchtower",
-      name: "CPO Watchtower",
-      url: "https://cpo-watchtower.co.uk",
-      category: "Procurement",
-      description: "Procurement intelligence platform",
       featured: false,
     },
     {
@@ -96,6 +97,22 @@ const projects = {
       featured: true,
     },
     {
+      slug: "cpowatchtower",
+      name: "CPO Watchtower",
+      url: "https://cpo-watchtower.co.uk",
+      category: "Закупки",
+      description: "Платформа аналитики для директоров по закупкам",
+      featured: false,
+    },
+    {
+      slug: "beautasy",
+      name: "Beautasy Atelier",
+      url: "https://beautasy.co.uk/atelier",
+      category: "Бьюти",
+      description: "Люксовое бьюти-ателье",
+      featured: false,
+    },
+    {
       slug: "safarisaev",
       name: "Safarisaev.ai",
       url: "https://safarisaev.ai",
@@ -109,22 +126,6 @@ const projects = {
       url: "https://bektothefuture.com",
       category: "Музыка",
       description: "Личный бренд Tech House DJ",
-      featured: false,
-    },
-    {
-      slug: "beautasy",
-      name: "Beautasy Atelier",
-      url: "https://beautasy.co.uk/atelier",
-      category: "Бьюти",
-      description: "Люксовое бьюти-ателье",
-      featured: false,
-    },
-    {
-      slug: "cpowatchtower",
-      name: "CPO Watchtower",
-      url: "https://cpo-watchtower.co.uk",
-      category: "Закупки",
-      description: "Платформа аналитики для директоров по закупкам",
       featured: false,
     },
     {
@@ -143,6 +144,48 @@ function screenshotUrl(url: string) {
 }
 
 type Project = (typeof projects)["en"][number];
+
+function ScreenshotImage({
+  url,
+  alt,
+  eager,
+}: {
+  url: string;
+  alt: string;
+  eager?: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  return (
+    <div className="relative w-full h-full">
+      {/* Skeleton shown until image loads */}
+      {!loaded && !error && (
+        <div className="absolute inset-0 bg-secondary/10 animate-pulse" />
+      )}
+      {/* Error fallback */}
+      {error && (
+        <div className="absolute inset-0 bg-secondary/10 flex items-center justify-center">
+          <span className="font-mono text-xs text-secondary/40 uppercase tracking-widest">
+            {alt}
+          </span>
+        </div>
+      )}
+      {!error && (
+        <img
+          src={screenshotUrl(url)}
+          alt={alt}
+          loading={eager ? "eager" : "lazy"}
+          className={`w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setLoaded(true)}
+          onError={() => setError(true)}
+        />
+      )}
+    </div>
+  );
+}
 
 function ProjectCard({
   project,
@@ -166,12 +209,7 @@ function ProjectCard({
       onMouseLeave={() => setHovered(false)}
     >
       <div className="relative overflow-hidden aspect-[16/10]">
-        <img
-          src={screenshotUrl(project.url)}
-          alt={project.name}
-          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
+        <ScreenshotImage url={project.url} alt={project.name} />
         <div
           className={`absolute inset-0 bg-background/90 flex flex-col items-center justify-center gap-4 transition-opacity duration-300 ${
             hovered ? "opacity-100" : "opacity-0"
@@ -227,11 +265,7 @@ function FeaturedCard({
       onMouseLeave={() => setHovered(false)}
     >
       <div className="relative overflow-hidden aspect-[21/9] md:aspect-[21/8]">
-        <img
-          src={screenshotUrl(project.url)}
-          alt={project.name}
-          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-        />
+        <ScreenshotImage url={project.url} alt={project.name} eager />
         <div
           className={`absolute inset-0 bg-background/90 flex flex-col items-center justify-center gap-5 transition-opacity duration-300 ${
             hovered ? "opacity-100" : "opacity-0"

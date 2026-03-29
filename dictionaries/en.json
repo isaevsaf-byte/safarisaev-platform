@@ -3,14 +3,15 @@
     "logo": "SAFARISAEV.AI",
     "status": "ONLINE",
     "efficiency": "EFFICIENCY INDEX",
-    "aiIndex": "AI VELOCITY INDEX"
+    "aiIndex": "AI VELOCITY INDEX",
+    "portfolio": "PORTFOLIO"
   },
   "hero": {
     "title": "Operational System for a Business That Wants to Grow Without Chaos",
     "subtext": "I find where money and time are lost — and build a system that stops it",
     "cta": "Take Free Diagnostic",
     "ctaAi": "Test: Will You Replace AI or Will AI Replace You?",
-    "ctaWork": "View My Work"
+    "ctaWork": "Portfolio"
   },
   "protocols": {
     "cardA": {

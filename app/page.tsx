@@ -75,7 +75,7 @@ export default function Home() {
               href="/portfolio"
               className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
             >
-              Work
+              {dict.header.portfolio}
             </Link>
 
             <Link
