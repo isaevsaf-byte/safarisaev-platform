@@ -72,6 +72,13 @@ export default function Home() {
             </button>
 
             <Link
+              href="/portfolio"
+              className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
+            >
+              Work
+            </Link>
+
+            <Link
               href={`/${locale}/efficiency-index`}
               className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
             >
