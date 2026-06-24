@@ -397,7 +397,7 @@ function formatAIResponse(text){
     .replace(/SIGNAL:\s*(BUY)/gi,'SIGNAL: <span class="ai-tag buy">BUY</span>')
     .replace(/SIGNAL:\s*(HOLD)/gi,'SIGNAL: <span class="ai-tag hold">HOLD</span>')
     .replace(/SIGNAL:\s*(WAIT)/gi,'SIGNAL: <span class="ai-tag wait">WAIT</span>')
-    .replace(/\*\*(SOURCING|PROVENANCE NOTE|WATCH FOR|SIGNAL)[:\s*]*/g,'<span class="ai-section">$1</span> ')
+    .replace(/\*\*(SOURCING|PROVENANCE NOTE|WATCH FOR|SIGNAL)[:\s]*\*?\*?\s*/g,'<span class="ai-section">$1</span> ')
     .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g,'<em>$1</em>')
     .replace(/\n\n/g,'</p><p>')
