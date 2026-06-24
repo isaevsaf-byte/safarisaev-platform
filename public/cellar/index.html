@@ -394,12 +394,18 @@ async function analyseWine(){
 
 function formatAIResponse(text){
   return text
-    .replace(/SIGNAL:\s*(BUY)/gi,'SIGNAL: <span class="ai-tag buy">BUY</span>')
-    .replace(/SIGNAL:\s*(HOLD)/gi,'SIGNAL: <span class="ai-tag hold">HOLD</span>')
-    .replace(/SIGNAL:\s*(WAIT)/gi,'SIGNAL: <span class="ai-tag wait">WAIT</span>')
-    .replace(/\*\*(SOURCING|PROVENANCE NOTE|WATCH FOR|SIGNAL)[:\s]*\*?\*?\s*/g,'<span class="ai-section">$1</span> ')
+    // Remove markdown wrapper around section headers, style SIGNAL tag
+    .replace(/\*\*SIGNAL:\s*(BUY|HOLD|WAIT)\*\*/gi,(m,sig)=>{
+      const tag=sig.toLowerCase();
+      return 'SIGNAL: <span class="ai-tag '+tag+'">'+sig+'</span>';
+    })
+    .replace(/\*\*(SOURCING|PROVENANCE NOTE|WATCH FOR):\s*\*\*/g,'<span class="ai-section">$1</span>:')
+    // Remaining bold/italic
     .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    // Cleanup any leftover **
+    .replace(/\*\*/g,'')
+    // Paragraph breaks
     .replace(/\n\n/g,'</p><p>')
     .replace(/\n/g,'<br>')
     .replace(/^/,'<p>')+'</p>';
