@@ -1,14 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/cellar',
-        destination: '/cellar/index.html',
-      },
-    ]
-  },
-}
+const nextConfig = {}
 
 module.exports = nextConfig
 
