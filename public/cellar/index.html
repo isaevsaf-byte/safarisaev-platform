@@ -114,13 +114,16 @@
   .ai-examples{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
   .ai-ex{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:3px;padding:5px 10px;cursor:pointer;transition:.12s}
   .ai-ex:hover{border-color:var(--gold);color:var(--gold)}
-  .ai-result{background:var(--cream);border-radius:4px;padding:20px;min-height:80px;font-size:14px;line-height:1.7;color:var(--ink);border:1px solid var(--border)}
+  .ai-result{background:var(--cream);border-radius:4px;padding:24px 28px;min-height:80px;font-size:15px;line-height:1.8;color:var(--ink);border:1px solid var(--border)}
+  .ai-result p{margin:0 0 14px}
+  .ai-result p:last-child{margin-bottom:0}
   .ai-result.loading{color:var(--dim);font-style:italic}
   .ai-result.empty{color:var(--dim);font-size:13px}
-  .ai-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  .ai-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-right:6px;vertical-align:middle}
   .ai-tag.buy{background:var(--buy-bg);color:var(--buy)}
   .ai-tag.hold{background:var(--hold-bg);color:var(--hold)}
   .ai-tag.wait{background:var(--wait-bg);color:var(--wait)}
+  .ai-section{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700}
 
   /* SIGNAL GRID */
   .filter-row{display:flex;gap:7px;margin-bottom:18px}
@@ -391,10 +394,13 @@ async function analyseWine(){
 
 function formatAIResponse(text){
   return text
-    .replace(/SIGNAL:\s*(BUY)/gi,'<span class="ai-tag buy">BUY</span>')
-    .replace(/SIGNAL:\s*(HOLD)/gi,'<span class="ai-tag hold">HOLD</span>')
-    .replace(/SIGNAL:\s*(WAIT)/gi,'<span class="ai-tag wait">WAIT</span>')
-    .replace(/\n\n/g,'</p><p style="margin-top:12px">')
+    .replace(/SIGNAL:\s*(BUY)/gi,'SIGNAL: <span class="ai-tag buy">BUY</span>')
+    .replace(/SIGNAL:\s*(HOLD)/gi,'SIGNAL: <span class="ai-tag hold">HOLD</span>')
+    .replace(/SIGNAL:\s*(WAIT)/gi,'SIGNAL: <span class="ai-tag wait">WAIT</span>')
+    .replace(/\*\*(SOURCING|PROVENANCE NOTE|WATCH FOR|SIGNAL)[:\s*]*/g,'<span class="ai-section">$1</span> ')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    .replace(/\n\n/g,'</p><p>')
     .replace(/\n/g,'<br>')
     .replace(/^/,'<p>')+'</p>';
 }
