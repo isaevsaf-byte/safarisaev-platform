@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CELLAR — Fine Wine Sourcing Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f7f3ee;
+    --white:#ffffff;
+    --ink:#1a1612;
+    --dim:#7a7268;
+    --border:#e2d9cc;
+    --border-2:#c9bfb0;
+    --gold:#8a6a2e;
+    --gold-hi:#b08a3e;
+    --buy:#2e7d50;
+    --buy-bg:#edf7f1;
+    --hold:#8a6a2e;
+    --hold-bg:#fdf7ed;
+    --wait:#9b3b22;
+    --wait-bg:#fdf1ee;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:clamp(20px,4vw,56px)}
+  .wrap{max-width:1080px;margin:0 auto}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding-bottom:24px;border-bottom:1px solid var(--border-2);margin-bottom:52px}
+  .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;letter-spacing:.38em;text-transform:uppercase}
+  .brand b{color:var(--gold)}
+  .nav-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:64px}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(48px,7vw,82px);line-height:.92;letter-spacing:-.01em}
+  h1 i{font-style:italic;color:var(--gold)}
+  .hero-right p{font-size:16px;color:var(--dim);line-height:1.6;margin-bottom:16px}
+  .hero-right p b{color:var(--ink);font-weight:500}
+
+  /* SPLIT */
+  .split{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border-2);border-radius:6px;overflow:hidden;margin-bottom:64px}
+  .split>div{padding:26px 28px;background:var(--white)}
+  .split .them{background:var(--cream)}
+  .split .us{border-left:1px solid var(--border-2)}
+  .split h4{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+  .split .us h4{color:var(--gold)}
+  .split .q{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;margin-bottom:10px;line-height:1.2}
+  .split .them .q{color:var(--dim)} .split .us .q{color:var(--gold-hi)}
+  .split p{font-size:13.5px;color:var(--dim);line-height:1.5}
+
+  /* SECTION */
+  .sec{margin-bottom:64px}
+  .sec-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .sec-label::after{content:"";flex:1;height:1px;background:var(--border)}
+  h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,4vw,42px);line-height:1;margin-bottom:8px}
+  h2 i{font-style:italic;color:var(--gold)}
+  .sec>p.lead{font-size:14.5px;color:var(--dim);max-width:60ch;margin-bottom:24px}
+
+  /* PULSE */
+  .pulse{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border-2);border-radius:5px;overflow:hidden;margin-bottom:10px}
+  .cell{background:var(--white);padding:16px 14px}
+  .cell .k{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;display:block}
+  .cell .v{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:600;line-height:1}
+  .cell .v small{font-size:11px;color:var(--dim);font-family:'Space Mono',monospace}
+  .up{color:var(--buy)} .dn{color:var(--wait)}
+  .src-note{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim)}
+  .src-note b{color:var(--gold)}
+
+  /* ARB BOX */
+  .arb-box{background:var(--white);border:1px solid var(--border-2);border-radius:6px;padding:clamp(20px,3vw,32px)}
+  .arb-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .wine-name-arb{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600}
+  .wine-name-arb span{color:var(--dim);font-style:italic;font-size:17px}
+  .tabs{display:flex;gap:6px}
+  .tabs button{background:transparent;border:1px solid var(--border);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;border-radius:3px;cursor:pointer;transition:.15s}
+  .tabs button.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+  .tabs button:hover:not(.on){border-color:var(--border-2);color:var(--ink)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:32px}
+  .stat{background:var(--cream);padding:14px 16px}
+  .stat.win{background:var(--buy-bg)}
+  .stat .sk{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .stat.win .sk{color:var(--buy)}
+  .stat .sv{font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;line-height:1}
+  .stat.win .sv{color:var(--buy)}
+  .stat .ss{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);margin-top:4px}
+
+  /* AXIS */
+  .axis-outer{position:relative;height:90px;margin:0 8px 8px}
+  .axis-line{position:absolute;top:50%;left:0;right:0;height:2px;background:var(--border-2);transform:translateY(-50%)}
+  .axis-labels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:12px}
+  .anode{position:absolute;top:50%;transform:translate(-50%,-50%)}
+  .anode .adot{border-radius:50%;border:2px solid var(--cream);position:relative;z-index:2}
+  .anode .alab{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:'Space Mono',monospace;font-size:9px;text-align:center;line-height:1.5}
+  .anode .alab.up{bottom:calc(100% + 6px)} .anode .alab.dn{top:calc(100% + 6px)}
+  .arb-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:10px;color:var(--dim)}
+  .arb-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+
+  /* AI ANALYSER */
+  .ai-box{background:var(--white);border:1px solid var(--border-2);border-radius:6px;overflow:hidden}
+  .ai-box-head{background:var(--ink);color:var(--cream);padding:20px 24px;display:flex;align-items:center;gap:14px}
+  .ai-box-head .ai-icon{font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--gold-hi)}
+  .ai-box-head h3{font-size:15px;font-weight:500;margin-bottom:3px}
+  .ai-box-head p{font-size:12px;color:rgba(239,233,221,.6)}
+  .ai-body{padding:24px}
+  .ai-input-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .ai-input{flex:1;min-width:200px;padding:11px 14px;border:1px solid var(--border-2);border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;background:var(--cream);color:var(--ink);outline:none;transition:.15s}
+  .ai-input:focus{border-color:var(--gold)}
+  .ai-btn{padding:11px 20px;background:var(--gold);color:var(--white);border:none;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:.15s}
+  .ai-btn:hover{background:var(--gold-hi)}
+  .ai-btn:disabled{opacity:.5;cursor:not-allowed}
+  .ai-examples{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .ai-ex{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:3px;padding:5px 10px;cursor:pointer;transition:.12s}
+  .ai-ex:hover{border-color:var(--gold);color:var(--gold)}
+  .ai-result{background:var(--cream);border-radius:4px;padding:20px;min-height:80px;font-size:14px;line-height:1.7;color:var(--ink);border:1px solid var(--border)}
+  .ai-result.loading{color:var(--dim);font-style:italic}
+  .ai-result.empty{color:var(--dim);font-size:13px}
+  .ai-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  .ai-tag.buy{background:var(--buy-bg);color:var(--buy)}
+  .ai-tag.hold{background:var(--hold-bg);color:var(--hold)}
+  .ai-tag.wait{background:var(--wait-bg);color:var(--wait)}
+
+  /* SIGNAL GRID */
+  .filter-row{display:flex;gap:7px;margin-bottom:18px}
+  .filter-row button{background:transparent;border:1px solid var(--border);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:3px;cursor:pointer;transition:.15s}
+  .filter-row button.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+  .filter-row button:hover:not(.on){border-color:var(--border-2);color:var(--ink)}
+  .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:5px;padding:20px;border-top:3px solid transparent;transition:.18s}
+  .card:hover{border-color:var(--border-2);box-shadow:0 3px 14px rgba(0,0,0,.07)}
+  .card.s-buy{border-top-color:var(--buy)} .card.s-hold{border-top-color:var(--hold)} .card.s-wait{border-top-color:var(--wait)}
+  .card.hidden{display:none}
+  .cn{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:3px}
+  .cm{font-family:'Space Mono',monospace;font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+  .crow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+  .sc{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;line-height:1}
+  .sc small{font-size:12px;color:var(--dim);font-family:'Space Mono',monospace}
+  .sig{font-family:'Space Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;padding:5px 9px;border-radius:3px}
+  .sig.s-buy{background:var(--buy-bg);color:var(--buy)}
+  .sig.s-hold{background:var(--hold-bg);color:var(--hold)}
+  .sig.s-wait{background:var(--wait-bg);color:var(--wait)}
+  .cnote{font-size:12.5px;color:var(--dim);line-height:1.45;padding-top:12px;border-top:1px solid var(--border)}
+  .cin{display:block;font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);margin-top:7px}
+
+  footer{padding-top:44px;border-top:1px solid var(--border-2);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-top:16px}
+  footer .pitch{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-weight:400;max-width:22ch;line-height:1.15}
+  footer .pitch i{font-style:italic;color:var(--gold)}
+  footer .by{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-align:right;line-height:1.9}
+  footer .by b{color:var(--ink)}
+
+  @media(max-width:820px){
+    .hero,.split{grid-template-columns:1fr}
+    .pulse{grid-template-columns:repeat(3,1fr)}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .sig-grid{grid-template-columns:1fr}
+    .split .us{border-left:0;border-top:1px solid var(--border-2)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="brand">C E L L A R<b>.</b></div>
+  <div class="nav-tag">Sourcing Intelligence · Working Prototype</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Buy the right<br>bottle. <i>For less.</i><br>Anywhere.</h1>
+  <div class="hero-right">
+    <p>Investment tools tell collectors <b>what to hold</b>. A buying desk needs a harder answer: <b>where on earth can this bottle be sourced cheapest — with provenance you'd trust — right now.</b></p>
+    <p>This is a working prototype of that engine: live market data, arbitrage desk, and AI sourcing analysis — built in one evening to show how procurement thinking closes a gap the market hasn't filled.</p>
+  </div>
+</div>
+
+<!-- SPLIT -->
+<div class="split">
+  <div class="them">
+    <h4>What the market already does</h4>
+    <div class="q">"Will this wine go up?"</div>
+    <p>Liv-ex index tracking, buy/hold scoring for collectors. Mature, crowded, well-served. We don't compete here.</p>
+  </div>
+  <div class="us">
+    <h4>What a buying desk actually needs</h4>
+    <div class="q">"Where do I buy it cleanest — and cheapest — today?"</div>
+    <p>Match one bottle across hundreds of merchants and auctions globally. Screen provenance. Find the margin. This is the gap.</p>
+  </div>
+</div>
+
+<!-- MARKET PULSE -->
+<div class="sec">
+  <div class="sec-label">Market structure · Liv-ex Q1 2026 · Real data</div>
+  <h2>The buying window is <i>open.</i></h2>
+  <p class="lead">Six months of gains after a 3-year correction. Buyers paying up, gap between trade price and quoted price closing fast. For a disciplined buyer — this is the moment.</p>
+  <div class="pulse">
+    <div class="cell"><span class="k">FW100 trend</span><div class="v up">6 mo ↑</div></div>
+    <div class="cell"><span class="k">Last month</span><div class="v up">+0.5%</div></div>
+    <div class="cell"><span class="k">vs 2022 peak</span><div class="v dn">−27%</div></div>
+    <div class="cell"><span class="k">Bid : offer</span><div class="v up">1.10</div></div>
+    <div class="cell"><span class="k">Buyer-initiated</span><div class="v">62%</div></div>
+    <div class="cell"><span class="k">Trade vs quote</span><div class="v up">−2.8%</div></div>
+  </div>
+  <p class="src-note" style="margin-top:10px">Source · <b>Liv-ex market reports Q1 2026</b> · All figures real and verifiable</p>
+</div>
+
+<!-- ARBITRAGE DESK -->
+<div class="sec">
+  <div class="sec-label">The arbitrage desk · Where we differ from investment tools</div>
+  <h2>One bottle. <i>Many prices.</i> One best buy.</h2>
+  <p class="lead">The same wine trades at very different prices across merchants, auctions and importers worldwide. The engine matches listings, screens provenance, and surfaces the cheapest clean source.</p>
+  <div class="arb-box">
+    <div class="arb-top">
+      <div class="wine-name-arb" id="arbName">Château Lafite Rothschild <span id="arbVint">2016</span></div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+    <div class="stats">
+      <div class="stat win">
+        <div class="sk">◆ Best buy</div>
+        <div class="sv" id="bestMkt">Bordeaux</div>
+        <div class="ss" id="bestPrice">£4,620 / 6×75cl IB</div>
+      </div>
+      <div class="stat">
+        <div class="sk">Saving vs field high</div>
+        <div class="sv" id="saving">£900</div>
+        <div class="ss" id="savingPct">−16.3% per case</div>
+      </div>
+      <div class="stat">
+        <div class="sk">Listings matched</div>
+        <div class="sv" id="matched">11</div>
+        <div class="ss">across 6 markets</div>
+      </div>
+      <div class="stat">
+        <div class="sk">Provenance screen</div>
+        <div class="sv" id="provOk">8 clean</div>
+        <div class="ss" id="provFlag">3 flagged</div>
+      </div>
+    </div>
+    <div class="axis-labels"><span id="axMin">£4,600</span><span style="font-style:italic">price per 6×75cl case — illustrative</span><span id="axMax">£5,520</span></div>
+    <div class="axis-outer"><div class="axis-line"></div><div id="axis"></div></div>
+    <div class="arb-legend">
+      <span><i style="background:var(--buy)"></i>Provenance clean</span>
+      <span><i style="background:var(--hold)"></i>Verify storage</span>
+      <span><i style="background:var(--wait)"></i>Flagged / grey market</span>
+      <span><i style="background:var(--gold)"></i>AI best buy</span>
+      <span style="margin-left:auto;font-style:italic;font-size:9px">Illustrative · live build connects to Wine-Searcher + auction feeds</span>
+    </div>
+  </div>
+</div>
+
+<!-- AI ANALYSER -->
+<div class="sec">
+  <div class="sec-label">AI sourcing analyser · Ask anything about a wine</div>
+  <h2>Type a wine. <i>Get a sourcing call.</i></h2>
+  <p class="lead">Ask the AI to analyse any fine wine from a procurement angle — where to source, what the market is doing, what to watch for. This is what replaces the analyst floor.</p>
+  <div class="ai-box">
+    <div class="ai-box-head">
+      <div class="ai-icon">◆</div>
+      <div>
+        <h3>Sourcing Intelligence — powered by AI</h3>
+        <p>Enter any fine wine. The engine returns a buy/hold/wait call with sourcing rationale.</p>
+      </div>
+    </div>
+    <div class="ai-body">
+      <div class="ai-examples">
+        <span class="ai-ex" onclick="setQuery(this)">Pétrus 2015</span>
+        <span class="ai-ex" onclick="setQuery(this)">Screaming Eagle 2019</span>
+        <span class="ai-ex" onclick="setQuery(this)">Barolo Monfortino Conterno 2016</span>
+        <span class="ai-ex" onclick="setQuery(this)">Opus One 2021</span>
+        <span class="ai-ex" onclick="setQuery(this)">Château d'Yquem 2001</span>
+      </div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="wineInput" type="text" placeholder="e.g. Romanée-Conti 2018, Sassicaia 2020…" />
+        <button class="ai-btn" id="analyseBtn" onclick="analyseWine()">Analyse →</button>
+      </div>
+      <div class="ai-result empty" id="aiResult">Enter a wine above — the AI will assess sourcing opportunity, market momentum, provenance considerations, and give a clear procurement call.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNAL DESK -->
+<div class="sec">
+  <div class="sec-label">Buy-signal desk · Pre-screened icons</div>
+  <h2>Six wines. <i>One clear call each.</i></h2>
+  <p class="lead">Composite read across momentum, liquidity, should-cost gap and scarcity. In 2024, 80% of all Liv-ex trade value sat in just 2% of wines — buying is a concentration problem.</p>
+  <div class="filter-row">
+    <button class="on" onclick="filterCards('all',this)">All</button>
+    <button onclick="filterCards('buy',this)">● Buy</button>
+    <button onclick="filterCards('hold',this)">◐ Hold</button>
+    <button onclick="filterCards('wait',this)">○ Wait</button>
+  </div>
+  <div class="sig-grid" id="grid"></div>
+  <p class="src-note" style="margin-top:14px">Per-wine signals grounded in real <b>Liv-ex Q1 2026 data</b> · Composite scores are engine outputs</p>
+</div>
+
+<footer>
+  <div class="pitch">Wine buying is a global procurement problem.<br><i>With a lot of zeros.</i></div>
+  <div class="by">BUILT FOR THE HEDONISM BRIEF<br><b>SAF</b> · PROCUREMENT + AI<br>£100M+ SPEND · 74 MARKETS</div>
+</footer>
+
+</div><!-- /wrap -->
+<script>
+/* ---- ARB DATA ---- */
+const arbData={
+  lafite:{name:"Château Lafite Rothschild",vint:"2016",matched:11,clean:8,flagged:3,
+    nodes:[{mkt:"Bordeaux",price:4620,prov:"ok",best:true},{mkt:"London",price:4780,prov:"ok"},{mkt:"Geneva",price:4850,prov:"ok"},{mkt:"Hong Kong",price:5120,prov:"check"},{mkt:"New York",price:5340,prov:"ok"},{mkt:"Auction",price:5520,prov:"risk"}]},
+  margaux:{name:"Château Margaux",vint:"2022",matched:9,clean:6,flagged:3,
+    nodes:[{mkt:"Bordeaux EP",price:3980,prov:"ok",best:true},{mkt:"London",price:4120,prov:"ok"},{mkt:"Tokyo",price:4260,prov:"check"},{mkt:"Geneva",price:4310,prov:"ok"},{mkt:"New York",price:4490,prov:"ok"},{mkt:"Grey market",price:4640,prov:"risk"}]},
+  dp:{name:"Dom Pérignon",vint:"2015",matched:14,clean:10,flagged:4,
+    nodes:[{mkt:"Épernay",price:1740,prov:"ok",best:true},{mkt:"London",price:1810,prov:"ok"},{mkt:"Paris",price:1850,prov:"ok"},{mkt:"Hong Kong",price:1990,prov:"check"},{mkt:"Miami",price:2080,prov:"ok"},{mkt:"Auction",price:2210,prov:"risk"}]}
+};
+const fmt=n=>'£'+Math.round(n).toLocaleString('en-GB');
+const provColor={ok:'var(--buy)',check:'var(--hold)',risk:'var(--wait)'};
+
+function renderArb(key){
+  const d=arbData[key];
+  const nameEl=document.getElementById('arbName');
+  nameEl.innerHTML=d.name+' <span style="color:var(--dim);font-style:italic;font-size:17px">'+d.vint+'</span>';
+  const prices=d.nodes.map(n=>n.price);
+  const min=Math.min(...prices),max=Math.max(...prices),span=max-min||1;
+  const best=d.nodes.find(n=>n.best);
+  document.getElementById('bestMkt').textContent=best.mkt;
+  document.getElementById('bestPrice').textContent=fmt(best.price)+' / 6×75cl IB';
+  document.getElementById('saving').textContent=fmt(max-best.price);
+  document.getElementById('savingPct').textContent='−'+(((max-best.price)/max)*100).toFixed(1)+'% per case';
+  document.getElementById('matched').textContent=d.matched;
+  document.getElementById('provOk').textContent=d.clean+' clean';
+  document.getElementById('provFlag').textContent=d.flagged+' flagged';
+  document.getElementById('axMin').textContent=fmt(min);
+  document.getElementById('axMax').textContent=fmt(max);
+  const axis=document.getElementById('axis');
+  axis.innerHTML='';
+  d.nodes.forEach((n,i)=>{
+    const pct=8+((n.price-min)/span)*84;
+    const isUp=i%2===0;
+    const sz=n.best?17:12;
+    const color=n.best?'var(--gold)':provColor[n.prov];
+    const el=document.createElement('div');
+    el.className='anode';
+    el.style.cssText=`position:absolute;left:${pct}%;top:50%;transform:translate(-50%,-50%)`;
+    el.innerHTML=`
+      <div class="alab ${isUp?'up':'dn'}" style="position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:'Space Mono',monospace;font-size:9px;text-align:center;line-height:1.5;${isUp?'bottom:calc(100% + 8px)':'top:calc(100% + 8px)'}">
+        <span style="display:block;color:${n.best?'var(--gold)':'var(--ink)'};font-weight:${n.best?700:400}">${n.mkt}</span>
+        <span style="display:block;color:var(--dim)">${fmt(n.price)}</span>
+        ${n.best?'<span style="font-size:8px;letter-spacing:.1em;color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:1px 4px">BEST BUY</span>':''}
+      </div>
+      <div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${color};border:2px solid var(--cream);position:relative;z-index:2;${n.best?'box-shadow:0 0 0 4px rgba(138,106,46,.18)':''}"></div>`;
+    axis.appendChild(el);
+  });
+}
+
+/* tabs */
+const tabWrap=document.getElementById('tabs');
+[['lafite',"Lafite '16"],['margaux',"Margaux '22"],['dp',"Dom Pérignon '15"]].forEach(([k,l],i)=>{
+  const b=document.createElement('button');
+  b.textContent=l;if(i===0)b.classList.add('on');
+  b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderArb(k);};
+  tabWrap.appendChild(b);
+});
+renderArb('lafite');
+
+/* ---- AI ANALYSER ---- */
+function setQuery(el){document.getElementById('wineInput').value=el.textContent;}
+
+async function analyseWine(){
+  const wine=document.getElementById('wineInput').value.trim();
+  if(!wine)return;
+  const btn=document.getElementById('analyseBtn');
+  const result=document.getElementById('aiResult');
+  btn.disabled=true;btn.textContent='Analysing…';
+  result.className='ai-result loading';
+  result.textContent='Reading market signals for '+wine+'…';
+  try{
+    const res=await fetch('/api/wine-analyse',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({wine})
+    });
+    const data=await res.json();
+    const text=data.result||'No response received.';
+    result.className='ai-result';
+    result.innerHTML=formatAIResponse(text);
+  }catch(e){
+    result.className='ai-result';
+    result.innerHTML='<span style="color:var(--wait)">Connection error. Check your API access and try again.</span>';
+  }
+  btn.disabled=false;btn.textContent='Analyse →';
+}
+
+function formatAIResponse(text){
+  return text
+    .replace(/SIGNAL:\s*(BUY)/gi,'<span class="ai-tag buy">BUY</span>')
+    .replace(/SIGNAL:\s*(HOLD)/gi,'<span class="ai-tag hold">HOLD</span>')
+    .replace(/SIGNAL:\s*(WAIT)/gi,'<span class="ai-tag wait">WAIT</span>')
+    .replace(/\n\n/g,'</p><p style="margin-top:12px">')
+    .replace(/\n/g,'<br>')
+    .replace(/^/,'<p>')+'</p>';
+}
+
+document.getElementById('wineInput').addEventListener('keydown',e=>{if(e.key==='Enter')analyseWine();});
+
+/* ---- SIGNAL CARDS ---- */
+const wines=[
+  {name:"Château Lafite Rothschild",meta:"Bordeaux · Pauillac · 2016",sig:"buy",sc:84,note:"Reference First Growth turning up off a low base. Deepest liquidity in the field — can transact size without moving the price.",in:"2016 vintage +1.9% · Liv-ex Q1 2026"},
+  {name:"Dom Pérignon",meta:"Champagne · 2015",sig:"buy",sc:79,note:"Steady momentum, deep liquidity, still below fair value. Low-drama, reliable buy.",in:"+2.2% MoM · Liv-ex Q1 2026"},
+  {name:"Château Margaux",meta:"Bordeaux · Margaux · 2022",sig:"buy",sc:81,note:"Acclaimed young vintage with early secondary momentum and significant room to run.",in:"2022 vintage +1.5% · Liv-ex Q1 2026"},
+  {name:"Sassicaia",meta:"Italy · Bolgheri · 2021",sig:"buy",sc:77,note:"Italy held up best through the correction. Lower drawdown, dependable global demand. Defensive buy with upside.",in:"Italy 100 most resilient sub-index · Liv-ex"},
+  {name:"Krug",meta:"Champagne · 2004",sig:"hold",sc:71,note:"Real momentum — but it has already run hard. +10.7% in a month is a spike. Chase only on a pullback.",in:"+10.7% MoM · Liv-ex Q1 2026"},
+  {name:"DRC",meta:"Burgundy · Vosne-Romanée · 2019",sig:"hold",sc:68,note:"Extreme scarcity, loud demand — but thin liquidity makes size hard to fill cleanly. Buy opportunistically on offered parcels only.",in:"Burgundy 31.8% of Jan 2026 trade · Liv-ex"},
+];
+const sigl={buy:"● BUY",hold:"◐ HOLD",wait:"○ WAIT"};
+const grid=document.getElementById('grid');
+wines.forEach(w=>{
+  const d=document.createElement('div');
+  d.className=`card s-${w.sig}`;
+  d.dataset.sig=w.sig;
+  d.innerHTML=`<div class="cn">${w.name}</div><div class="cm">${w.meta}</div><div class="crow"><div class="sc">${w.sc}<small>/100</small></div><div class="sig s-${w.sig}">${sigl[w.sig]}</div></div><div class="cnote">${w.note}<span class="cin">${w.in}</span></div>`;
+  grid.appendChild(d);
+});
+
+function filterCards(f,btn){
+  document.querySelectorAll('.filter-row button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(c=>{
+    c.classList.toggle('hidden',f!=='all'&&c.dataset.sig!==f);
+  });
+}
+</script>
+</body>
+</html>
