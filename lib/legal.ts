@@ -21,6 +21,8 @@ export const legalEntity = {
     phone: "+44 7715 123595",
     phoneHref: "+447715123595",
     website: "https://safarisaev.ai",
+    /** Mobile apps published under the entity — closes the chain entity -> site -> app. */
+    apps: ["Kalorii (Калории)"],
     registerUrl:
         "https://find-and-update.company-information.service.gov.uk/company/16896823",
 } as const;

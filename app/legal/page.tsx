@@ -58,6 +58,7 @@ const record: { label: string; value: string; href?: string }[] = [
     { label: "Jurisdiction of registration", value: legalEntity.jurisdiction },
     { label: "Date of incorporation", value: legalEntity.incorporatedOn },
     { label: "D-U-N-S Number", value: legalEntity.dunsNumber },
+    { label: "Mobile applications", value: legalEntity.apps.join(", ") },
 ];
 
 export default function LegalPage() {
@@ -102,7 +103,19 @@ export default function LegalPage() {
                         operates business software, AI automation systems, and web
                         platforms, and provides IT and operations consultancy to its
                         clients. All services, tools, and content published on this
-                        domain are provided by {legalEntity.name}.
+                        domain are provided by {legalEntity.name}, which also
+                        publishes the mobile application{" "}
+                        <span className="text-foreground">
+                            {legalEntity.apps.join(", ")}
+                        </span>{" "}
+                        on the App Store. Its{" "}
+                        <Link
+                            href="/privacy"
+                            className="text-accent transition-colors hover:text-foreground"
+                        >
+                            privacy policy
+                        </Link>{" "}
+                        is published on this site.
                     </p>
                 </div>
 

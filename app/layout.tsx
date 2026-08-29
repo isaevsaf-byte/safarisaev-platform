@@ -114,6 +114,14 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                {/* Applies the stored theme before first paint so navigating between
+                    pages doesn't flash light-then-dark. Pages read the same key via
+                    hooks/usePreferences. */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `(function(){try{var t=localStorage.getItem("saf:theme");if(t==="dark")document.documentElement.classList.add("dark");var l=localStorage.getItem("saf:locale");if(l==="ru"||l==="en")document.documentElement.lang=l;}catch(e){}})();`,
+                    }}
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

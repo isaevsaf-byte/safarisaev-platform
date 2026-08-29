@@ -26,6 +26,13 @@ export function LegalFooter({ locale = "en" }: { locale?: "en" | "ru" }) {
                     >
                         {locale === "ru" ? "РЕКВИЗИТЫ" : "LEGAL"}
                     </Link>
+                    <span className="text-secondary/40">{"//"}</span>
+                    <Link
+                        href="/privacy"
+                        className="text-accent transition-colors hover:text-foreground"
+                    >
+                        {locale === "ru" ? "ПРИВАТНОСТЬ" : "PRIVACY"}
+                    </Link>
                 </div>
             </div>
         </footer>

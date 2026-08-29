@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon, Layers } from "lucide-react";
 import { motion } from "framer-motion";
@@ -11,36 +11,20 @@ import { ContactModal } from "@/components/ContactModal";
 import { TypewriterText } from "@/components/TypewriterText";
 import { ScanningLine } from "@/components/ScanningLine";
 import { GridBackground } from "@/components/GridBackground";
-import { getDictionary, type Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/i18n";
+import { usePreferences } from "@/hooks/usePreferences";
 import { cn } from "@/lib/utils";
 import { legalFooterLine } from "@/lib/legal";
 
 export default function Home() {
-  const [locale, setLocale] = useState<Locale>("en");
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  // Default to light mode for cleaner look
-  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Theme and language persist across pages — picking RU + dark here used to reset
+  // to EN + light the moment you clicked through to /portfolio or /protocols.
+  const { isDarkMode, toggleTheme, locale, setLocale, toggleLocale } = usePreferences("en");
 
   const dict = getDictionary(locale);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDarkMode) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  }, [isDarkMode]);
-
-  // Sync html lang attribute for accessibility
-  useEffect(() => {
-    document.documentElement.lang = locale;
-  }, [locale]);
-
-  const toggleLocale = () => {
-    setLocale(locale === "en" ? "ru" : "en");
-  };
 
   return (
     <main className="relative min-h-screen overflow-x-hidden">
@@ -65,7 +49,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             {/* Theme Toggle */}
             <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
+              onClick={toggleTheme}
               aria-label={isDarkMode ? "Light mode" : "Dark mode"}
               className="p-2 rounded-full hover:bg-secondary/10 transition-colors"
             >
@@ -352,6 +336,14 @@ export default function Home() {
                     {locale === "ru" ? "Реквизиты компании" : "Legal & Company Info"}
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="text-sm text-secondary hover:text-accent transition-colors"
+                  >
+                    {locale === "ru" ? "Политика приватности" : "Privacy Policy"}
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -415,6 +407,7 @@ export default function Home() {
         isOpen={isAuditModalOpen}
         onClose={() => setIsAuditModalOpen(false)}
         dictionary={dict.leadMagnet}
+        locale={locale}
       />
 
       {/* Contact Modal */}
