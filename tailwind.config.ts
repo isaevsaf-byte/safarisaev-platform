@@ -10,10 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        secondary: "var(--secondary)",
-        accent: "var(--accent)",
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
+        secondary: "rgb(var(--secondary) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
         efficiency: {
           safe: "#10B981", // Emerald-500
           warning: "#F59E0B", // Amber-500

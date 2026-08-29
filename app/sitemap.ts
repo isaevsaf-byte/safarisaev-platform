@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { projects } from '@/lib/portfolioData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://safarisaev.ai';
@@ -65,6 +66,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.8,
         },
+        // One entry per case study — eight pages that did not exist before.
+        ...projects.map((project) => ({
+            url: `${baseUrl}/portfolio/${project.slug}`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        })),
         {
             // Live tool, previously unreachable: no inbound link and no sitemap entry.
             url: `${baseUrl}/cellar`,

@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { LegalFooter } from "@/components/LegalFooter";
+import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
 import { usePreferences } from "@/hooks/usePreferences";
 import type { Locale } from "@/lib/i18n";
 import {
     projects,
     tools,
-    projectImage,
     WEBSITE_FROM_PRICE,
     type PortfolioProject,
     type PortfolioTool,
@@ -23,7 +22,7 @@ const content = {
         eyebrow: "— Selected work",
         title: "Portfolio",
         subtitle:
-            "Sites and tools built for founders, brands and operators. Fast, clean, no agency markup.",
+            "Sites and tools built for founders, brands and operators. Every one designed and built end to end by one person.",
         statSites: "live sites",
         statTools: "in-house tools",
         statDelivery: "typical delivery",
@@ -33,8 +32,8 @@ const content = {
         toolsTitle: "Things I built and run myself",
         toolsSubtitle:
             "Not client work — products of my own. Each one is live and free to try.",
+        readCase: "READ CASE",
         open: "OPEN",
-        openSite: "OPEN SITE",
         ctaEyebrow: "— Next project",
         ctaTitle: "Got a project in mind?",
         ctaSubtitle: `Websites from ${WEBSITE_FROM_PRICE}. Fast, clean, no agency markup.`,
@@ -48,7 +47,7 @@ const content = {
         eyebrow: "— Избранные работы",
         title: "Работы",
         subtitle:
-            "Сайты и инструменты для основателей, брендов и операционных команд. Быстро, чисто, без агентской накрутки.",
+            "Сайты и инструменты для основателей, брендов и операционных команд. Каждый сделан целиком одним человеком — от направления до деплоя.",
         statSites: "живых сайта",
         statTools: "своих инструмента",
         statDelivery: "обычный срок",
@@ -58,8 +57,8 @@ const content = {
         toolsTitle: "То, что я построил и веду сам",
         toolsSubtitle:
             "Это не клиентские работы, а собственные продукты. Каждый работает и открыт для теста.",
+        readCase: "ЧИТАТЬ КЕЙС",
         open: "ОТКРЫТЬ",
-        openSite: "ОТКРЫТЬ САЙТ",
         ctaEyebrow: "— Следующий проект",
         ctaTitle: "Есть идея проекта?",
         ctaSubtitle: `Сайты от ${WEBSITE_FROM_PRICE}. Быстро, чисто, без агентских наценок.`,
@@ -70,139 +69,86 @@ const content = {
     },
 } satisfies Record<Locale, Record<string, string>>;
 
-function ScreenshotImage({
-    project,
-    eager,
-}: {
-    project: PortfolioProject;
-    eager?: boolean;
-}) {
-    const [loaded, setLoaded] = useState(false);
-    const [error, setError] = useState(false);
-
-    return (
-        <div className="relative h-full w-full bg-secondary/5">
-            {!loaded && !error && (
-                <div className="absolute inset-0 animate-pulse bg-secondary/10" />
-            )}
-            {error && (
-                <div className="absolute inset-0 flex items-center justify-center bg-secondary/10">
-                    <span className="font-mono text-xs uppercase tracking-widest text-secondary/50">
-                        {project.name}
-                    </span>
-                </div>
-            )}
-            {!error && (
-                // eslint-disable-next-line @next/next/no-img-element -- third-party screenshot service, not a local asset next/image can optimise
-                <img
-                    src={projectImage(project)}
-                    alt={`${project.name} — website screenshot`}
-                    width={1200}
-                    height={800}
-                    loading={eager ? "eager" : "lazy"}
-                    fetchPriority={eager ? "high" : "auto"}
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className={`h-full w-full object-cover object-top transition-[opacity,transform] duration-500 group-hover:scale-[1.03] ${
-                        loaded ? "opacity-100" : "opacity-0"
-                    }`}
-                    onLoad={() => setLoaded(true)}
-                    onError={() => setError(true)}
-                />
-            )}
-        </div>
-    );
-}
-
-function CardChrome({ children }: { children: React.ReactNode }) {
-    return (
-        <span className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-300 group-hover:border-accent/40 group-focus-visible:border-accent/60">
-            {children}
-        </span>
-    );
+function hostOf(url: string) {
+    try {
+        return new URL(url).host.replace(/^www\./, "");
+    } catch {
+        return url;
+    }
 }
 
 function ProjectCard({
     project,
     index,
     locale,
-    openLabel,
+    caseLabel,
     featured = false,
 }: {
     project: PortfolioProject;
     index: number;
     locale: Locale;
-    openLabel: string;
+    caseLabel: string;
     featured?: boolean;
 }) {
     return (
-        <motion.a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
+        <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.45, delay: Math.min(index * 0.06, 0.3) }}
-            className="group relative block overflow-hidden border border-secondary/20 bg-background transition-colors duration-300 hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-            <div
-                className={`relative overflow-hidden ${
-                    featured ? "aspect-[16/10] md:aspect-[21/9]" : "aspect-[16/10]"
-                }`}
+            {/* Links to the case study rather than straight off-site: the visitor
+                stays here, and the live link sits on the case page. */}
+            <Link
+                href={`/portfolio/${project.slug}`}
+                className="group relative block overflow-hidden border border-secondary/20 bg-background transition-colors duration-300 hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-                <ScreenshotImage project={project} eager={featured} />
-                <CardChrome>{null}</CardChrome>
-            </div>
-
-            <div className={featured ? "p-5 md:p-6" : "p-4"}>
-                <div className="flex items-start justify-between gap-3">
-                    <h3
-                        className={`font-mono font-bold text-foreground ${
-                            featured ? "text-lg md:text-2xl" : "text-sm"
-                        }`}
-                    >
-                        {project.name}
-                    </h3>
-                    <span className="shrink-0 border border-accent/30 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent md:text-xs">
-                        {project.category[locale]}
-                    </span>
-                </div>
-
-                {/* Always visible — the old build hid this behind :hover, which meant no
-                    touch device could ever read the description or reach the link. */}
-                <p
-                    className={`mt-2 font-mono text-secondary ${
-                        featured ? "max-w-xl text-sm md:text-base" : "text-xs"
+                <div
+                    className={`relative overflow-hidden ${
+                        featured ? "aspect-[16/10] md:aspect-[21/9]" : "aspect-[16/10]"
                     }`}
                 >
-                    {project.description[locale]}
-                </p>
+                    <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.03]">
+                        <ProjectScreenshot project={project} eager={featured} />
+                    </div>
+                </div>
 
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex flex-wrap gap-2">
-                        {project.stack.map((item) => (
-                            <span
-                                key={item}
-                                className="border border-secondary/25 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-secondary"
-                            >
-                                {item}
-                            </span>
-                        ))}
-                        {project.year && (
-                            <span className="px-1 py-0.5 font-mono text-[10px] uppercase tracking-wider text-secondary/70">
-                                {project.year}
-                            </span>
-                        )}
+                <div className={featured ? "p-5 md:p-6" : "p-4"}>
+                    <div className="flex items-start justify-between gap-3">
+                        <h3
+                            className={`font-mono font-bold text-foreground ${
+                                featured ? "text-lg md:text-2xl" : "text-sm"
+                            }`}
+                        >
+                            {project.name}
+                        </h3>
+                        <span className="shrink-0 border border-accent/30 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent md:text-xs">
+                            {project.category[locale]}
+                        </span>
                     </div>
 
-                    <span className="flex items-center gap-1 font-mono text-xs font-bold text-accent">
-                        {openLabel}
-                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </span>
+                    {/* Always visible — the old build hid this behind :hover, which meant
+                        no touch device could ever read it or reach the link. */}
+                    <p
+                        className={`mt-2 font-mono text-secondary ${
+                            featured ? "max-w-xl text-sm md:text-base" : "text-xs"
+                        }`}
+                    >
+                        {project.description[locale]}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-secondary/15 pt-3">
+                        <span className="font-mono text-[10px] tracking-wider text-secondary/70">
+                            {hostOf(project.url)}
+                        </span>
+                        <span className="flex items-center gap-1 font-mono text-xs font-bold text-accent">
+                            {caseLabel}
+                            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </motion.a>
+            </Link>
+        </motion.div>
     );
 }
 
@@ -317,7 +263,7 @@ export default function PortfolioClient() {
                     <h1 className="font-mono text-3xl font-bold text-foreground md:text-5xl">
                         {t.title}
                     </h1>
-                    <p className="mt-4 max-w-lg font-mono text-sm text-secondary">{t.subtitle}</p>
+                    <p className="mt-4 max-w-xl font-mono text-sm text-secondary">{t.subtitle}</p>
 
                     <dl className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-secondary/20 pt-6">
                         {[
@@ -326,7 +272,7 @@ export default function PortfolioClient() {
                             { value: t.statDeliveryValue, label: t.statDelivery },
                         ].map((stat) => (
                             <div key={stat.label}>
-                                <dt className="font-mono text-2xl font-bold text-foreground md:text-3xl">
+                                <dt className="font-mono text-2xl font-bold tabular-nums text-foreground md:text-3xl">
                                     {stat.value}
                                 </dt>
                                 <dd className="mt-1 font-mono text-[10px] uppercase tracking-wider text-secondary md:text-xs">
@@ -347,7 +293,7 @@ export default function PortfolioClient() {
                     project={featured}
                     index={0}
                     locale={locale}
-                    openLabel={t.openSite}
+                    caseLabel={t.readCase}
                     featured
                 />
                 <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -357,7 +303,7 @@ export default function PortfolioClient() {
                             project={project}
                             index={i}
                             locale={locale}
-                            openLabel={t.open}
+                            caseLabel={t.readCase}
                         />
                     ))}
                 </div>
