@@ -84,8 +84,10 @@ export const privacyContent: Record<"en" | "ru", PrivacyContent> = {
             {
                 heading: "Product analytics",
                 body: [
-                    "The app does not send product analytics to any third-party analytics service. Coarse usage signals — that the app was opened, that an entry was logged — are recorded only on the device and are not transmitted anywhere.",
-                    "The app does not use session replay or screen recording.",
+                    "To understand how the app is used — whether people finish onboarding, which way they log meals, where they stop — the app sends a small set of product events to PostHog, our analytics provider, on its European Union hosting.",
+                    "What is sent is limited to event names and coarse properties: that the app was opened, that an entry was logged and by which input method, which onboarding step was completed, the interface language.",
+                    "Events are grouped under an identifier generated at random on your device. It is deliberately separate from the identifier the app uses with our own server, so the two sets of records cannot be joined, and it is connected neither to your Apple account nor to your email address.",
+                    "We do not use PostHog's SDK. The app posts the events itself, which means the vendor's automatic capture of taps and screens, and session replay, are not merely switched off — they are absent.",
                 ],
             },
             {
@@ -100,8 +102,8 @@ export const privacyContent: Record<"en" | "ru", PrivacyContent> = {
                     "Journal notes",
                 ],
                 body: [
-                    "No analytics leaves the app today. If a product analytics service is added later, none of the above will ever be part of what is sent, and this policy and the app's App Store privacy details will be updated before it is switched on.",
-                    "The restriction is enforced in the app's code by a catalogue of permitted event properties, not by policy alone: any property that is not on the list is dropped before an event can be sent.",
+                    "None of the above reaches analytics. The app's code carries a catalogue of the properties each event may contain, and any property outside it is dropped before the event is sent — the restriction is a structure in the code, covered by a test, not a promise in this text.",
+                    "Posting the events ourselves rather than through the vendor's SDK is what keeps that catalogue the only door: nothing gets the opportunity to add to what it allowed.",
                 ],
             },
             {
@@ -121,13 +123,13 @@ export const privacyContent: Record<"en" | "ru", PrivacyContent> = {
                 bullets: [
                     "Performance of a contract — operating the app's core functionality, including cloud sync and subscriptions once you use them.",
                     "Your explicit consent — health data you choose to send off the device: cloud sync, calorie estimation from a photo or description, and Apple Health access. You can withdraw consent by turning the feature off, and by deleting the cloud copy from within the app.",
-                    "Our legitimate interests — crash reporting, so that faults in the app can be found and fixed.",
+                    "Our legitimate interests — product analytics limited to the coarse events described above, and crash reporting, so that the app can be improved and kept working.",
                 ],
             },
             {
                 heading: "How long we keep data",
                 body: [
-                    "Data on your device stays until you delete it or remove the app. A cloud sync copy is kept until you delete it from within the app. Photos and descriptions sent for calorie estimation are not retained after the response. Crash reports are kept no longer than is necessary for the purposes described above.",
+                    "Data on your device stays until you delete it or remove the app. A cloud sync copy is kept until you delete it from within the app. Photos and descriptions sent for calorie estimation are not retained after the response. Analytics events and crash reports are kept no longer than is necessary for the purposes described above.",
                 ],
             },
             {
@@ -213,8 +215,10 @@ export const privacyContent: Record<"en" | "ru", PrivacyContent> = {
             {
                 heading: "Продуктовая аналитика",
                 body: [
-                    "Приложение не передаёт продуктовую аналитику никаким сторонним сервисам. Грубые признаки использования — что приложение открыли, что сделали запись — фиксируются только на устройстве и никуда не отправляются.",
-                    "Запись экрана и запись сессий не используются.",
+                    "Чтобы понимать, как приложением пользуются — доходят ли до конца онбординга, каким способом записывают еду, где останавливаются, — приложение отправляет небольшой набор продуктовых событий в PostHog, нашему аналитическому сервису, на его хостинге в Европейском союзе.",
+                    "Отправляются только имена событий и грубые свойства: что приложение открыли, что сделали запись и каким способом ввода, какой шаг онбординга завершён, какой язык интерфейса выбран.",
+                    "События группируются по идентификатору, который случайно генерируется на вашем устройстве. Он намеренно отделён от идентификатора, который приложение использует с нашим собственным сервером, поэтому два набора записей нельзя соединить; с вашим аккаунтом Apple и адресом почты он не связан.",
+                    "Мы не используем SDK PostHog. Приложение отправляет события само, поэтому автоматический сбор нажатий и экранов, а также запись сессий не просто выключены — их нет.",
                 ],
             },
             {
@@ -229,8 +233,8 @@ export const privacyContent: Record<"en" | "ru", PrivacyContent> = {
                     "Заметки дневника",
                 ],
                 body: [
-                    "Сегодня аналитика не покидает приложение вовсе. Если аналитический сервис будет подключён позже, ничего из перечисленного в отправляемые данные не войдёт, а эта политика и сведения о приватности в App Store будут обновлены до того, как он заработает.",
-                    "Ограничение реализовано в коде приложения каталогом разрешённых свойств событий, а не только политикой: любое свойство, которого нет в списке, отбрасывается до того, как событие может быть отправлено.",
+                    "Ничего из перечисленного в аналитику не попадает. В коде приложения есть каталог свойств, которые может содержать каждое событие, и любое свойство вне этого каталога отбрасывается до отправки — ограничение является конструкцией в коде, покрытой тестом, а не обещанием в этом тексте.",
+                    "Именно потому, что приложение отправляет события само, а не через SDK сервиса, каталог остаётся единственной дверью: ничто не получает возможности добавить что-то сверх разрешённого.",
                 ],
             },
             {
@@ -250,13 +254,13 @@ export const privacyContent: Record<"en" | "ru", PrivacyContent> = {
                 bullets: [
                     "Исполнение договора — работа основных функций приложения, включая облачную синхронизацию и подписки, когда вы ими пользуетесь.",
                     "Ваше явное согласие — данные о здоровье, которые вы решаете отправить с устройства: облачная синхронизация, оценка калорий по фото или описанию, доступ к Apple Health. Согласие можно отозвать, выключив функцию и удалив облачную копию из приложения.",
-                    "Наш законный интерес — отчёты о сбоях, чтобы находить и исправлять ошибки в приложении.",
+                    "Наш законный интерес — продуктовая аналитика в рамках описанных выше грубых событий и отчёты о сбоях, чтобы приложение можно было улучшать и поддерживать в работоспособном состоянии.",
                 ],
             },
             {
                 heading: "Сколько мы храним данные",
                 body: [
-                    "Данные на устройстве хранятся, пока вы их не удалите или не удалите приложение. Облачная копия хранится, пока вы не удалите её из приложения. Фотографии и описания, отправленные для оценки калорий, после ответа не сохраняются. Отчёты о сбоях хранятся не дольше, чем необходимо для целей, описанных выше.",
+                    "Данные на устройстве хранятся, пока вы их не удалите или не удалите приложение. Облачная копия хранится, пока вы не удалите её из приложения. Фотографии и описания, отправленные для оценки калорий, после ответа не сохраняются. События аналитики и отчёты о сбоях хранятся не дольше, чем необходимо для целей, описанных выше.",
                 ],
             },
             {
