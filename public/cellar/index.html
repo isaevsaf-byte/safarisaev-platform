@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CELLAR — Fine Wine Sourcing Intelligence</title>
+<meta name="description" content="Name a wine and get a sourcing signal — buy, hold or wait — read against live fine wine market context. Built by Safar Isaev.">
+<link rel="canonical" href="https://safarisaev.ai/cellar">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://safarisaev.ai/cellar">
+<meta property="og:site_name" content="Safar Isaev">
+<meta property="og:title" content="CELLAR — Fine Wine Sourcing Intelligence">
+<meta property="og:description" content="Name a wine and get a sourcing signal — buy, hold or wait — read against live fine wine market context.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CELLAR — Fine Wine Sourcing Intelligence">
+<meta name="twitter:description" content="Name a wine and get a sourcing signal — buy, hold or wait — read against live fine wine market context.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -400,8 +410,18 @@ async function analyseWine(){
   btn.disabled=false;btn.textContent='Analyse →';
 }
 
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// The response goes straight into innerHTML below, so anything the model echoes
+// back from the user's input must be inert before we start adding our own tags.
 function formatAIResponse(text){
-  return text
+  return escapeHtml(text)
     // Remove markdown wrapper around section headers, style SIGNAL tag
     .replace(/\*\*SIGNAL:\s*(BUY|HOLD|WAIT)\*\*/gi,(m,sig)=>{
       const tag=sig.toLowerCase();

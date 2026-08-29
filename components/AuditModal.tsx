@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, Loader2, X } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { useDialog } from "@/hooks/useDialog";
 import { useForm } from "@formspree/react";
 
 interface AuditModalProps {
@@ -28,15 +29,8 @@ export function AuditModal({ isOpen, onClose, dictionary, locale = "en" }: Audit
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
-  // Close on Escape — the modal previously trapped keyboard users with no way out.
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCloseRef.current();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen]);
+  // Escape, focus trap, scroll lock and focus restore.
+  const dialogRef = useDialog(isOpen, onClose);
 
   useEffect(() => {
     if (!state.succeeded) return;
@@ -56,6 +50,7 @@ export function AuditModal({ isOpen, onClose, dictionary, locale = "en" }: Audit
             onClick={onClose}
           />
           <motion.div
+            ref={dialogRef}
             className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 border border-secondary/20 bg-background p-6 font-mono"
             initial={{ opacity: 0, scale: 0.9, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}

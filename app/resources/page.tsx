@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import ResourcesClient from "./ResourcesClient";
+import { ServicePage } from "@/components/ServicePage";
 
 export const metadata: Metadata = {
+    alternates: { canonical: `https://safarisaev.ai/resources` },
     title: "Resource Architecture | Safar Isaev",
     description: "Procurement audit, supplier negotiation, vendor management, and cost reduction roadmap. Reduce procurement costs by 20-40% and eliminate duplicate vendors.",
     openGraph: {
@@ -17,6 +18,6 @@ export const metadata: Metadata = {
     },
 };
 
-export default function ResourcesPage() {
-    return <ResourcesClient />;
+export default function Page() {
+    return <ServicePage slug="resources" />;
 }

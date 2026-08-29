@@ -28,14 +28,14 @@ export function AccessCard({
   return (
     <motion.div
       className={cn(
-        "relative border border-secondary/20 bg-background p-6 transition-all duration-300",
+        // saf-reveal is a CSS entrance. The framer scroll reveal that was here
+        // shipped the card as inline opacity:0, so the whole section was blank
+        // until hydration and blank for good if JS never arrived.
+        "saf-reveal relative border border-secondary/20 bg-background p-6 transition-all duration-300",
         "hover:border-accent/50 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)]",
         className
       )}
       whileHover={{ y: -4 }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
       {/* Scan effect on hover */}

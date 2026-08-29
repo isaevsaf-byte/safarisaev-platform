@@ -133,9 +133,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const handlePdfDownload = useCallback(async () => {
         setPdfError(null);
         try {
-            console.log("Generating PDF...");
             await generateAiPdf(score, zoneKey, lang, context, email);
-            console.log("PDF Generated.");
             // Optional: Close modal after success, or let user close it
         } catch (err) {
             console.error("PDF Fail:", err);
@@ -458,6 +456,8 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                         />
                                     </div>
                                     {/* Hidden Fields for Formspree */}
+                                    <input type="hidden" name="source" value="ai-velocity-index" />
+                                    <input type="hidden" name="lang" value={lang} />
                                     <input type="hidden" name="score" value={score} />
                                     <input type="hidden" name="zone" value={zoneKey} />
                                     <input type="hidden" name="context" value={context} />

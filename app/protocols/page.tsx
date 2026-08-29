@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import ProtocolsClient from "./ProtocolsClient";
+import { ServicePage } from "@/components/ServicePage";
 
 export const metadata: Metadata = {
+    alternates: { canonical: `https://safarisaev.ai/protocols` },
     title: "System Protocols | Safar Isaev",
     description: "Process mapping, SOP documentation, org structure optimization, and workflow automation design. Eliminate decision paralysis and create scalable operations.",
     openGraph: {
@@ -17,6 +18,6 @@ export const metadata: Metadata = {
     },
 };
 
-export default function ProtocolsPage() {
-    return <ProtocolsClient />;
+export default function Page() {
+    return <ServicePage slug="protocols" />;
 }

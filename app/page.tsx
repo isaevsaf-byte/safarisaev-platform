@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon, Layers } from "lucide-react";
+import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon, Layers, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { AccessCard } from "@/components/AccessCard";
@@ -13,12 +13,12 @@ import { ScanningLine } from "@/components/ScanningLine";
 import { GridBackground } from "@/components/GridBackground";
 import { getDictionary } from "@/lib/i18n";
 import { usePreferences } from "@/hooks/usePreferences";
-import { cn } from "@/lib/utils";
 import { legalFooterLine } from "@/lib/legal";
 
 export default function Home() {
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   // Theme and language persist across pages — picking RU + dark here used to reset
   // to EN + light the moment you clicked through to /portfolio or /protocols.
@@ -85,35 +85,65 @@ export default function Home() {
                 {locale.toUpperCase()}
               </GlitchText>
             </button>
+
+            {/* On phones the three nav links above are hidden and there was no
+                replacement, so nothing but the hero CTAs reached the tools. */}
+            <button
+              onClick={() => setIsNavOpen((open) => !open)}
+              aria-expanded={isNavOpen}
+              aria-controls="mobile-nav"
+              aria-label={
+                isNavOpen
+                  ? locale === "ru" ? "Закрыть меню" : "Close menu"
+                  : locale === "ru" ? "Открыть меню" : "Open menu"
+              }
+              className="md:hidden p-2 rounded-sm text-secondary hover:text-accent transition-colors"
+            >
+              {isNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+
+        {isNavOpen && (
+          <nav
+            id="mobile-nav"
+            className="md:hidden border-t border-secondary/20 bg-background"
+          >
+            <ul className="container mx-auto flex flex-col px-6 py-2">
+              {[
+                { href: "/portfolio", label: dict.header.portfolio },
+                { href: `/${locale}/efficiency-index`, label: dict.header.efficiency },
+                { href: `/${locale}/ai-velocity-index`, label: dict.header.aiIndex },
+                { href: "/legal", label: locale === "ru" ? "РЕКВИЗИТЫ" : "LEGAL" },
+              ].map((item) => (
+                <li key={item.href} className="border-b border-secondary/10 last:border-b-0">
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsNavOpen(false)}
+                    className="block py-3 font-mono text-sm font-bold text-secondary transition-colors hover:text-accent"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </header>
 
       {/* Hero Section */}
       <section className="relative z-10 flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
-        <motion.h1
-          className="mb-6 text-3xl font-bold text-foreground md:text-5xl lg:text-6xl max-w-5xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        {/* CSS entrance instead of a framer mount animation: the hero used to
+            reach the browser as inline opacity:0 and stayed invisible until
+            hydration finished. */}
+        <h1 className="saf-reveal mb-6 max-w-5xl text-3xl font-bold text-foreground md:text-5xl lg:text-6xl">
           {dict.hero.title}
-        </motion.h1>
-        <motion.div
-          className="text-lg text-secondary md:text-xl"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-        >
+        </h1>
+        <div className="saf-reveal-delayed text-lg text-secondary md:text-xl">
           <TypewriterText text={dict.hero.subtext} />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="mt-8 flex flex-col items-center gap-4 md:flex-row"
-        >
+        <div className="saf-reveal-late mt-8 flex flex-col items-center gap-4 md:flex-row">
           <Link
             href={`/${locale}/efficiency-index`}
             className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent hover:shadow-[0_0_15px_rgba(0,255,148,0.2)] w-full md:w-auto"
@@ -140,7 +170,7 @@ export default function Home() {
             <span>{dict.hero.ctaWork}</span>
             <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
-        </motion.div>
+        </div>
       </section>
 
       {/* Active Protocols */}
@@ -172,14 +202,9 @@ export default function Home() {
       {/* The Stack */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-6">
-          <motion.h2
-            className="mb-12 text-center text-3xl font-semibold text-foreground"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
+          <h2 className="saf-reveal mb-12 text-center text-3xl font-semibold text-foreground">
             {dict.stack.title}
-          </motion.h2>
+          </h2>
           <div className="grid gap-6 md:grid-cols-3">
             {[
               {
@@ -203,12 +228,9 @@ export default function Home() {
             ].map((module, index) => (
               <Link key={index} href={module.href}>
                 <motion.div
-                  className="group relative border border-secondary/20 bg-background p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)] cursor-pointer"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  className="saf-reveal group relative border border-secondary/20 bg-background p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)] cursor-pointer"
                   whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <module.icon className="mb-4 h-10 w-10 text-accent" />
                   <h3 className="mb-2 text-xl font-semibold text-foreground">
@@ -225,13 +247,7 @@ export default function Home() {
       {/* Lead Magnet */}
       <section className="relative z-10 border-y border-secondary/20 py-20">
         <div className="container mx-auto px-6">
-          <motion.div
-            className="mx-auto max-w-2xl border border-secondary/20 bg-background p-8 font-mono"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="saf-reveal mx-auto max-w-2xl border border-secondary/20 bg-background p-8 font-mono">
             <div className="mb-6 space-y-2">
               <div className="text-sm text-secondary">
                 {dict.leadMagnet.terminal}
@@ -247,7 +263,7 @@ export default function Home() {
             >
               {dict.leadMagnet.cta}
             </button>
-          </motion.div>
+          </div>
         </div>
       </section>
 

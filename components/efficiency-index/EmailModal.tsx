@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Download, Loader2, CheckCircle } from "lucide-react";
+import { X, Download, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { useForm } from "@formspree/react";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
+import { useDialog } from "@/hooks/useDialog";
 import { generateEfficiencyReport } from "@/lib/generatePdf";
 import { efficiencyData, Lang } from "./data";
 
@@ -22,25 +23,31 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
     const [state, handleSubmit] = useForm("xzddelvr");
     const onCloseRef = useRef(onClose);
     onCloseRef.current = onClose;
+    const dialogRef = useDialog(isOpen, onClose);
+    const [pdfFailed, setPdfFailed] = useState(false);
 
     useEffect(() => {
-        if (state.succeeded) {
-            const downloadReport = async () => {
-                try {
-                    await generateEfficiencyReport(score, revenue, zone, lang, wastePercentage);
-                } catch (err: unknown) {
-                    const message = err instanceof Error ? err.message : "Unknown error";
-                    console.error("PDF Download failed", err);
-                    alert("PDF Error: " + message);
-                }
-            };
-            downloadReport();
+        if (!state.succeeded) return;
 
-            const timer = setTimeout(() => {
-                onCloseRef.current();
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
+        let cancelled = false;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+
+        generateEfficiencyReport(score, revenue, zone, lang, wastePercentage)
+            .then(() => {
+                if (cancelled) return;
+                // Only auto-dismiss once the file is actually on its way.
+                timer = setTimeout(() => onCloseRef.current(), 3000);
+            })
+            .catch((err: unknown) => {
+                if (cancelled) return;
+                console.error("PDF download failed", err);
+                setPdfFailed(true);
+            });
+
+        return () => {
+            cancelled = true;
+            if (timer) clearTimeout(timer);
+        };
     }, [state.succeeded, score, revenue, zone, lang, wastePercentage]);
 
     const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -73,6 +80,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
                         aria-label={lang === "ru" ? "Получить полный отчет" : "Get Full Report"}
                     >
                         <div
+                            ref={dialogRef}
                             className="relative w-full max-w-md overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
                         >
@@ -85,19 +93,41 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
                                 <X className="w-5 h-5" />
                             </button>
 
-                            {/* Success State */}
+                            {/* Success / failure state */}
                             {state.succeeded ? (
-                                <div className="flex flex-col items-center justify-center py-8 text-center">
-                                    <div className="mb-4 rounded-full bg-green-100 p-3 text-green-600 dark:bg-green-900/30 dark:text-green-400">
-                                        <CheckCircle className="w-8 h-8" />
+                                pdfFailed ? (
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                                        <div className="mb-4 rounded-full bg-amber-100 p-3 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+                                            <AlertTriangle className="w-8 h-8" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                                            {lang === "ru" ? "Заявка принята" : "Request received"}
+                                        </h3>
+                                        <p className="text-slate-600 dark:text-zinc-400">
+                                            {lang === "ru"
+                                                ? "PDF не собрался в браузере, но ваши данные у меня. Пришлю отчёт на почту."
+                                                : "The PDF did not build in your browser, but your details came through. I'll email the report."}
+                                        </p>
+                                        <a
+                                            href="mailto:saf@safarisaev.ai"
+                                            className="mt-4 text-sm font-bold text-accent underline underline-offset-4"
+                                        >
+                                            saf@safarisaev.ai
+                                        </a>
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                                        {lang === "ru" ? "Готово!" : "Success!"}
-                                    </h3>
-                                    <p className="text-slate-600 dark:text-zinc-400">
-                                        {lang === "ru" ? "Ваш отчет загружается..." : "Your report is downloading..."}
-                                    </p>
-                                </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                                        <div className="mb-4 rounded-full bg-green-100 p-3 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                                            <CheckCircle className="w-8 h-8" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                                            {lang === "ru" ? "Готово!" : "Success!"}
+                                        </h3>
+                                        <p className="text-slate-600 dark:text-zinc-400">
+                                            {lang === "ru" ? "Ваш отчет загружается..." : "Your report is downloading..."}
+                                        </p>
+                                    </div>
+                                )
                             ) : (
                                 /* Form State */
                                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,6 +143,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
                                     </div>
 
                                     {/* Hidden Fields for Context */}
+                                    <input type="hidden" name="source" value="efficiency-index" />
                                     <input type="hidden" name="score" value={score} />
                                     <input type="hidden" name="waste" value={wastePercentage} />
                                     <input type="hidden" name="zone" value={zone} />

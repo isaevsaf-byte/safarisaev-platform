@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
 import { LegalFooter } from "@/components/LegalFooter";
 import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
@@ -91,12 +90,7 @@ function ProjectCard({
     featured?: boolean;
 }) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.45, delay: Math.min(index * 0.06, 0.3) }}
-        >
+        <div className="saf-reveal" style={{ animationDelay: `${Math.min(index * 0.05, 0.25)}s` }}>
             {/* Links to the case study rather than straight off-site: the visitor
                 stays here, and the live link sits on the case page. */}
             <Link
@@ -148,7 +142,7 @@ function ProjectCard({
                     </div>
                 </div>
             </Link>
-        </motion.div>
+        </div>
     );
 }
 
@@ -192,12 +186,7 @@ function ToolCard({
     const href = tool.localisedHref ? `/${locale}${tool.href}` : tool.href;
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.4, delay: Math.min(index * 0.06, 0.3) }}
-        >
+        <div className="saf-reveal h-full" style={{ animationDelay: `${Math.min(index * 0.05, 0.25)}s` }}>
             {tool.external ? (
                 <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
                     {body}
@@ -207,7 +196,7 @@ function ToolCard({
                     {body}
                 </Link>
             )}
-        </motion.div>
+        </div>
     );
 }
 
@@ -252,11 +241,7 @@ export default function PortfolioClient() {
 
             {/* Heading + at-a-glance numbers */}
             <section className="relative z-10 container mx-auto px-6 pb-10 pt-16">
-                <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <div className="saf-reveal">
                     <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
                         {t.eyebrow}
                     </p>
@@ -281,7 +266,7 @@ export default function PortfolioClient() {
                             </div>
                         ))}
                     </dl>
-                </motion.div>
+                </div>
             </section>
 
             {/* Client work */}
@@ -338,13 +323,7 @@ export default function PortfolioClient() {
 
             {/* CTA */}
             <section className="relative z-10 border-t border-secondary/20">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="container mx-auto flex flex-col items-center px-6 py-20 text-center"
-                >
+                <div className="container mx-auto flex flex-col items-center px-6 py-20 text-center">
                     <p className="mb-4 font-mono text-xs uppercase tracking-widest text-accent">
                         {t.ctaEyebrow}
                     </p>
@@ -370,7 +349,7 @@ export default function PortfolioClient() {
                             {t.ctaSecondary}
                         </a>
                     </div>
-                </motion.div>
+                </div>
             </section>
 
             <LegalFooter locale={locale} />

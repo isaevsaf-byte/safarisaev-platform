@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, MessageSquare } from "lucide-react";
+import { useDialog } from "@/hooks/useDialog";
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ export function ContactModal({
   telegramUrl,
   emailAddress,
 }: ContactModalProps) {
+  const dialogRef = useDialog(isOpen, onClose);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -36,6 +39,7 @@ export function ContactModal({
             onClick={onClose}
           />
           <motion.div
+            ref={dialogRef}
             className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 border border-secondary/20 bg-background p-6 font-mono mx-4"
             initial={{ opacity: 0, scale: 0.9, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}

@@ -43,9 +43,14 @@
     animation: saf-reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
   }
 
+  .saf-reveal-late {
+    animation: saf-reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .saf-reveal,
-    .saf-reveal-delayed {
+    .saf-reveal-delayed,
+    .saf-reveal-late {
       animation: none;
     }
   }

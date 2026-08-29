@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Mail } from "lucide-react";
 import { efficiencyData, Lang } from "./data";
+import { useDialog } from "@/hooks/useDialog";
 
 interface BookingModalProps {
     isOpen: boolean;
@@ -12,6 +13,7 @@ interface BookingModalProps {
 
 export function BookingModal({ isOpen, onClose, lang }: BookingModalProps) {
     const t = efficiencyData.content[lang].text.booking;
+    const dialogRef = useDialog(isOpen, onClose);
 
     return (
         <AnimatePresence>
@@ -38,6 +40,7 @@ export function BookingModal({ isOpen, onClose, lang }: BookingModalProps) {
                         aria-label={t.modal_title}
                     >
                         <div
+                            ref={dialogRef}
                             className="relative w-full max-w-md overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-2xl"
                             onClick={(e) => e.stopPropagation()}
                         >

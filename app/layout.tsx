@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Safar Isaev - Business Neurosurgeon",
     description: "Unscalable processes limit your exit. I architect growth through system protocols, resource optimization, and cognitive intelligence.",
     metadataBase: new URL("https://safarisaev.ai"),
+    alternates: { canonical: "https://safarisaev.ai" },
     openGraph: {
         title: "Safar Isaev - Business Neurosurgeon",
         description: "Unscalable processes limit your exit. I architect growth.",
