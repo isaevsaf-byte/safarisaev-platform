@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LegalFooter } from "@/components/LegalFooter";
 
 export default function NotFound() {
     return (
@@ -16,6 +17,10 @@ export default function NotFound() {
             >
                 RETURN TO TERMINAL
             </Link>
+
+            <div className="mt-16 w-full">
+                <LegalFooter />
+            </div>
         </div>
     );
 }

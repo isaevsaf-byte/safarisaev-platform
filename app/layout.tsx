@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { legalEntity } from "@/lib/legal";
 
 const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
@@ -41,6 +42,11 @@ const jsonLd = {
     sameAs: [
         "https://t.me/SafarIsaev",
     ],
+    worksFor: {
+        "@type": "Organization",
+        name: legalEntity.name,
+        url: legalEntity.website,
+    },
     knowsAbout: [
         "Business Operations",
         "Process Optimization",
@@ -70,6 +76,36 @@ const jsonLd = {
     ],
 };
 
+// Operating legal entity behind safarisaev.ai
+const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: legalEntity.name,
+    legalName: legalEntity.name,
+    url: legalEntity.website,
+    email: legalEntity.email,
+    telephone: legalEntity.phone,
+    identifier: [
+        {
+            "@type": "PropertyValue",
+            name: "Companies House company number",
+            value: legalEntity.companyNumber,
+        },
+        {
+            "@type": "PropertyValue",
+            name: "D-U-N-S Number",
+            value: legalEntity.dunsNumber,
+        },
+    ],
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: `${legalEntity.registeredOffice[0]}, ${legalEntity.registeredOffice[1]}`,
+        addressLocality: "Southampton",
+        addressCountry: "GB",
+        postalCode: "SO17 1LA",
+    },
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -81,6 +117,12 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(organizationJsonLd),
+                    }}
                 />
             </head>
             <body className={`${jetbrainsMono.variable} font-mono antialiased`}>

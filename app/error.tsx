@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { LegalFooter } from "@/components/LegalFooter";
 
 export default function Error({
     error,
@@ -41,6 +42,10 @@ export default function Error({
                     Error ID: {error.digest}
                 </p>
             )}
+
+            <div className="mt-16 w-full">
+                <LegalFooter />
+            </div>
         </div>
     );
 }

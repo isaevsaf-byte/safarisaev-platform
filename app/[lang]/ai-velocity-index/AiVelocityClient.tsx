@@ -7,6 +7,7 @@ import { generateAiPdf } from "@/lib/generateAiPdf";
 import { ArrowLeft, Check, ArrowRight, Loader2, Download, Zap, RefreshCw, Sun, Moon, User, Users } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "@formspree/react";
+import { LegalFooter } from "@/components/LegalFooter";
 
 interface AiVelocityClientProps {
     initialLang?: Lang;
@@ -474,6 +475,8 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                     </div>
                 )}
             </AnimatePresence>
+
+            <LegalFooter locale={lang} />
         </div>
     );
 }

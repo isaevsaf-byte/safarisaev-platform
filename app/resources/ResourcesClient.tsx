@@ -8,6 +8,7 @@ import { GlitchText } from "@/components/GlitchText";
 import { GridBackground } from "@/components/GridBackground";
 import { ScanningLine } from "@/components/ScanningLine";
 import { type Locale } from "@/lib/i18n";
+import { LegalFooter } from "@/components/LegalFooter";
 
 export default function ResourcesClient() {
     const [locale, setLocale] = useState<Locale>("en");
@@ -183,6 +184,8 @@ export default function ResourcesClient() {
                     </motion.div>
                 </div>
             </section>
+
+            <LegalFooter locale={locale} />
         </main>
     );
 }

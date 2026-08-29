@@ -13,6 +13,7 @@ import { ScanningLine } from "@/components/ScanningLine";
 import { GridBackground } from "@/components/GridBackground";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { legalFooterLine } from "@/lib/legal";
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("en");
@@ -343,6 +344,14 @@ export default function Home() {
                     {locale === "ru" ? "Забронировать звонок" : "Book a Call"}
                   </a>
                 </li>
+                <li>
+                  <Link
+                    href="/legal"
+                    className="text-sm text-secondary hover:text-accent transition-colors"
+                  >
+                    {locale === "ru" ? "Реквизиты компании" : "Legal & Company Info"}
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -372,9 +381,12 @@ export default function Home() {
 
           {/* Bottom Bar */}
           <div className="pt-8 border-t border-secondary/20 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-1 md:items-start">
               <span className="text-xs text-secondary">
                 {dict.footer.label}
+              </span>
+              <span className="text-xs text-secondary">
+                {legalFooterLine}
               </span>
             </div>
             <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">

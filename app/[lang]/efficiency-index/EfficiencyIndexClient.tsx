@@ -10,6 +10,7 @@ import { Globe, ArrowRight, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Suspense } from "react";
+import { LegalFooter } from "@/components/LegalFooter";
 
 interface EfficiencyIndexContentProps {
     lang: "en" | "ru";
@@ -203,6 +204,10 @@ function EfficiencyIndexContent({ lang: initialLang }: EfficiencyIndexContentPro
 
                 </div>
             </main>
+
+            <div className="relative z-10">
+                <LegalFooter locale={lang} />
+            </div>
         </div>
     );
 }

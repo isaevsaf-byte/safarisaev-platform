@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlitchText } from "@/components/GlitchText";
+import { LegalFooter } from "@/components/LegalFooter";
 
 type Locale = "en" | "ru";
 
@@ -420,6 +421,8 @@ export default function PortfolioPage() {
           </a>
         </motion.div>
       </section>
+
+      <LegalFooter locale={locale} />
     </main>
   );
 }
