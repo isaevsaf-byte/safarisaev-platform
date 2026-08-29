@@ -29,19 +29,11 @@ const organizationJsonLd = {
     legalName: legalEntity.name,
     url: legalEntity.website,
     email: legalEntity.email,
-    telephone: legalEntity.phone,
-    identifier: [
-        {
-            "@type": "PropertyValue",
-            name: "Companies House company number",
-            value: legalEntity.companyNumber,
-        },
-        {
-            "@type": "PropertyValue",
-            name: "D-U-N-S Number",
-            value: legalEntity.dunsNumber,
-        },
-    ],
+    identifier: {
+        "@type": "PropertyValue",
+        name: "Companies House company number",
+        value: legalEntity.companyNumber,
+    },
     address: {
         "@type": "PostalAddress",
         streetAddress: `${legalEntity.registeredOffice[0]}, ${legalEntity.registeredOffice[1]}`,
@@ -57,7 +49,6 @@ const record: { label: string; value: string; href?: string }[] = [
     { label: "Entity type", value: legalEntity.entityType },
     { label: "Jurisdiction of registration", value: legalEntity.jurisdiction },
     { label: "Date of incorporation", value: legalEntity.incorporatedOn },
-    { label: "D-U-N-S Number", value: legalEntity.dunsNumber },
     { label: "Mobile applications", value: legalEntity.apps.join(", ") },
 ];
 
@@ -177,19 +168,6 @@ export default function LegalPage() {
                                     className="text-accent transition-colors hover:text-foreground"
                                 >
                                     {legalEntity.email}
-                                </a>
-                            </dd>
-                        </div>
-                        <div className="flex flex-col gap-1 border-b border-secondary/10 px-6 py-4 md:flex-row md:items-baseline md:gap-8">
-                            <dt className="font-mono text-xs uppercase tracking-wider text-secondary md:w-72 md:shrink-0">
-                                Telephone
-                            </dt>
-                            <dd className="font-mono text-sm">
-                                <a
-                                    href={`tel:${legalEntity.phoneHref}`}
-                                    className="text-accent transition-colors hover:text-foreground"
-                                >
-                                    {legalEntity.phone}
                                 </a>
                             </dd>
                         </div>

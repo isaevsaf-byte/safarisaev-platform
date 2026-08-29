@@ -84,19 +84,11 @@ const organizationJsonLd = {
     legalName: legalEntity.name,
     url: legalEntity.website,
     email: legalEntity.email,
-    telephone: legalEntity.phone,
-    identifier: [
-        {
-            "@type": "PropertyValue",
-            name: "Companies House company number",
-            value: legalEntity.companyNumber,
-        },
-        {
-            "@type": "PropertyValue",
-            name: "D-U-N-S Number",
-            value: legalEntity.dunsNumber,
-        },
-    ],
+    identifier: {
+        "@type": "PropertyValue",
+        name: "Companies House company number",
+        value: legalEntity.companyNumber,
+    },
     address: {
         "@type": "PostalAddress",
         streetAddress: `${legalEntity.registeredOffice[0]}, ${legalEntity.registeredOffice[1]}`,

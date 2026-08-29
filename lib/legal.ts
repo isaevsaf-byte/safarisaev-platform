@@ -9,7 +9,6 @@ export const legalEntity = {
     incorporatedOn: "8 December 2025",
     jurisdiction: "England and Wales",
     entityType: "Private Limited Company",
-    dunsNumber: "234404330",
     registeredOffice: [
         "Flat 41 Albany Park Court",
         "3 Westwood Road",
@@ -18,8 +17,6 @@ export const legalEntity = {
         "SO17 1LA",
     ],
     email: "saf@safarisaev.ai",
-    phone: "+44 7715 123595",
-    phoneHref: "+447715123595",
     website: "https://safarisaev.ai",
     /** Mobile apps published under the entity — closes the chain entity -> site -> app. */
     apps: ["Kalorii (Калории)"],
