@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import { WEBSITE_FROM_PRICE } from "@/lib/pricing";
 
 /**
  * Single source of truth for /portfolio and /portfolio/[slug].
@@ -70,14 +71,14 @@ export interface PortfolioTool {
     status: Localised;
 }
 
-/** Public price floor. Must match getwebpage.co.uk — they are the same offer. */
-export const WEBSITE_FROM_PRICE = "£500";
-
 /** Every site here was designed and built by Safar end to end. */
 const SOLO_ROLE: Localised = {
     en: "Designed and built end to end — direction, copy, design, build, deploy.",
     ru: "Сделан целиком: направление, тексты, дизайн, разработка, деплой.",
 };
+
+/** Re-exported so existing imports keep working; the value lives in lib/pricing.ts. */
+export { WEBSITE_FROM_PRICE };
 
 export const projects: PortfolioProject[] = [
     {

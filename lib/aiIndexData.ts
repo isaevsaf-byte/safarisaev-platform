@@ -1,3 +1,5 @@
+import { AI_OFFER_PRICE } from "./pricing";
+
 export type Lang = "en" | "ru";
 export type Context = "self" | "team";
 
@@ -68,9 +70,9 @@ export const aiIndexData = {
                 red: { title: "LEGACY OPERATOR (Аналоговый Режим)", slogan: "«Вы используете суперкомпьютер как печатную машинку.»", desc: "Вы — добросовестный профессионал, но вы работаете методами 2019 года. Пока конкуренты генерируют решения за секунды, вы тратите часы на ручной поиск, набор текста и форматирование. Вы теряете минимум 10-15 часов в неделю на задачи, которые ИИ решает за один клик. Ваша главная проблема: Страх чистого листа и привычка делать всё «своими руками»." }
             },
             offers: {
-                green: { name: "AI Builder (Coding)", price: "$890" },
-                yellow: { name: "AI Executive Suite", price: "$290" },
-                red: { name: "AI Foundation: Early Access", price: "$19" }
+                green: { name: "AI Builder (Coding)", price: AI_OFFER_PRICE.green },
+                yellow: { name: "AI Executive Suite", price: AI_OFFER_PRICE.yellow },
+                red: { name: "AI Foundation: Early Access", price: AI_OFFER_PRICE.red }
             }
         },
         en: {
@@ -84,9 +86,9 @@ export const aiIndexData = {
                 red: { title: "LEGACY OPERATOR", slogan: "'You are using a supercomputer as a typewriter.'", desc: "You are a hard worker, but you are running on 2019 operating systems. While competitors generate solutions in seconds, you spend hours manually searching, typing, and formatting. You are losing at least 10-15 hours a week on tasks that AI solves in one click. Your Main Problem: Fear of the blank page and the habit of doing everything \"by hand.\"" }
             },
             offers: {
-                green: { name: "AI Builder (Coding)", price: "£1,200" },
-                yellow: { name: "AI Executive Suite", price: "£599" },
-                red: { name: "Course: AI Foundation (Start Now)", price: "£99" }
+                green: { name: "AI Builder (Coding)", price: AI_OFFER_PRICE.green },
+                yellow: { name: "AI Executive Suite", price: AI_OFFER_PRICE.yellow },
+                red: { name: "Course: AI Foundation (Start Now)", price: AI_OFFER_PRICE.red }
             }
         }
     },

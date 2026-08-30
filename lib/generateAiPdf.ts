@@ -1,6 +1,7 @@
 
 import type jsPDF from "jspdf";
 import { aiIndexData, Lang, Context } from "./aiIndexData";
+import { AI_OFFER_PRICE, AI_OFFER_RED_ANCHOR } from "./pricing";
 
 // Loaded on demand — see lib/generatePdf.ts for why.
 async function loadPdfLib() {
@@ -192,10 +193,10 @@ const pdfContent = {
                 intro: "Прямо сейчас я упаковываю этот опыт в короткий видео-курс. Я хочу, чтобы он был идеальным. Вы попали в список Beta-участников. Это значит, что вы получите курс первыми и по специальной цене.",
                 benefits: [
                     "Вы получите курс первыми.",
-                    "Специальная цена $19 (вместо $49) за отзыв.",
+                    `Специальная цена ${AI_OFFER_PRICE.red} (вместо ${AI_OFFER_RED_ANCHOR}) за отзыв.`,
                     "Плюс я лично разберу ваш кейс."
                 ],
-                cta: "Занять место за $19 (Вместо $49)",
+                cta: `Занять место за ${AI_OFFER_PRICE.red} (Вместо ${AI_OFFER_RED_ANCHOR})`,
                 link: "https://safarisaev.ai"
             }
         },
