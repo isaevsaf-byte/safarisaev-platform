@@ -94,8 +94,8 @@ export default function Home() {
               aria-controls="mobile-nav"
               aria-label={
                 isNavOpen
-                  ? locale === "ru" ? "Закрыть меню" : "Close menu"
-                  : locale === "ru" ? "Открыть меню" : "Open menu"
+                  ? dict.nav.closeMenu
+                  : dict.nav.openMenu
               }
               className="md:hidden p-2 rounded-sm text-secondary hover:text-accent transition-colors"
             >
@@ -114,7 +114,7 @@ export default function Home() {
                 { href: `/${locale}/portfolio`, label: dict.header.portfolio },
                 { href: `/${locale}/efficiency-index`, label: dict.header.efficiency },
                 { href: `/${locale}/ai-velocity-index`, label: dict.header.aiIndex },
-                { href: "/legal", label: locale === "ru" ? "РЕКВИЗИТЫ" : "LEGAL" },
+                { href: "/legal", label: dict.nav.legalShort },
               ].map((item) => (
                 <li key={item.href} className="border-b border-secondary/10 last:border-b-0">
                   <Link
@@ -274,7 +274,7 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-8 mb-8 md:grid-cols-4">
             <div>
               <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
-                {locale === "ru" ? "Инструменты" : "Tools"}
+                {dict.nav.tools}
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -291,29 +291,29 @@ export default function Home() {
             </div>
             <div>
               <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
-                {locale === "ru" ? "Услуги" : "Services"}
+                {dict.nav.services}
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link href={`/${locale}/protocols`} className="text-sm text-secondary hover:text-accent transition-colors">
-                    {locale === "ru" ? "Системные Протоколы" : "System Protocols"}
+                    {dict.nav.protocols}
                   </Link>
                 </li>
                 <li>
                   <Link href={`/${locale}/resources`} className="text-sm text-secondary hover:text-accent transition-colors">
-                    {locale === "ru" ? "Архитектура Ресурсов" : "Resource Architecture"}
+                    {dict.nav.resources}
                   </Link>
                 </li>
                 <li>
                   <Link href={`/${locale}/intelligence`} className="text-sm text-secondary hover:text-accent transition-colors">
-                    {locale === "ru" ? "Когнитивный Интеллект" : "Cognitive Intelligence"}
+                    {dict.nav.intelligence}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
-                {locale === "ru" ? "Контакт" : "Contact"}
+                {dict.nav.contact}
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -341,7 +341,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="text-sm text-secondary hover:text-accent transition-colors"
                   >
-                    {locale === "ru" ? "Забронировать звонок" : "Book a Call"}
+                    {dict.nav.bookCall}
                   </a>
                 </li>
                 <li>
@@ -349,7 +349,7 @@ export default function Home() {
                     href="/legal"
                     className="text-sm text-secondary hover:text-accent transition-colors"
                   >
-                    {locale === "ru" ? "Реквизиты компании" : "Legal & Company Info"}
+                    {dict.nav.legal}
                   </Link>
                 </li>
                 <li>
@@ -357,14 +357,14 @@ export default function Home() {
                     href="/privacy"
                     className="text-sm text-secondary hover:text-accent transition-colors"
                   >
-                    {locale === "ru" ? "Политика приватности" : "Privacy Policy"}
+                    {dict.nav.privacy}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
-                {locale === "ru" ? "Язык" : "Language"}
+                {dict.nav.language}
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -411,7 +411,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="text-sm text-accent transition-colors hover:text-foreground"
               >
-                TELEGRAM // SECURE UPLINK
+                {dict.footer.telegram}
               </a>
             </div>
           </div>

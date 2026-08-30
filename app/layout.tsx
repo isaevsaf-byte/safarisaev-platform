@@ -10,21 +10,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Safar Isaev - Business Neurosurgeon",
-    description: "Unscalable processes limit your exit. I architect growth through system protocols, resource optimization, and cognitive intelligence.",
+    title: "Safar Isaev — Operations & AI Automation",
+    description: "I find where a business loses money and time, then build the system that stops it — process design, procurement, and AI automation for founders.",
     metadataBase: new URL("https://safarisaev.ai"),
     alternates: { canonical: "https://safarisaev.ai" },
     openGraph: {
-        title: "Safar Isaev - Business Neurosurgeon",
-        description: "Unscalable processes limit your exit. I architect growth.",
+        title: "Safar Isaev — Operations & AI Automation",
+        description: "I find where a business loses money and time, then build the system that stops it.",
         type: "website",
         url: "https://safarisaev.ai",
         siteName: "Safar Isaev",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Safar Isaev - Business Neurosurgeon",
-        description: "Unscalable processes limit your exit. I architect growth.",
+        title: "Safar Isaev — Operations & AI Automation",
+        description: "I find where a business loses money and time, then build the system that stops it.",
     },
     robots: {
         index: true,
@@ -37,8 +37,8 @@ const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Safar Isaev",
-    jobTitle: "Business Neurosurgeon",
-    description: "Business operations consultant specializing in system protocols, resource architecture, and AI-powered cognitive intelligence solutions.",
+    jobTitle: "Operations engineer",
+    description: "Operations engineer working on process design, procurement and AI automation. Builds the systems rather than only advising on them.",
     url: "https://safarisaev.ai",
     sameAs: [
         "https://t.me/SafarIsaev",
@@ -51,8 +51,10 @@ const jsonLd = {
     knowsAbout: [
         "Business Operations",
         "Process Optimization",
-        "AI Implementation",
+        "AI Automation",
+        "AI Agents",
         "Workflow Automation",
+        "Procurement",
         "Resource Management",
     ],
     offers: [

@@ -7,44 +7,44 @@
     "portfolio": "PORTFOLIO"
   },
   "hero": {
-    "title": "Operational System for a Business That Wants to Grow Without Chaos",
-    "subtext": "I find where money and time are lost — and build a system that stops it",
+    "title": "I find where your business loses money — and build the system that stops it",
+    "subtext": "Operations, procurement and AI automation for founders who want to grow without chaos",
     "cta": "Take Free Diagnostic",
     "ctaAi": "Test: Will You Replace AI or Will AI Replace You?",
     "ctaWork": "Portfolio"
   },
   "protocols": {
     "cardA": {
-      "badge": "SCARCE / HIGH VOLTAGE",
-      "title": "Consulting & Audit",
-      "desc": "Direct intervention. Architecture, Surgery, Process Re-engineering.",
-      "cta": "INITIATE UPLINK"
+      "badge": "ONE-TO-ONE",
+      "title": "STRATEGY & AUDIT",
+      "desc": "A deep look at the business. Process and procurement setup. Hands-on support throughout.",
+      "cta": "BOOK A CALL"
     },
     "cardB": {
-      "badge": "INSTANT DEPLOY",
-      "title": "Cognitive Upgrade Kit",
-      "desc": "Staff Firmware Update. Protocols for AI integration & Procurement.",
-      "cta": "DOWNLOAD DATA"
+      "badge": "AVAILABLE NOW",
+      "title": "KNOWLEDGE BASE",
+      "desc": "Ready-made templates, playbooks and video lessons for rolling out AI and getting procurement under control.",
+      "cta": "DOWNLOAD"
     }
   },
   "stack": {
-    "title": "Intervention Modules",
-    "module1": "KERNEL",
-    "module1Desc": "Processes",
-    "module2": "HARDWARE",
-    "module2Desc": "Procurement",
-    "module3": "NEURAL LINK",
-    "module3Desc": "AI Automation"
+    "title": "SYSTEM ARCHITECTURE",
+    "module1": "PROTOCOLS",
+    "module1Desc": "Business processes, playbooks and org structure.",
+    "module2": "RESOURCES",
+    "module2Desc": "Procurement audit, cost reduction, supply.",
+    "module3": "INTELLIGENCE",
+    "module3Desc": "AI agent rollout and routine automation."
   },
   "leadMagnet": {
     "terminal": "> SYSTEM INTEGRITY CHECK... DETECTING INEFFICIENCIES.",
-    "cta": "[ INITIALIZE AUDIT PROTOCOL ]",
+    "cta": "[ GET A FREE AUDIT ]",
     "modal": {
-      "title": "AUDIT TERMINAL",
+      "title": "FREE AUDIT REQUEST",
       "companyUrl": "Company URL",
       "email": "Email",
-      "submit": "EXECUTE",
-      "close": "ABORT"
+      "submit": "SEND",
+      "close": "CANCEL"
     }
   },
   "contactModal": {
@@ -55,8 +55,9 @@
     "close": "CANCEL"
   },
   "footer": {
-    "label": "ENCRYPTED CHANNEL",
-    "email": "saf@safarisaev.ai"
+    "label": "CONTACT",
+    "email": "saf@safarisaev.ai",
+    "telegram": "TELEGRAM"
   },
   "efficiencyIndex": {
     "text": {
@@ -94,5 +95,20 @@
         }
       }
     }
+  },
+  "nav": {
+    "tools": "Tools",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Language",
+    "protocols": "System Protocols",
+    "resources": "Resource Architecture",
+    "intelligence": "Cognitive Intelligence",
+    "bookCall": "Book a Call",
+    "legal": "Legal & Company Info",
+    "legalShort": "LEGAL",
+    "privacy": "Privacy Policy",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   }
 }
