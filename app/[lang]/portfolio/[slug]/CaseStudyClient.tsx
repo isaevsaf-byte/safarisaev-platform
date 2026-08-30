@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { GlitchText } from "@/components/GlitchText";
 import { LegalFooter } from "@/components/LegalFooter";
 import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
-import { usePreferences } from "@/hooks/usePreferences";
+import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
 import type { Locale } from "@/lib/i18n";
 import type { PortfolioProject } from "@/lib/portfolioData";
 
@@ -73,7 +72,7 @@ function NeighbourLink({
 }) {
     return (
         <Link
-            href={`/portfolio/${project.slug}`}
+            href={`/${locale}/portfolio/${project.slug}`}
             className={`group flex flex-1 flex-col gap-2 p-6 transition-colors hover:bg-secondary/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset md:p-10 ${
                 direction === "next" ? "md:items-end md:text-right" : ""
             }`}
@@ -103,14 +102,15 @@ export default function CaseStudyClient({
     next,
     position,
     total,
+    locale,
 }: {
     project: PortfolioProject;
     previous?: PortfolioProject;
     next?: PortfolioProject;
     position: number;
     total: number;
+    locale: Locale;
 }) {
-    const { isDarkMode, toggleTheme, locale, toggleLocale } = usePreferences("en");
     const t = copy[locale];
     const c = project.caseStudy;
 
@@ -119,7 +119,7 @@ export default function CaseStudyClient({
             <header className="sticky top-0 z-30 border-b border-secondary/20 bg-background/85 backdrop-blur-md">
                 <div className="container mx-auto flex items-center justify-between gap-4 px-6 py-4">
                     <Link
-                        href="/portfolio"
+                        href={`/${locale}/portfolio`}
                         className="flex items-center gap-2 font-mono text-xs text-secondary transition-colors hover:text-accent md:text-sm"
                     >
                         <ArrowLeft className="h-4 w-4" />
@@ -131,20 +131,8 @@ export default function CaseStudyClient({
                     </span>
 
                     <div className="flex items-center gap-4">
-                        <button
-                            onClick={toggleTheme}
-                            aria-label={isDarkMode ? "Light mode" : "Dark mode"}
-                            className="rounded-full p-2 font-mono text-xs text-secondary transition-colors hover:bg-secondary/10 hover:text-foreground"
-                        >
-                            {isDarkMode ? t.themeLight : t.themeDark}
-                        </button>
-                        <button
-                            onClick={toggleLocale}
-                            aria-label={locale === "en" ? "Переключить на русский" : "Switch to English"}
-                            className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
-                        >
-                            <GlitchText className="text-accent">{locale.toUpperCase()}</GlitchText>
-                        </button>
+                        <ThemeToggle locale={locale} />
+                        <LocaleSwitch locale={locale} />
                     </div>
                 </div>
             </header>

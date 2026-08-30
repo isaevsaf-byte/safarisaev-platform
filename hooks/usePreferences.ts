@@ -36,6 +36,39 @@ function write(key: string, value: string) {
  * The initial theme class is painted by the inline script in app/layout.tsx before
  * first paint; this hook only re-syncs after hydration so there is no flash.
  */
+/** Persist a language choice so the non-localised home page picks it up. */
+export function rememberLocale(locale: Locale) {
+    write(LOCALE_KEY, locale);
+}
+
+/**
+ * Theme only. Pages that carry their language in the URL take the locale from
+ * the route and use this for the theme alone.
+ */
+export function useTheme() {
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        const stored = readStored<Theme>(THEME_KEY, ["light", "dark"]);
+        setIsDarkMode(
+            stored ? stored === "dark" : document.documentElement.classList.contains("dark")
+        );
+    }, []);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark", isDarkMode);
+    }, [isDarkMode]);
+
+    const toggleTheme = useCallback(() => {
+        setIsDarkMode((prev) => {
+            write(THEME_KEY, prev ? "light" : "dark");
+            return !prev;
+        });
+    }, []);
+
+    return { isDarkMode, toggleTheme };
+}
+
 export function usePreferences(initialLocale: Locale = "en") {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [locale, setLocaleState] = useState<Locale>(initialLocale);

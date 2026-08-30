@@ -57,7 +57,7 @@ export default function Home() {
             </button>
 
             <Link
-              href="/portfolio"
+              href={`/${locale}/portfolio`}
               className="hidden md:block font-mono text-sm font-bold text-secondary hover:text-accent transition-colors border border-transparent hover:border-accent/20 px-3 py-1 rounded-sm"
             >
               {dict.header.portfolio}
@@ -111,7 +111,7 @@ export default function Home() {
           >
             <ul className="container mx-auto flex flex-col px-6 py-2">
               {[
-                { href: "/portfolio", label: dict.header.portfolio },
+                { href: `/${locale}/portfolio`, label: dict.header.portfolio },
                 { href: `/${locale}/efficiency-index`, label: dict.header.efficiency },
                 { href: `/${locale}/ai-velocity-index`, label: dict.header.aiIndex },
                 { href: "/legal", label: locale === "ru" ? "РЕКВИЗИТЫ" : "LEGAL" },
@@ -163,7 +163,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/portfolio"
+            href={`/${locale}/portfolio`}
             className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-sm font-bold transition-all duration-300 border border-secondary text-secondary hover:text-accent hover:border-accent/60 hover:shadow-[0_0_15px_rgba(0,255,148,0.15)] w-full md:w-auto"
           >
             <Layers className="w-4 h-4" />
@@ -211,19 +211,19 @@ export default function Home() {
                 icon: Cpu,
                 title: dict.stack.module1,
                 desc: dict.stack.module1Desc,
-                href: "/protocols",
+                href: `/${locale}/protocols`,
               },
               {
                 icon: Database,
                 title: dict.stack.module2,
                 desc: dict.stack.module2Desc,
-                href: "/resources",
+                href: `/${locale}/resources`,
               },
               {
                 icon: Brain,
                 title: dict.stack.module3,
                 desc: dict.stack.module3Desc,
-                href: "/intelligence",
+                href: `/${locale}/intelligence`,
               },
             ].map((module, index) => (
               <Link key={index} href={module.href}>
@@ -295,17 +295,17 @@ export default function Home() {
               </h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/protocols" className="text-sm text-secondary hover:text-accent transition-colors">
+                  <Link href={`/${locale}/protocols`} className="text-sm text-secondary hover:text-accent transition-colors">
                     {locale === "ru" ? "Системные Протоколы" : "System Protocols"}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/resources" className="text-sm text-secondary hover:text-accent transition-colors">
+                  <Link href={`/${locale}/resources`} className="text-sm text-secondary hover:text-accent transition-colors">
                     {locale === "ru" ? "Архитектура Ресурсов" : "Resource Architecture"}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/intelligence" className="text-sm text-secondary hover:text-accent transition-colors">
+                  <Link href={`/${locale}/intelligence`} className="text-sm text-secondary hover:text-accent transition-colors">
                     {locale === "ru" ? "Когнитивный Интеллект" : "Cognitive Intelligence"}
                   </Link>
                 </li>

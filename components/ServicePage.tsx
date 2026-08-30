@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Brain, Cpu, Database } from "lucide-react";
 import { GlitchText } from "@/components/GlitchText";
+import { ArrowLeft, Brain, Cpu, Database } from "lucide-react";
 import { GridBackground } from "@/components/GridBackground";
 import { ScanningLine } from "@/components/ScanningLine";
 import { LegalFooter } from "@/components/LegalFooter";
-import { usePreferences } from "@/hooks/usePreferences";
+import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
+import type { Locale } from "@/lib/i18n";
 import { serviceChrome, services, type ServiceSlug } from "@/lib/servicesData";
+import { useTheme } from "@/hooks/usePreferences";
 
 const ICONS = { cpu: Cpu, database: Database, brain: Brain } as const;
 
@@ -18,8 +20,8 @@ const ICONS = { cpu: Cpu, database: Database, brain: Brain } as const;
  * they hard-coded English and offered no theme toggle, so arriving here from the
  * home page silently reset both.
  */
-export function ServicePage({ slug }: { slug: ServiceSlug }) {
-    const { isDarkMode, toggleTheme, locale, toggleLocale } = usePreferences("en");
+export function ServicePage({ slug, locale }: { slug: ServiceSlug; locale: Locale }) {
+    const { isDarkMode } = useTheme();
     const service = services[slug];
     const Icon = ICONS[service.icon];
 
@@ -43,26 +45,8 @@ export function ServicePage({ slug }: { slug: ServiceSlug }) {
                     </Link>
 
                     <div className="flex items-center gap-4">
-                        <button
-                            onClick={toggleTheme}
-                            aria-label={isDarkMode ? "Light mode" : "Dark mode"}
-                            className="rounded-full p-2 font-mono text-xs text-secondary transition-colors hover:bg-secondary/10 hover:text-foreground"
-                        >
-                            {isDarkMode
-                                ? serviceChrome.themeLight[locale]
-                                : serviceChrome.themeDark[locale]}
-                        </button>
-                        <button
-                            onClick={toggleLocale}
-                            aria-label={
-                                locale === "en" ? "Переключить на русский" : "Switch to English"
-                            }
-                            className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
-                        >
-                            <GlitchText className="text-accent">
-                                {locale.toUpperCase()}
-                            </GlitchText>
-                        </button>
+                        <ThemeToggle locale={locale} />
+                        <LocaleSwitch locale={locale} />
                     </div>
                 </div>
             </header>

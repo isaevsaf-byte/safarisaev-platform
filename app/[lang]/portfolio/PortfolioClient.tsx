@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { GlitchText } from "@/components/GlitchText";
 import { LegalFooter } from "@/components/LegalFooter";
 import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
-import { usePreferences } from "@/hooks/usePreferences";
+import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
 import type { Locale } from "@/lib/i18n";
 import {
     projects,
@@ -94,7 +93,7 @@ function ProjectCard({
             {/* Links to the case study rather than straight off-site: the visitor
                 stays here, and the live link sits on the case page. */}
             <Link
-                href={`/portfolio/${project.slug}`}
+                href={`/${locale}/portfolio/${project.slug}`}
                 className="group relative block overflow-hidden border border-secondary/20 bg-background transition-colors duration-300 hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
                 <div
@@ -200,9 +199,7 @@ function ToolCard({
     );
 }
 
-export default function PortfolioClient() {
-    const { isDarkMode, toggleTheme, locale, toggleLocale } = usePreferences("en");
-
+export default function PortfolioClient({ locale }: { locale: Locale }) {
     const t = content[locale];
     const featured = projects.find((p) => p.featured) ?? projects[0];
     const grid = projects.filter((p) => p.slug !== featured.slug);
@@ -220,21 +217,8 @@ export default function PortfolioClient() {
                     </Link>
 
                     <div className="flex items-center gap-4">
-                        <button
-                            onClick={toggleTheme}
-                            aria-label={isDarkMode ? "Light mode" : "Dark mode"}
-                            className="rounded-full p-2 font-mono text-xs text-secondary transition-colors hover:bg-secondary/10 hover:text-foreground"
-                        >
-                            {isDarkMode ? t.themeLight : t.themeDark}
-                        </button>
-
-                        <button
-                            onClick={toggleLocale}
-                            aria-label={locale === "en" ? "Переключить на русский" : "Switch to English"}
-                            className="font-mono text-sm text-secondary transition-colors hover:text-foreground"
-                        >
-                            <GlitchText className="text-accent">{locale.toUpperCase()}</GlitchText>
-                        </button>
+                        <ThemeToggle locale={locale} />
+                        <LocaleSwitch locale={locale} />
                     </div>
                 </div>
             </header>
