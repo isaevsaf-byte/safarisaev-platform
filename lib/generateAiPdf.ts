@@ -1,6 +1,12 @@
 
-import jsPDF from "jspdf";
+import type jsPDF from "jspdf";
 import { aiIndexData, Lang, Context } from "./aiIndexData";
+
+// Loaded on demand — see lib/generatePdf.ts for why.
+async function loadPdfLib() {
+    const { default: JsPDF } = await import("jspdf");
+    return JsPDF;
+}
 
 // Cache font data to avoid re-fetching, but register on each new jsPDF instance
 let cachedFontBase64: string | null = null;
@@ -380,7 +386,8 @@ export const generateAiPdf = async (
     context: Context,
     email: string
 ) => {
-    const doc = new jsPDF();
+    const JsPDF = await loadPdfLib();
+    const doc = new JsPDF();
     await loadFonts(doc);
     doc.setFont("Roboto");
 

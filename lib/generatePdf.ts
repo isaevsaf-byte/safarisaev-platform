@@ -1,6 +1,17 @@
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import type jsPDF from "jspdf";
 import { REPORT_DATA } from "./reportContent";
+
+// jsPDF and its autotable plugin are ~320 KB and are only needed once someone
+// actually asks for the report. Importing them at module scope put the whole
+// library in the first load of the Efficiency Index page for every visitor,
+// including everyone who never finishes the quiz.
+async function loadPdfLib() {
+    const [{ default: JsPDF }, { default: autoTable }] = await Promise.all([
+        import("jspdf"),
+        import("jspdf-autotable"),
+    ]);
+    return { JsPDF, autoTable };
+}
 
 // Helper to fetch font as Base64/Binary
 async function loadFonts(doc: jsPDF) {
@@ -52,7 +63,8 @@ export const generateEfficiencyReport = async (
     lang: "en" | "ru",
     wastePercentage: number
 ) => {
-    const doc = new jsPDF();
+    const { JsPDF, autoTable } = await loadPdfLib();
+    const doc = new JsPDF();
 
     // 1. Load Custom Font for Cyrillic
     await loadFonts(doc);

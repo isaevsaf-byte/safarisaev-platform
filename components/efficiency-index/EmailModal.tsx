@@ -166,7 +166,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
                                     <button
                                         type="submit"
                                         disabled={state.submitting}
-                                        className="w-full mt-4 flex items-center justify-center gap-2 py-4 bg-accent text-black font-bold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full mt-4 flex items-center justify-center gap-2 py-4 bg-accent text-background font-bold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {state.submitting ? (
                                             <Loader2 className="w-5 h-5 animate-spin" />
