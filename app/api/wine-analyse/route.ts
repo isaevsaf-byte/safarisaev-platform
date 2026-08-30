@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { rateLimit } from '@/lib/rateLimit'
 
 export const runtime = 'edge'
 
@@ -8,11 +9,10 @@ export const runtime = 'edge'
  *  1. Bad JSON            — used to throw and return a full Next.js 500 error page.
  *  2. Cross-origin abuse  — the endpoint spends real Anthropic credit per call and
  *                           was callable by anyone who found the URL.
- *  3. Burst abuse         — a naive per-IP window.
+ *  3. Burst abuse         — a per-IP window.
  *
- * NOTE: the rate limiter lives in edge-isolate memory, so it resets on cold start
- * and is not shared between regions. It raises the cost of casual abuse but is not
- * a real quota. Move it to Vercel KV / Upstash Redis before this page gets traffic.
+ * The limiter uses Upstash Redis / Vercel KV when the credentials are set and
+ * falls back to an in-isolate counter otherwise — see lib/rateLimit.ts.
  */
 
 const ALLOWED_ORIGINS = [
@@ -22,30 +22,6 @@ const ALLOWED_ORIGINS = [
 
 const RATE_LIMIT = 8 // requests
 const RATE_WINDOW_MS = 60_000 // per minute, per IP
-
-const hits = new Map<string, { count: number; resetAt: number }>()
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const entry = hits.get(ip)
-
-  if (!entry || now > entry.resetAt) {
-    hits.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
-    return false
-  }
-
-  entry.count += 1
-  if (entry.count > RATE_LIMIT) return true
-
-  // Opportunistic cleanup so the map can't grow without bound.
-  if (hits.size > 5000) {
-    for (const [key, value] of hits) {
-      if (now > value.resetAt) hits.delete(key)
-    }
-  }
-
-  return false
-}
 
 function isAllowedOrigin(req: NextRequest): boolean {
   // Local development has no fixed origin worth pinning.
@@ -69,10 +45,22 @@ export async function POST(req: NextRequest) {
     req.headers.get('x-real-ip') ||
     'unknown'
 
-  if (isRateLimited(ip)) {
+  const limit = await rateLimit(`wine:${ip}`, {
+    limit: RATE_LIMIT,
+    windowMs: RATE_WINDOW_MS,
+  })
+
+  if (limit.limited) {
     return NextResponse.json(
       { error: 'Too many requests. Try again in a minute.' },
-      { status: 429, headers: { 'Retry-After': '60' } }
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(limit.retryAfter || 60),
+          'X-RateLimit-Limit': String(RATE_LIMIT),
+          'X-RateLimit-Remaining': '0',
+        },
+      }
     )
   }
 
