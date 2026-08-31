@@ -27,5 +27,10 @@ export const AI_OFFER_RED_ANCHOR = "$49";
 /** Automation teardown: the paid rung between a free diagnostic and a build. */
 export const TEARDOWN_PRICE = "$500";
 
-/** Supply-chain monitor, per company per month. Draft — not published yet. */
-export const MONITOR_PRICE = "$400";
+/**
+ * Supply-chain monitor. Sold as a build plus cheap upkeep rather than as a flat
+ * subscription: the setup is where the real work is, and a smaller monthly is
+ * both easier to say yes to and harder to bother cancelling.
+ */
+export const MONITOR_SETUP_PRICE = "$1,500";
+export const MONITOR_PRICE = "$200";

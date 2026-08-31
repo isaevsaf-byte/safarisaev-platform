@@ -25,7 +25,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!offer || !isLocale(params.lang)) return {};
 
     const lang = params.lang;
-    const title = `${offer.title[lang]} — ${offer.price} | Safar Isaev`;
+    // Lead with what is paid first. Titling a $1,500 build with its $200 upkeep
+    // undersells it and misleads the share preview.
+    const entryPrice = offer.setup?.price ?? offer.price;
+    const title = `${offer.title[lang]} — ${entryPrice} | Safar Isaev`;
     const description = offer.lede[lang];
     const languages = {
         en: `https://safarisaev.ai/en/offer/${offer.slug}`,
@@ -70,7 +73,7 @@ export default function OfferPage({ params }: Props) {
               provider: { "@type": "Person", name: "Safar Isaev", url: "https://safarisaev.ai" },
               offers: {
                   "@type": "Offer",
-                  price: offer.price.replace(/[^0-9.]/g, ""),
+                  price: (offer.setup?.price ?? offer.price).replace(/[^0-9.]/g, ""),
                   priceCurrency: "USD",
                   availability: "https://schema.org/InStock",
               },

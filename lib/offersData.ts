@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n";
-import { MONITOR_PRICE, TEARDOWN_PRICE } from "@/lib/pricing";
+import { MONITOR_PRICE, MONITOR_SETUP_PRICE, TEARDOWN_PRICE } from "@/lib/pricing";
 
 /**
  * Paid offers that have a page, a price and a way to buy.
@@ -21,6 +21,11 @@ export interface Offer {
     published: boolean;
     price: string;
     priceNote: Localised;
+    /** A one-off charged before the recurring one starts. Shown as the headline figure. */
+    setup?: {
+        price: string;
+        note: Localised;
+    };
     eyebrow: Localised;
     title: Localised;
     lede: Localised;
@@ -31,6 +36,12 @@ export interface Offer {
     forWho: LocalisedList;
     /** Stated plainly so nobody buys the wrong thing. */
     notFor: LocalisedList;
+    /** A running instance a prospect can open and poke at. Beats any screenshot. */
+    demo?: {
+        url: string;
+        label: Localised;
+        note: Localised;
+    };
     ctaTitle: Localised;
     ctaBody: Localised;
     ctaButton: Localised;
@@ -125,13 +136,20 @@ export const offers: Record<OfferSlug, Offer> = {
 
     monitor: {
         slug: "monitor",
-        // Draft. The working prototype is written from one industry's point of
-        // view and cannot be sold until it is rebuilt against neutral data.
+        // Draft: the page is written and the board it demonstrates is labelled as a
+        // sample dataset. Flip to true to publish — nothing else is outstanding.
         published: false,
         price: MONITOR_PRICE,
         priceNote: {
-            en: "per company, per month · setup quoted separately",
-            ru: "за компанию в месяц · настройка считается отдельно",
+            en: "per month afterwards, to keep it running",
+            ru: "в месяц дальше, за то что панель работает",
+        },
+        setup: {
+            price: MONITOR_SETUP_PRICE,
+            note: {
+                en: "one-off setup — mapping your suppliers, buying regions and peer set",
+                ru: "разовая настройка — размётка ваших поставщиков, регионов закупок и круга конкурентов",
+            },
         },
         eyebrow: { en: "— Monitoring", ru: "— Мониторинг" },
         title: { en: "Supply Chain Monitor", ru: "Монитор цепочки поставок" },
@@ -199,6 +217,14 @@ export const offers: Record<OfferSlug, Offer> = {
                 "Нужен полный закупочный комплекс с контрактами, счетами и согласованиями. Это наблюдение за риском, а не замена ERP.",
                 "У вас меньше десяти поставщиков. На таком размере таблица честно справляется.",
             ],
+        },
+        demo: {
+            url: "https://cpo-watchtower.co.uk",
+            label: { en: "Open the board", ru: "Открыть панель" },
+            note: {
+                en: "A running instance on a sample supply base — click a supplier or a region.",
+                ru: "Работающий экземпляр на демо-базе поставок — кликните поставщика или регион.",
+            },
         },
         ctaTitle: { en: "Ask for a walkthrough", ru: "Запросить демонстрацию" },
         ctaBody: {
