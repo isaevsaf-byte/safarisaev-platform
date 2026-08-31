@@ -66,10 +66,10 @@ export const offers: Record<OfferSlug, Offer> = {
         },
         deliverables: {
             en: [
-                "A written inventory of the manual work in the process we look at — who does it, how often, how long it takes.",
+                "A written inventory of the manual work in the process we look at: who does it, how often, how long it takes.",
                 "For each item: can it be automated, with what, and how much build effort it needs.",
                 "An estimate of the time and money each fix returns, with the assumptions written out so you can argue with them.",
-                "A priority order — what to do first, what to leave, and what is not worth automating at all.",
+                "A priority order: what to do first, what to leave, and what is not worth automating at all.",
                 "The whole thing as a PDF you can forward to a finance director without translating it first.",
             ],
             ru: [
@@ -91,7 +91,7 @@ export const offers: Record<OfferSlug, Offer> = {
             {
                 title: { en: "Ninety minutes together", ru: "Полтора часа вместе" },
                 body: {
-                    en: "We walk the process end to end and I ask the questions that surface the steps nobody counts — the re-typing, the chasing, the second spreadsheet.",
+                    en: "We walk the process end to end and I ask the questions that surface the steps nobody counts. The re-typing, the chasing, the second spreadsheet.",
                     ru: "Проходим процесс от начала до конца, и я задаю вопросы, которые вытаскивают шаги, которые никто не считает: перенабор, догоняющие письма, вторая табличка.",
                 },
             },
@@ -117,7 +117,7 @@ export const offers: Record<OfferSlug, Offer> = {
         },
         notFor: {
             en: [
-                "You want someone to build a specific thing you have already specified — go straight to a build, skip this.",
+                "You already know exactly what you want built. Go straight to a build and skip this.",
                 "You need a strategy deck for a board. This produces a working document, not a presentation.",
             ],
             ru: [
@@ -127,7 +127,7 @@ export const offers: Record<OfferSlug, Offer> = {
         },
         ctaTitle: { en: "Book a teardown", ru: "Заказать разбор" },
         ctaBody: {
-            en: "Tell me which process hurts. I reply within one working day with a time and an invoice — no call needed before that.",
+            en: "Tell me which process hurts. I reply within one working day with a time and an invoice. No call needed before that.",
             ru: "Напишите, какой процесс болит. Отвечу в течение рабочего дня временем и счётом — созвон до этого не нужен.",
         },
         ctaButton: { en: "SEND BRIEF", ru: "ОТПРАВИТЬ БРИФ" },
@@ -147,23 +147,23 @@ export const offers: Record<OfferSlug, Offer> = {
         setup: {
             price: MONITOR_SETUP_PRICE,
             note: {
-                en: "one-off setup — mapping your suppliers, buying regions and peer set",
+                en: "one-off setup: mapping your suppliers, buying regions and peer set",
                 ru: "разовая настройка — размётка ваших поставщиков, регионов закупок и круга конкурентов",
             },
         },
         eyebrow: { en: "— Monitoring", ru: "— Мониторинг" },
         title: { en: "Supply Chain Monitor", ru: "Монитор цепочки поставок" },
         lede: {
-            en: "One screen that answers the only question a procurement lead asks in the morning: what changed overnight, and does it need me today. Macro conditions, your peers, and your own supplier list — read together and given a position, with the reason attached.",
+            en: "One screen that answers the only question a procurement lead asks in the morning: what changed overnight, and does it need me today. Macro conditions, your peers, and your own supplier list, read together and given a position with the reason attached.",
             ru: "Один экран, отвечающий на единственный утренний вопрос закупщика: что изменилось за ночь и требует ли это меня сегодня. Макро-условия, конкуренты и ваш собственный лист поставщиков — прочитаны вместе, с занятой позицией и обоснованием.",
         },
         deliverables: {
             en: [
                 "Your supplier list, tagged by criticality, dependency and country, with the risks that actually apply to each.",
-                "Macro conditions for the regions you buy from — inflation, policy rate, currency — read rather than just displayed.",
+                "Macro conditions for the regions you buy from: inflation, policy rate and currency, read for you instead of just displayed.",
                 "A watch on the companies you compete with, so you hear about a sector move before it reaches you.",
                 "A written daily position with the drivers named and one concrete next step.",
-                "A stability counter, so a quiet board reads as genuinely quiet rather than as stale data.",
+                "A stability counter, so a quiet board reads as genuinely quiet and not as stale data.",
             ],
             ru: [
                 "Ваш лист поставщиков с тегами критичности, зависимости и страны и рисками, которые реально к каждому применимы.",
@@ -222,7 +222,7 @@ export const offers: Record<OfferSlug, Offer> = {
             url: "https://cpo-watchtower.co.uk",
             label: { en: "Open the board", ru: "Открыть панель" },
             note: {
-                en: "A running instance on a sample supply base — click a supplier or a region.",
+                en: "A running instance on a sample supply base. Click a supplier or a region.",
                 ru: "Работающий экземпляр на демо-базе поставок — кликните поставщика или регион.",
             },
         },

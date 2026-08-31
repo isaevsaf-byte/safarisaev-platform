@@ -150,7 +150,7 @@ export const services: Record<ServiceSlug, Service> = {
             ],
         },
         problem: {
-            en: "Repetitive tasks consume human bandwidth. Manual data entry, customer inquiries, report generation — all done by expensive talent doing $15/hour work.",
+            en: "Repetitive tasks consume human bandwidth. Manual data entry, customer inquiries, report generation, all done by expensive talent doing $15/hour work.",
             ru: "Повторяющиеся задачи потребляют человеческие ресурсы. Ручной ввод данных, запросы клиентов, генерация отчетов — всё это делается дорогими специалистами, выполняющими работу за $15/час.",
         },
         outcomes: {

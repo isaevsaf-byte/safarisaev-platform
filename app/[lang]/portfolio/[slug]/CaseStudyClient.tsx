@@ -20,7 +20,7 @@ const copy = {
         next: "Next",
         ctaTitle: "Want one of these?",
         ctaBody:
-            "Same approach, your business. Direction, copy, design and build — one person, start to finish.",
+            "Same approach, your business. Direction, copy, design and build by one person, start to finish.",
         ctaPrimary: "START A CONVERSATION",
         ctaSecondary: "SEE PACKAGES & PRICING",
         themeLight: "LIGHT",

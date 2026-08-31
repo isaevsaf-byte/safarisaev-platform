@@ -73,7 +73,7 @@ export interface PortfolioTool {
 
 /** Every site here was designed and built by Safar end to end. */
 const SOLO_ROLE: Localised = {
-    en: "Designed and built end to end — direction, copy, design, build, deploy.",
+    en: "Designed and built end to end: direction, copy, design, build, deploy.",
     ru: "Сделан целиком: направление, тексты, дизайн, разработка, деплой.",
 };
 
@@ -100,7 +100,7 @@ export const projects: PortfolioProject[] = [
             role: SOLO_ROLE,
             built: [
                 {
-                    en: "A published price guide with real figures per job — shortening jeans £15.50, waist adjustment £22.00, zip replacement £18.00 — grouped into denim, dresses, coats and home textiles.",
+                    en: "A published price guide with real figures per job. Shortening jeans £15.50, waist adjustment £22.00, zip replacement £18.00, grouped into denim, dresses, coats and home textiles.",
                     ru: "Опубликованный прайс с реальными цифрами по работам — подшив джинсов £15.50, талия £22.00, замена молнии £18.00 — сгруппированный по джинсам, платьям, верхней одежде и домашнему текстилю.",
                 },
                 {
@@ -108,7 +108,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Честная оговорка под таблицей: деликатные ткани и сложный крой считаются по осмотру. Это защищает ателье, не пряча цифры.",
                 },
                 {
-                    en: "A three-step process — book or visit, fitting and pinning, collection — written in the atelier's own voice, tea included.",
+                    en: "A three-step process written in the atelier's own voice, tea included: book or visit, fitting and pinning, collection.",
                     ru: "Процесс из трёх шагов — запись или визит, примерка и подколка, выдача — написанный голосом самого ателье, с чаем.",
                 },
                 {
@@ -120,7 +120,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Форма записи, которая сразу спрашивает тип услуги и удобную дату, чтобы первый ответ был подтверждением, а не вопросом.",
                 },
                 {
-                    en: "Wired into the wider Beautasy shop — gift boxes, gift cards, worldwide shipping, free UK delivery over £50 — so the atelier feeds the store and back.",
+                    en: "Wired into the wider Beautasy shop with gift boxes, gift cards, worldwide shipping and free UK delivery over £50, so the atelier feeds the store and back.",
                     ru: "Связано с основным магазином Beautasy — подарочные боксы, сертификаты, доставка по миру, бесплатно по UK от £50 — так ателье питает магазин и наоборот.",
                 },
             ],
@@ -138,19 +138,19 @@ export const projects: PortfolioProject[] = [
         url: "https://vedovec.uz/en",
         category: { en: "Logistics", ru: "Логистика" },
         description: {
-            en: "Customs broker in Uzbekistan — clearance, FEA consulting, certification",
+            en: "Customs broker in Uzbekistan: clearance, FEA consulting, certification",
             ru: "Таможенный брокер в Узбекистане — оформление, ВЭД-консалтинг, сертификация",
         },
         stack: ["Next.js", "RU / EN / UZ"],
         caseStudy: {
             lede: {
-                en: "A customs broker's website has exactly one job: convince an importer their cargo will clear without penalties, adjustments or a week in a bonded warehouse. Vague promises do the opposite. So every service on this site carries a stated turnaround, and every case is written as challenge and result rather than as praise.",
+                en: "A customs broker's website has exactly one job: convince an importer their cargo will clear without penalties, adjustments or a week in a bonded warehouse. Vague promises do the opposite. So every service on this site carries a stated turnaround, and every case is written as challenge and result, not as praise.",
                 ru: "У сайта таможенного брокера ровно одна задача: убедить импортёра, что груз пройдёт без штрафов, корректировок и недели на СВХ. Обтекаемые обещания работают против этого. Поэтому у каждой услуги здесь указан срок, а каждый кейс написан как задача и результат, а не как похвала.",
             },
             role: SOLO_ROLE,
             built: [
                 {
-                    en: "Three complete locales — Russian, English and Uzbek — each on its own route, not a widget bolted onto one language.",
+                    en: "Three complete locales in Russian, English and Uzbek, each on its own route, not a widget bolted onto one language.",
                     ru: "Три полноценные локали — русская, английская и узбекская — каждая на своём маршруте, а не виджет-переключатель поверх одного языка.",
                 },
                 {
@@ -158,7 +158,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Шесть услуг, у каждой явный срок: «1–3 рабочих дня» там, где он известен, и «определяется индивидуально» там, где его честно нет.",
                 },
                 {
-                    en: "A case library structured as Challenge → Result, tagged by sector — FMCG, dairy, confectionery, high-tech equipment — so a visitor can find their own cargo type.",
+                    en: "A case library structured as Challenge → Result, tagged by sector (FMCG, dairy, confectionery, high-tech equipment), so a visitor can find their own cargo type.",
                     ru: "Библиотека кейсов в структуре «Задача → Результат» с тегами по отраслям — FMCG, молочка, кондитерка, высокотехнологичное оборудование — чтобы посетитель нашёл свой тип груза.",
                 },
                 {
@@ -166,7 +166,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Разделы новостей и «О компании», чтобы изменения в регулировании было куда класть без переделки сайта.",
                 },
                 {
-                    en: "Phone number in the header alongside a persistent request CTA — a broker's leads arrive by phone as often as by form.",
+                    en: "Phone number in the header alongside a persistent request CTA. A broker's leads arrive by phone as often as by form.",
                     ru: "Телефон в шапке рядом с постоянной кнопкой заявки — к брокеру лиды приходят по телефону не реже, чем через форму.",
                 },
             ],
@@ -177,7 +177,7 @@ export const projects: PortfolioProject[] = [
                 { label: { en: "Hosting", ru: "Хостинг" }, value: { en: "Self-hosted nginx", ru: "Свой сервер, nginx" } },
             ],
             note: {
-                en: "Open item: on the English route, one service still shows its duration in Uzbek — \"Muddatlar individual tarzda belgilanadi\". One missing translation key.",
+                en: "Open item: on the English route, one service still shows its duration in Uzbek, \"Muddatlar individual tarzda belgilanadi\". One missing translation key.",
                 ru: "Открытый пункт: на английском маршруте у одной услуги срок всё ещё выводится по-узбекски — «Muddatlar individual tarzda belgilanadi». Один непереведённый ключ.",
             },
         },
@@ -198,7 +198,7 @@ export const projects: PortfolioProject[] = [
                 ru: "Малый бизнес избегает агентств не из-за цены. Он избегает их потому, что никто не называет цену, срок и что будет, если захочется уйти. GetWebPage — та же работа, проданная как продукт: фиксированные пакеты, фиксированный срок и полная передача прав на седьмой день.",
             },
             role: {
-                en: "My own studio brand — positioning, pricing model, copy, design and build.",
+                en: "My own studio brand. Positioning, pricing model, copy, design and build.",
                 ru: "Мой собственный бренд-студия: позиционирование, модель цен, тексты, дизайн и разработка.",
             },
             built: [
@@ -207,11 +207,11 @@ export const projects: PortfolioProject[] = [
                     ru: `Четыре пакета с ценой — ${WEBSITE_FROM_PRICE} / £800 / £1 200 / £1 500+ — у каждого свой состав и срок, чтобы не приходилось запрашивать смету ради ответа «по карману ли».`,
                 },
                 {
-                    en: "A three-step process block — Brief, Build, Launch — with the preview promised on day three, which is the moment clients actually worry about.",
+                    en: "A three-step process block (Brief, Build, Launch) with the preview promised on day three, which is the moment clients actually worry about.",
                     ru: "Блок процесса из трёх шагов — бриф, сборка, запуск — с превью на третий день: именно этого момента клиенты и боятся.",
                 },
                 {
-                    en: "Selected-work grid linking straight to live client sites rather than to mockups.",
+                    en: "Selected-work grid linking straight to live client sites, not to mockups.",
                     ru: "Сетка избранных работ со ссылками на живые клиентские сайты, а не на макеты.",
                 },
                 {
@@ -219,7 +219,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Блок про владение, написанный прямо против возражения, которое создают агентства: без абонплаты, без привязки, домен и код передаются полностью.",
                 },
                 {
-                    en: "Copy included in every tier and written from the client's brief — the line item most studios charge separately for and most clients dread.",
+                    en: "Copy included in every tier and written from the client's brief. It is the line item most studios charge separately for and most clients dread.",
                     ru: "Тексты входят в каждый пакет и пишутся по брифу клиента — та строка сметы, которую студии обычно продают отдельно, а клиенты боятся больше всего.",
                 },
                 {
@@ -251,23 +251,23 @@ export const projects: PortfolioProject[] = [
         url: "https://cpo-watchtower.co.uk",
         category: { en: "Procurement", ru: "Закупки" },
         description: {
-            en: "Supply-chain risk board — macro, peers and suppliers read together",
+            en: "Supply-chain risk board: macro, peers and suppliers read together",
             ru: "Панель рисков цепочки поставок — макро, конкуренты и поставщики вместе",
         },
         stack: ["Next.js", "Vercel"],
         caseStudy: {
             lede: {
-                en: "This is not a landing page — it is a running product. A procurement director's morning question is \"what changed and does it need me today?\", and answering it normally means four tabs and a Bloomberg terminal. Watchtower folds macro indicators, peer news and a supplier watchlist into one screen and commits to a position, with the reason attached.",
+                en: "This is not a landing page. It is a running product. A procurement director's morning question is \"what changed and does it need me today?\", and answering it normally means four tabs and a Bloomberg terminal. Watchtower folds macro indicators, peer news and a supplier watchlist into one screen and commits to a position, with the reason attached.",
                 ru: "Это не лендинг, а работающий продукт. Утренний вопрос директора по закупкам — «что изменилось и требует ли это меня сегодня», и обычно ответ собирается из четырёх вкладок и терминала. Watchtower сводит макро-показатели, новости по конкурентам и лист поставщиков в один экран и занимает позицию, приложив к ней обоснование.",
             },
             role: SOLO_ROLE,
             built: [
                 {
-                    en: "Three pillars on one screen — macro overview, peers and competitors, supplier watchlist — each with its own status so a green overall never hides an amber part.",
+                    en: "Three pillars on one screen: macro overview, peers and competitors, supplier watchlist. Each carries its own status, so a green overall never hides an amber part.",
                     ru: "Три опоры на одном экране — макро, конкуренты, лист поставщиков — у каждой свой статус, чтобы общий зелёный не прятал жёлтую часть.",
                 },
                 {
-                    en: "A macro panel per buying region carrying inflation, policy rate and currency movement, each expandable into a written read of the conditions rather than a bare number.",
+                    en: "A macro panel per buying region carrying inflation, policy rate and currency movement, each expandable into a written read of the conditions instead of a bare number.",
                     ru: "Макро-панель по каждому региону закупок с инфляцией, ставкой и движением валюты — каждая раскрывается в текстовую интерпретацию условий, а не в голую цифру.",
                 },
                 {
@@ -275,11 +275,11 @@ export const projects: PortfolioProject[] = [
                     ru: "Настраиваемый лист поставщиков, где у каждой позиции своя критичность, уровень зависимости и страна, плюс страновые риски, которые к ней реально применимы.",
                 },
                 {
-                    en: "A written status summary that names its drivers and ends with one concrete next step and a deadline, rather than a colour and a shrug.",
+                    en: "A written status summary that names its drivers and ends with one concrete next step and a deadline, not a colour and a shrug.",
                     ru: "Текстовое резюме статуса, которое называет причины и заканчивается одним конкретным следующим шагом со сроком, а не цветом и пожатием плеч.",
                 },
                 {
-                    en: "A stability counter — \"status unchanged for 18h\" — so a quiet board reads as genuinely quiet rather than as stale data.",
+                    en: "A stability counter that reads \"status unchanged for 18h\", so a quiet board looks genuinely quiet rather than stale.",
                     ru: "Счётчик стабильности — «статус не менялся 18 ч» — чтобы спокойная панель читалась как реально спокойная, а не как зависшие данные.",
                 },
                 {
@@ -294,7 +294,7 @@ export const projects: PortfolioProject[] = [
                 { label: { en: "Hosting", ru: "Хостинг" }, value: { en: "Vercel", ru: "Vercel" } },
             ],
             note: {
-                en: "Technically the most substantial thing in the portfolio, and it used to be described in four words. The public board runs on a sample supplier and peer set — a working template, not anyone's live book of business. The geopolitical layer is still marked beta.",
+                en: "Technically the most substantial thing in the portfolio, and it used to be described in four words. The public board runs on a sample supplier and peer set. It is a working template, not anyone's live book of business. The geopolitical layer is still marked beta.",
                 ru: "Технически самая серьёзная работа в портфолио, а описывалась она четырьмя словами. Публичная панель работает на демонстрационном наборе поставщиков и конкурентов — это рабочий шаблон, а не чья-либо живая база закупок. Геополитический слой пока помечен как бета.",
             },
         },
@@ -317,7 +317,7 @@ export const projects: PortfolioProject[] = [
             role: SOLO_ROLE,
             built: [
                 {
-                    en: "Identity written as a story rather than a bio — office professional by day, Bukhara roots, now a fixture in Tashkent nightlife.",
+                    en: "Identity written as a story rather than a bio: office professional by day, Bukhara roots, now a fixture in Tashkent nightlife.",
                     ru: "Идентичность написана историей, а не биографией: офисный профессионал днём, корни из Бухары, сейчас — постоянное имя в ночном Ташкенте.",
                 },
                 {
@@ -325,7 +325,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Два аудиоблока под разные задачи: SoundCloud для миксов и оригиналов, Mixcloud для эфиров и полных живых сетов.",
                 },
                 {
-                    en: "Playlists sorted by occasion instead of by genre alone — Focus Mode, Cafe & Bar Vibes, Late Night Drive — which is how a venue actually books music.",
+                    en: "Playlists sorted by occasion, not by genre alone: Focus Mode, Cafe & Bar Vibes, Late Night Drive. That is how a venue actually books music.",
                     ru: "Плейлисты разложены по поводу, а не только по жанру — Focus Mode, Cafe & Bar, Late Night Drive — именно так площадка и подбирает музыку.",
                 },
                 {
@@ -333,7 +333,7 @@ export const projects: PortfolioProject[] = [
                     ru: "История выступлений с датами и именами, которые и убеждают: Stihia Festival в Муйнаке, Gravity, Zevon, The Bar и Kultura в Ташкенте, Luna Bar на Фукуоке.",
                 },
                 {
-                    en: "Gallery and a single direct bookings email — no contact form standing between a promoter and a date.",
+                    en: "Gallery and a single direct bookings email, with no contact form standing between a promoter and a date.",
                     ru: "Галерея и один прямой email для букинга — никакой формы между промоутером и датой.",
                 },
             ],
@@ -361,30 +361,30 @@ export const projects: PortfolioProject[] = [
         url: "https://safarisaev.ai",
         category: { en: "Consulting", ru: "Консалтинг" },
         description: {
-            en: "This site — consulting practice plus three live diagnostic tools",
+            en: "This site: a consulting practice plus three live diagnostic tools",
             ru: "Этот сайт — консалтинговая практика и три живых диагностических инструмента",
         },
         stack: ["Next.js", "Vercel"],
         caseStudy: {
             lede: {
-                en: "The site you are on. A consulting practice does not need a brochure — it needs something that qualifies a prospect before the first call. So the centre of this site is three tools a visitor can run alone, each ending in a result worth an email address.",
+                en: "The site you are on. A consulting practice does not need a brochure. It needs something that qualifies a prospect before the first call. So the centre of this site is three tools a visitor can run alone, each ending in a result worth an email address.",
                 ru: "Сайт, на котором вы находитесь. Консалтинговой практике не нужна брошюра — ей нужно то, что квалифицирует клиента до первого созвона. Поэтому в центре сайта три инструмента, которые посетитель проходит сам, и каждый заканчивается результатом, за который не жалко оставить почту.",
             },
             role: {
-                en: "Everything — practice positioning, tool design, scoring models, PDF reports, build.",
+                en: "Everything: practice positioning, tool design, scoring models, PDF reports, build.",
                 ru: "Всё: позиционирование практики, дизайн инструментов, модели скоринга, PDF-отчёты, разработка.",
             },
             built: [
                 {
-                    en: "Efficiency Index — ten procurement questions that score operational waste and turn it into a currency figure against the visitor's own revenue.",
+                    en: "Efficiency Index: ten procurement questions that score operational waste and turn it into a currency figure against the visitor's own revenue.",
                     ru: "Efficiency Index — десять вопросов по закупкам, которые считают операционные потери и переводят их в деньги от оборота самого посетителя.",
                 },
                 {
-                    en: "AI Velocity Index — a second assessment with separate question sets for measuring yourself and for measuring your team.",
+                    en: "AI Velocity Index: a second assessment with separate question sets for measuring yourself and for measuring your team.",
                     ru: "AI Velocity Index — вторая диагностика с раздельными наборами вопросов: для себя и для команды.",
                 },
                 {
-                    en: "Cellar — an AI sourcing desk for fine wine, backed by an edge API route that returns a buy / hold / wait signal with market context.",
+                    en: "Cellar: an AI sourcing desk for fine wine, backed by an edge API route that returns a buy / hold / wait signal with market context.",
                     ru: "Cellar — AI-стол закупок вина на edge-роуте, который возвращает сигнал buy / hold / wait с рыночным контекстом.",
                 },
                 {
@@ -430,7 +430,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Одностраничная структура, повторяющая порядок вопросов покупателя: история, продукты, почему мы, галерея, контакт.",
                 },
                 {
-                    en: "Two product lines presented as separate spec blocks — Carpathian queen bees with an April–August dispatch window, and raw high-altitude wildflower honey.",
+                    en: "Two product lines presented as separate spec blocks: Carpathian queen bees with an April–August dispatch window, and raw high-altitude wildflower honey.",
                     ru: "Два продукта как отдельные спеки — карпатские матки с окном отправки апрель–август и сырой высокогорный разнотравный мёд.",
                 },
                 {
@@ -438,7 +438,7 @@ export const projects: PortfolioProject[] = [
                     ru: "Комплаенс вынесен из мелкого шрифта в аргумент: CITES, британская ветеринарная сертификация, документы APHA и лабораторные протоколы стоят бейджами на каждом продукте.",
                 },
                 {
-                    en: "Credibility numbers carried in the story block — 10,000 active colonies, third-generation family operation, 2,000 m altitude.",
+                    en: "Credibility numbers carried in the story block: 10,000 active colonies, third-generation family operation, 2,000 m altitude.",
                     ru: "Цифры доверия в блоке истории — 10 000 действующих семей, третье поколение семьи, высота 2 000 м.",
                 },
                 {
@@ -453,7 +453,7 @@ export const projects: PortfolioProject[] = [
                 { label: { en: "Hosting", ru: "Хостинг" }, value: { en: "Vercel", ru: "Vercel" } },
             ],
             note: {
-                en: "Open item: the live site currently renders the text \"Place queens.jpg in media/images/\" where the product photography belongs — the image tags are still commented out in the markup. Three product shots would close it. Until then this is the weakest screenshot in the portfolio, and it is the featured one.",
+                en: "Open item: the live site currently renders the text \"Place queens.jpg in media/images/\" where the product photography belongs. The image tags are still commented out in the markup. Three product shots would close it. Until then this is the weakest screenshot in the portfolio, and it is the featured one.",
                 ru: "Открытый пункт: на живом сайте вместо фотографий продуктов выводится текст «Place queens.jpg in media/images/» — теги изображений всё ещё закомментированы в разметке. Закрывается тремя фотографиями. Пока это самый слабый скриншот в портфолио — и он же вынесен в featured.",
             },
         },
@@ -486,7 +486,7 @@ export const tools: PortfolioTool[] = [
         localisedHref: true,
         category: { en: "Diagnostic", ru: "Диагностика" },
         description: {
-            en: "Scores how far you are from User to Architect — for yourself or your team",
+            en: "Scores how far you are from User to Architect, for yourself or your team",
             ru: "Оценивает путь от «Пользователя» до «Архитектора» — для себя или команды",
         },
         status: { en: "Live", ru: "Работает" },
@@ -498,7 +498,7 @@ export const tools: PortfolioTool[] = [
         external: false,
         category: { en: "AI Agent", ru: "AI-агент" },
         description: {
-            en: "Fine wine sourcing desk — name a wine, get a buy/hold/wait signal from live market context",
+            en: "Fine wine sourcing desk: name a wine, get a buy/hold/wait signal from live market context",
             ru: "Стол закупок вина — называете вино, получаете сигнал buy/hold/wait по рыночному контексту",
         },
         status: { en: "Beta", ru: "Бета" },

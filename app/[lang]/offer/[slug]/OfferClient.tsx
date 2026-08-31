@@ -16,7 +16,7 @@ const copy = {
         how: "How it runs",
         forWho: "Worth it if",
         notFor: "Not this if",
-        draft: "Draft — this page is not published or indexed yet.",
+        draft: "Draft. This page is not published or indexed yet.",
         name: "Name",
         email: "Email",
         brief: "Which process hurts?",

@@ -20,7 +20,7 @@ const content = {
         eyebrow: "— Selected work",
         title: "Portfolio",
         subtitle:
-            "Client sites and working automation — every one designed and built end to end by one person, not specified and handed off.",
+            "Client sites and working automation. Every one designed and built end to end by one person, not specified and handed off.",
         statSites: "live sites",
         statTools: "in-house tools",
         statDelivery: "typical delivery",
@@ -29,7 +29,7 @@ const content = {
         toolsEyebrow: "— Proof",
         toolsTitle: "Automation I built and run myself",
         toolsSubtitle:
-            "Not client work. These are the systems behind the pitch — each one live, running, and free to try right now.",
+            "Not client work. These are the systems behind the pitch, and every one is live and free to try right now.",
         readCase: "READ CASE",
         open: "OPEN",
         ctaEyebrow: "— Next project",
