@@ -23,3 +23,9 @@ export const AI_OFFER_PRICE = {
 
 /** The crossed-out anchor shown next to the entry offer. */
 export const AI_OFFER_RED_ANCHOR = "$49";
+
+/** Automation teardown: the paid rung between a free diagnostic and a build. */
+export const TEARDOWN_PRICE = "$500";
+
+/** Supply-chain monitor, per company per month. Draft — not published yet. */
+export const MONITOR_PRICE = "$400";

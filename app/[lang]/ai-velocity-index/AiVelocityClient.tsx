@@ -6,6 +6,7 @@ import { aiIndexData, Lang, Context } from "@/lib/aiIndexData";
 import { generateAiPdf } from "@/lib/generateAiPdf";
 import { ArrowLeft, Check, ArrowRight, Loader2, Download, Zap, RefreshCw, Sun, Moon, User, Users } from "lucide-react";
 import Link from "next/link";
+import { TEARDOWN_PRICE } from "@/lib/pricing";
 import { useForm } from "@formspree/react";
 import { LegalFooter } from "@/components/LegalFooter";
 
@@ -376,6 +377,25 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                                         >
                                             <Download className="w-5 h-5" /> {t.cta}
                                         </button>
+
+                                        <Link
+                                            href={`/${lang}/offer/teardown`}
+                                            className="group mb-6 flex items-center justify-between gap-3 rounded-lg border border-slate-200 dark:border-slate-800 p-4 transition-colors hover:border-emerald-500"
+                                        >
+                                            <span className="text-left">
+                                                <span className="block text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+                                                    {lang === 'ru' ? 'Следующий шаг' : 'Next step'}
+                                                </span>
+                                                <span className="mt-1 block text-sm font-bold text-slate-900 dark:text-white">
+                                                    {lang === 'ru'
+                                                        ? 'Разбор автоматизации — что автоматизировать первым'
+                                                        : 'Automation Teardown — what to automate first'}
+                                                </span>
+                                            </span>
+                                            <span className="shrink-0 font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                                                {TEARDOWN_PRICE} →
+                                            </span>
+                                        </Link>
 
                                         <button
                                             onClick={handleRestart}

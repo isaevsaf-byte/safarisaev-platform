@@ -6,6 +6,9 @@ import { efficiencyData } from "./data";
 import { Loader2 } from "lucide-react";
 import { BookingModal } from "./BookingModal";
 import { EmailModal } from "./EmailModal";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { TEARDOWN_PRICE } from "@/lib/pricing";
 
 interface ResultDashboardProps {
     score: number;
@@ -167,6 +170,28 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                     >
                         {status.action}
                     </motion.button>
+
+                    {/* The funnel used to end here: a loss figure and a "message me"
+                        button. This is the paid rung between the free score and a build. */}
+                    <Link
+                        href={`/${lang}/offer/teardown`}
+                        className="group mt-4 flex w-full items-center justify-between gap-3 rounded-lg border border-slate-200 dark:border-zinc-700 p-4 transition-colors hover:border-blue-500 dark:hover:border-accent"
+                    >
+                        <span className="text-left">
+                            <span className="block text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-zinc-500">
+                                {lang === "ru" ? "Следующий шаг" : "Next step"}
+                            </span>
+                            <span className="mt-1 block text-sm font-bold text-slate-900 dark:text-white">
+                                {lang === "ru"
+                                    ? "Разбор автоматизации — карта, что чинить первым"
+                                    : "Automation Teardown — a map of what to fix first"}
+                            </span>
+                        </span>
+                        <span className="flex shrink-0 items-center gap-1 font-mono text-sm font-bold text-blue-600 dark:text-accent">
+                            {TEARDOWN_PRICE}
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </span>
+                    </Link>
 
                     <button
                         onClick={() => setIsEmailModalOpen(true)}
