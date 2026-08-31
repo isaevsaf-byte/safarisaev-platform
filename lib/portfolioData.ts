@@ -251,8 +251,8 @@ export const projects: PortfolioProject[] = [
         url: "https://cpo-watchtower.co.uk",
         category: { en: "Procurement", ru: "Закупки" },
         description: {
-            en: "Live supply-chain risk dashboard for procurement leaders",
-            ru: "Живой дашборд рисков цепочки поставок для директоров по закупкам",
+            en: "Supply-chain risk board — macro, peers and suppliers read together",
+            ru: "Панель рисков цепочки поставок — макро, конкуренты и поставщики вместе",
         },
         stack: ["Next.js", "Vercel"],
         caseStudy: {
@@ -267,12 +267,12 @@ export const projects: PortfolioProject[] = [
                     ru: "Три опоры на одном экране — макро, конкуренты, лист поставщиков — у каждой свой статус, чтобы общий зелёный не прятал жёлтую часть.",
                 },
                 {
-                    en: "A regional macro panel for the US, EU and China carrying CPI, policy rate and currency movement, each expandable into a written read of the conditions.",
-                    ru: "Макро-панель по США, ЕС и Китаю с инфляцией, ставкой и движением валюты — каждая раскрывается в текстовую интерпретацию условий.",
+                    en: "A macro panel per buying region carrying inflation, policy rate and currency movement, each expandable into a written read of the conditions rather than a bare number.",
+                    ru: "Макро-панель по каждому региону закупок с инфляцией, ставкой и движением валюты — каждая раскрывается в текстовую интерпретацию условий, а не в голую цифру.",
                 },
                 {
-                    en: "A 24-supplier watchlist tagged by criticality, exposure level and country, with geopolitical notes attached where they matter — NATO frontline states, export controls, energy instability.",
-                    ru: "Лист из 24 поставщиков с тегами критичности, уровня зависимости и страны, с геополитическими пометками там, где они важны: прифронтовые страны НАТО, экспортный контроль, энергетическая нестабильность.",
+                    en: "A configurable supplier watchlist where every entry carries criticality, dependency level and country, plus the country risks that actually apply to it.",
+                    ru: "Настраиваемый лист поставщиков, где у каждой позиции своя критичность, уровень зависимости и страна, плюс страновые риски, которые к ней реально применимы.",
                 },
                 {
                     en: "A written status summary that names its drivers and ends with one concrete next step and a deadline, rather than a colour and a shrug.",
@@ -289,13 +289,13 @@ export const projects: PortfolioProject[] = [
             ],
             facts: [
                 { label: { en: "Type", ru: "Тип" }, value: { en: "Live dashboard", ru: "Живой дашборд" } },
-                { label: { en: "Suppliers tracked", ru: "Поставщиков" }, value: { en: "24", ru: "24" } },
-                { label: { en: "Macro regions", ru: "Макро-регионы" }, value: { en: "US / EU / CN", ru: "США / ЕС / КНР" } },
+                { label: { en: "Watchlist", ru: "Лист поставщиков" }, value: { en: "Configurable", ru: "Настраиваемый" } },
+                { label: { en: "Dataset", ru: "Данные" }, value: { en: "Sample", ru: "Демонстрационные" } },
                 { label: { en: "Hosting", ru: "Хостинг" }, value: { en: "Vercel", ru: "Vercel" } },
             ],
             note: {
-                en: "This is the most technically substantial thing in the portfolio and it was previously described in four words. The geopolitical intelligence layer is still marked beta on the live board.",
-                ru: "Технически это самая серьёзная работа в портфолио, а описывалась она четырьмя словами. Слой геополитической аналитики на живой панели пока помечен как бета.",
+                en: "Technically the most substantial thing in the portfolio, and it used to be described in four words. The public board runs on a sample supplier and peer set — a working template, not anyone's live book of business. The geopolitical layer is still marked beta.",
+                ru: "Технически самая серьёзная работа в портфолио, а описывалась она четырьмя словами. Публичная панель работает на демонстрационном наборе поставщиков и конкурентов — это рабочий шаблон, а не чья-либо живая база закупок. Геополитический слой пока помечен как бета.",
             },
         },
     },
