@@ -81,7 +81,7 @@ export default function OfferClient({
     useLeadReply({
         succeeded: state.succeeded,
         email: submittedEmail,
-        source: offer.source as Parameters<typeof useLeadReply>[0]["source"],
+        source: offer.source,
         locale: locale,
     });
     const formRef = useRef<HTMLDivElement>(null);

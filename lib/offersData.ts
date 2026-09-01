@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { MONITOR_PRICE, MONITOR_SETUP_PRICE, TEARDOWN_PRICE } from "@/lib/pricing";
+import type { LeadSource } from "@/lib/leadReply";
 
 /**
  * Paid offers that have a page, a price and a way to buy.
@@ -45,8 +46,11 @@ export interface Offer {
     ctaTitle: Localised;
     ctaBody: Localised;
     ctaButton: Localised;
-    /** Formspree source tag, so this offer is distinguishable in the inbox. */
-    source: string;
+    /**
+     * Tags the lead in the Formspree inbox and picks the automatic reply. Typed,
+     * so a new offer cannot ship without a reply template written for it.
+     */
+    source: LeadSource;
 }
 
 export const offers: Record<OfferSlug, Offer> = {
