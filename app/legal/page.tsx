@@ -5,13 +5,13 @@ import { LegalFooter } from "@/components/LegalFooter";
 import { legalAddressLine, legalEntity } from "@/lib/legal";
 
 export const metadata: Metadata = {
-    title: `Legal & Company Information | ${legalEntity.name}`,
+    title: `Legal, company & website privacy | ${legalEntity.name}`,
     description: `safarisaev.ai is owned and operated by ${legalEntity.name}, a private limited company registered in ${legalEntity.jurisdiction} under company number ${legalEntity.companyNumber}.`,
     alternates: {
         canonical: "https://safarisaev.ai/legal",
     },
     openGraph: {
-        title: `Legal & Company Information | ${legalEntity.name}`,
+        title: `Legal, company & website privacy | ${legalEntity.name}`,
         description: `Registered company details for ${legalEntity.name}, the operator of safarisaev.ai.`,
         type: "website",
         url: "https://safarisaev.ai/legal",
@@ -81,7 +81,7 @@ export default function LegalPage() {
             <section className="container mx-auto px-6 py-16 md:py-24">
                 <div className="max-w-3xl">
                     <p className="mb-4 font-mono text-xs uppercase tracking-widest text-accent">
-                        {"// Legal & Company Information"}
+                        {"// Legal, company & website privacy"}
                     </p>
                     <h1 className="mb-6 font-mono text-3xl font-bold text-foreground md:text-5xl">
                         {legalEntity.name}
@@ -108,6 +108,92 @@ export default function LegalPage() {
                         </Link>{" "}
                         is published on this site.
                     </p>
+                </div>
+
+
+                {/* What the website itself does with data. The policy at /privacy
+                    covers the Kalorii app; this covers safarisaev.ai. */}
+                <div className="mt-16 max-w-3xl border border-secondary/20">
+                    <div className="border-b border-secondary/20 px-6 py-4">
+                        <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
+                            What this website collects
+                        </h2>
+                    </div>
+
+                    <div className="space-y-6 px-6 py-6 font-mono text-sm leading-relaxed text-secondary">
+                        <p>
+                            <span className="text-foreground">Visitor numbers.</span>{" "}
+                            We count page views and load speed through Vercel Analytics and
+                            Speed Insights. Both are cookieless: no cookie is written, no
+                            identifier follows you between sites, and no profile is built.
+                            What we see is aggregate — which pages were opened, from which
+                            country, on what kind of device, and how fast they rendered. We
+                            cannot pick an individual visitor out of it, and neither can we
+                            connect it to anything you send us.
+                        </p>
+
+                        <p>
+                            <span className="text-foreground">What you type into a form.</span>{" "}
+                            The diagnostics, the audit request and the offer pages each have
+                            a form. They send us what you fill in — your email address, and
+                            depending on the form a company URL, a short brief, your
+                            language, and the result the tool produced for you. Submissions
+                            are delivered through Formspree, which acts as our processor and
+                            passes them to {legalEntity.email}. Nothing is submitted until
+                            you press the button.
+                        </p>
+
+                        <p>
+                            <span className="text-foreground">A reply you did not ask a human for.</span>{" "}
+                            When a form goes through, an automatic email confirms it arrived
+                            and says what happens next. It goes only to the address you
+                            entered, only once, and carries no tracking pixel. A person
+                            replies separately.
+                        </p>
+
+                        <p>
+                            <span className="text-foreground">The diagnostics themselves.</span>{" "}
+                            Your answers to the Efficiency Index and the AI Velocity Index
+                            are scored in your browser and are not sent anywhere. The PDF is
+                            built on your device. Your answers reach us only if you choose
+                            to submit the form afterwards, and then only as the summary the
+                            form carries.
+                        </p>
+
+                        <p>
+                            <span className="text-foreground">What we never do.</span>{" "}
+                            No advertising trackers, no third-party pixels, no selling or
+                            sharing of anything you send us, no newsletter you did not
+                            request. The theme and language you pick are kept in your own
+                            browser and never leave it.
+                        </p>
+
+                        <p>
+                            <span className="text-foreground">Keeping and removing.</span>{" "}
+                            Enquiries are kept while a conversation is live and for as long
+                            as we may need them for our records afterwards. Write to{" "}
+                            <a
+                                href={`mailto:${legalEntity.email}`}
+                                className="text-accent transition-colors hover:text-foreground"
+                            >
+                                {legalEntity.email}
+                            </a>{" "}
+                            to ask for a copy of what we hold about you, a correction, or
+                            deletion, and we will act on it.
+                        </p>
+
+                        <p className="border-t border-secondary/20 pt-6 text-secondary/80">
+                            The mobile application published by this company has a separate
+                            and more detailed policy, because it handles health data:{" "}
+                            <Link
+                                href="/privacy"
+                                className="text-accent transition-colors hover:text-foreground"
+                            >
+                                app privacy policy
+                            </Link>
+                            .
+                        </p>
+                    </div>
                 </div>
 
                 {/* Registration record */}

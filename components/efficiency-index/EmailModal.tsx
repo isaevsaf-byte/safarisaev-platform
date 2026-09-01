@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Download, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { useForm } from "@formspree/react";
+import { useLeadReply, readEmailFromForm } from "@/hooks/useLeadReply";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { useDialog } from "@/hooks/useDialog";
 import { generateEfficiencyReport } from "@/lib/generatePdf";
@@ -21,6 +22,21 @@ interface EmailModalProps {
 export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercentage, zone }: EmailModalProps) {
     const t = efficiencyData.content[lang].text;
     const [state, handleSubmit] = useForm("xzddelvr");
+    const [submittedEmail, setSubmittedEmail] = useState("");
+
+    // Read before Formspree takes the event: the form may be unmounted by the
+    // time the submission resolves.
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        setSubmittedEmail(readEmailFromForm(event.currentTarget));
+        handleSubmit(event);
+    };
+
+    useLeadReply({
+        succeeded: state.succeeded,
+        email: submittedEmail,
+        source: "efficiency-index",
+        locale: lang,
+    });
     const onCloseRef = useRef(onClose);
     onCloseRef.current = onClose;
     const dialogRef = useDialog(isOpen, onClose);
@@ -130,7 +146,7 @@ export function EmailModal({ isOpen, onClose, lang, score, revenue, wastePercent
                                 )
                             ) : (
                                 /* Form State */
-                                <form onSubmit={handleSubmit} className="space-y-4">
+                                <form onSubmit={onSubmit} className="space-y-4">
                                     <div className="text-center mb-6">
                                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                                             {lang === "ru" ? "Получить полный отчет" : "Get Full Report"}

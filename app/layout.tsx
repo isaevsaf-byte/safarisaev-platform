@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { legalEntity } from "@/lib/legal";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
@@ -130,6 +132,12 @@ export default function RootLayout({
             </head>
             <body className={`${jetbrainsMono.variable} font-mono antialiased`}>
                 {children}
+                {/* Cookieless and aggregate: no cookie, no cross-site identifier, no
+                    profile. Chosen over a product-analytics SDK so the site needs no
+                    consent banner and the privacy notice stays short and true.
+                    Both need switching on in the Vercel project before data flows. */}
+                <Analytics />
+                <SpeedInsights />
             </body>
         </html>
     );

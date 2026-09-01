@@ -7,6 +7,7 @@ import { generateAiPdf } from "@/lib/generateAiPdf";
 import { ArrowLeft, Check, ArrowRight, Loader2, Download, Zap, RefreshCw, Sun, Moon, User, Users } from "lucide-react";
 import Link from "next/link";
 import { TEARDOWN_PRICE } from "@/lib/pricing";
+import { useLeadReply } from "@/hooks/useLeadReply";
 import { useForm } from "@formspree/react";
 import { LegalFooter } from "@/components/LegalFooter";
 
@@ -31,6 +32,15 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [formState, handleSubmit] = useForm("xzddelvr");
+
+    // Confirms the submission by email the moment it goes through. Additive: the
+    // lead is already with Formspree before this runs.
+    useLeadReply({
+        succeeded: formState.succeeded,
+        email,
+        source: "ai-velocity-index",
+        locale: lang,
+    });
     const answerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const modalCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

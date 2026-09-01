@@ -2,9 +2,10 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, Loader2, X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDialog } from "@/hooks/useDialog";
 import { useForm } from "@formspree/react";
+import { useLeadReply, readEmailFromForm } from "@/hooks/useLeadReply";
 
 interface AuditModalProps {
   isOpen: boolean;
@@ -26,6 +27,21 @@ export function AuditModal({ isOpen, onClose, dictionary, locale = "en" }: Audit
   // from the homepage audit CTA was silently discarded. It now posts to Formspree,
   // the same endpoint the other two lead forms use.
   const [state, handleSubmit] = useForm("xzddelvr");
+  const [submittedEmail, setSubmittedEmail] = useState("");
+
+  // Read before Formspree takes the event: the form may be unmounted by the
+  // time the submission resolves.
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      setSubmittedEmail(readEmailFromForm(event.currentTarget));
+      handleSubmit(event);
+  };
+
+  useLeadReply({
+      succeeded: state.succeeded,
+      email: submittedEmail,
+      source: "homepage-audit-protocol",
+      locale: locale,
+  });
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
@@ -83,7 +99,7 @@ export function AuditModal({ isOpen, onClose, dictionary, locale = "en" }: Audit
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={onSubmit} className="space-y-4">
                 {/* Lets you tell homepage audit leads apart from the two index tools,
                     which post to the same Formspree form. */}
                 <input type="hidden" name="source" value="homepage-audit-protocol" />

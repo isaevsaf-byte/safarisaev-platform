@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "@formspree/react";
+import { useLeadReply, readEmailFromForm } from "@/hooks/useLeadReply";
 import { ArrowLeft, ArrowUpRight, CheckCircle, Loader2 } from "lucide-react";
 import { LegalFooter } from "@/components/LegalFooter";
 import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
@@ -68,6 +69,21 @@ export default function OfferClient({
 }) {
     const t = copy[locale];
     const [state, handleSubmit] = useForm("xzddelvr");
+    const [submittedEmail, setSubmittedEmail] = useState("");
+
+    // Read before Formspree takes the event: the form may be unmounted by the
+    // time the submission resolves.
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        setSubmittedEmail(readEmailFromForm(event.currentTarget));
+        handleSubmit(event);
+    };
+
+    useLeadReply({
+        succeeded: state.succeeded,
+        email: submittedEmail,
+        source: offer.source as Parameters<typeof useLeadReply>[0]["source"],
+        locale: locale,
+    });
     const formRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -249,7 +265,7 @@ export default function OfferClient({
                             <p className="font-mono text-sm text-foreground">{t.sent}</p>
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={onSubmit} className="space-y-4">
                             <input type="hidden" name="source" value={offer.source} />
                             <input type="hidden" name="lang" value={locale} />
                             <input type="hidden" name="price" value={offer.price} />
