@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
     title: "Safar Isaev — Operations & AI Automation",
-    description: "I find where a business loses money and time, then build the system that stops it — process design, procurement, and AI automation for founders.",
+    description: "I find where a business loses money and time, then build the system that stops it — process design and AI automation for founders.",
     metadataBase: new URL("https://safarisaev.ai"),
     alternates: { canonical: "https://safarisaev.ai" },
     openGraph: {
@@ -40,7 +40,7 @@ const jsonLd = {
     "@type": "Person",
     name: "Safar Isaev",
     jobTitle: "Operations engineer",
-    description: "Operations engineer working on process design, procurement and AI automation. Builds the systems rather than only advising on them.",
+    description: "Operations engineer working on process design and AI automation. Builds the systems rather than only advising on them.",
     url: "https://safarisaev.ai",
     sameAs: [
         "https://t.me/SafarIsaev",
@@ -56,7 +56,6 @@ const jsonLd = {
         "AI Automation",
         "AI Agents",
         "Workflow Automation",
-        "Procurement",
         "Resource Management",
     ],
     offers: [
@@ -69,7 +68,7 @@ const jsonLd = {
         {
             "@type": "Service",
             name: "Resource Architecture",
-            description: "Procurement audit, supplier negotiation, vendor management, and cost reduction roadmap.",
+            description: "Cost and time audit, tool stack consolidation, team capacity mapping, and cost reduction roadmap.",
             url: "https://safarisaev.ai/resources",
         },
         {

@@ -14,11 +14,11 @@ export async function generateStaticParams() {
 const COPY = {
     en: {
         title: "Resource Architecture | Safar Isaev",
-        description: "Procurement audit, supplier negotiation, vendor management, and cost reduction roadmap. Reduce procurement costs by 20-40% and eliminate duplicate vendors.",
+        description: "Cost and time audit, tool stack consolidation, team capacity mapping and a cost reduction roadmap. See what the operation actually costs to run.",
     },
     ru: {
         title: "Архитектура ресурсов | Сафар Исаев",
-        description: "Аудит закупок, переговоры с поставщиками, управление вендорами и дорожная карта снижения затрат. Снижает стоимость закупок на 20–40%.",
+        description: "Аудит затрат и времени, консолидация инструментов, карта загрузки команды и дорожная карта снижения затрат. Видно, во что реально обходится операция.",
     },
 } as const;
 

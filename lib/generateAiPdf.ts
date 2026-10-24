@@ -184,7 +184,7 @@ const pdfContent = {
                         title: "Умный Поиск",
                         desc: "Перестаньте гуглить факты.",
                         oldWay: "",
-                        newWay: "Спросите Perplexity или ChatGPT: \u00ABНайди топ-5 поставщиков [товар] и сделай таблицу сравнения цен\u00BB."
+                        newWay: "Спросите Perplexity или ChatGPT: \u00ABНайди топ-5 конкурентов [товар] и сделай таблицу сравнения цен\u00BB."
                     }
                 ]
             },
@@ -230,7 +230,7 @@ const pdfContent = {
                         title: "Smart Search",
                         desc: "Stop Googling facts.",
                         oldWay: "",
-                        newWay: "Ask Perplexity or ChatGPT: \"Find top 5 suppliers for [product] and make a price comparison table.\""
+                        newWay: "Ask Perplexity or ChatGPT: \"Find the top 5 competitors for [product] and make a price comparison table.\""
                     }
                 ]
             },

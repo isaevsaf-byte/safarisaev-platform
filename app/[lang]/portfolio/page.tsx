@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import PortfolioClient from "./PortfolioClient";
 import { projects, tools, WEBSITE_FROM_PRICE } from "@/lib/portfolioData";
 import { alternatesFor, isLocale, localeParams } from "@/lib/locale";
+import { ruPlural } from "@/lib/plural";
+
+const siteCount = projects.filter((project) => project.surface !== "telegram").length;
+const botCount = projects.length - siteCount;
 
 type Props = { params: { lang: string } };
 
@@ -15,11 +19,11 @@ export async function generateStaticParams() {
 const COPY = {
     en: {
         title: "Portfolio | Safar Isaev",
-        description: `Websites and internal tools built for founders, brands and operators — ${projects.length} live sites and ${tools.length} products. Every one designed and built end to end by one person. From ${WEBSITE_FROM_PRICE}.`,
+        description: `Websites, Telegram bots and internal tools for founders, brands and operators: ${siteCount} live sites, ${botCount} bots and ${tools.length} products. Every one designed and built end to end by one person. From ${WEBSITE_FROM_PRICE}.`,
     },
     ru: {
         title: "Работы | Сафар Исаев",
-        description: `Сайты и инструменты для основателей, брендов и операционных команд — ${projects.length} живых сайта и ${tools.length} продукта. Каждый сделан целиком одним человеком. От ${WEBSITE_FROM_PRICE}.`,
+        description: `Сайты, Telegram-боты и инструменты для основателей, брендов и операционных команд — ${siteCount} ${ruPlural(siteCount, ["живой сайт", "живых сайта", "живых сайтов"])}, ${botCount} ${ruPlural(botCount, ["бот", "бота", "ботов"])} и ${tools.length} ${ruPlural(tools.length, ["продукт", "продукта", "продуктов"])}. Каждый сделан целиком одним человеком. От ${WEBSITE_FROM_PRICE}.`,
     },
 } as const;
 

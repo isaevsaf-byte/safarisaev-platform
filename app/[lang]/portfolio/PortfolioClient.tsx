@@ -6,8 +6,10 @@ import { LegalFooter } from "@/components/LegalFooter";
 import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
 import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
 import type { Locale } from "@/lib/i18n";
+import { countNoun, type CountForms } from "@/lib/plural";
 import {
     projects,
+    surfaceLabel,
     tools,
     WEBSITE_FROM_PRICE,
     type PortfolioProject,
@@ -21,11 +23,18 @@ const content = {
         title: "Portfolio",
         subtitle:
             "Client sites and working automation. Every one designed and built end to end by one person, not specified and handed off.",
-        statSites: "live sites",
-        statTools: "in-house tools",
         statDelivery: "typical delivery",
         statDeliveryValue: "7 days",
         workEyebrow: "— Client work",
+        botsEyebrow: "— Telegram",
+        botsTitle: "Bots and mini apps",
+        botsSubtitle:
+            "Work that lives inside a chat instead of a browser. Neither one has a link to open: one runs a private client channel, the other runs inside a single company.",
+        buildTitle: "What else a bot can take off your hands",
+        buildIntro:
+            "The two above sit at opposite ends: a public product with money moving through it, and an internal tool with roles and a schedule. Most requests land somewhere between them.",
+        buildOutro:
+            "Describe the job and I will tell you which parts are worth a bot and which parts are not. Some of them are better as a spreadsheet, and saying so costs you less than building the wrong thing.",
         toolsEyebrow: "— Proof",
         toolsTitle: "Automation I built and run myself",
         toolsSubtitle:
@@ -46,11 +55,18 @@ const content = {
         title: "Работы",
         subtitle:
             "Клиентские сайты и работающая автоматизация — каждый проект сделан одним человеком целиком, а не расписан и передан.",
-        statSites: "живых сайта",
-        statTools: "своих инструмента",
         statDelivery: "обычный срок",
         statDeliveryValue: "7 дней",
         workEyebrow: "— Клиентские проекты",
+        botsEyebrow: "— Telegram",
+        botsTitle: "Боты и мини-приложения",
+        botsSubtitle:
+            "Работы, которые живут внутри чата, а не в браузере. Открыть по ссылке нельзя ни ту, ни другую: одна ведёт закрытый клиентский канал, вторая работает внутри одной компании.",
+        buildTitle: "Что ещё бот может снять с вас",
+        buildIntro:
+            "Эти два — разные полюса: публичный продукт, через который идут деньги, и внутренний инструмент с ролями и расписанием. Большинство задач попадает куда-то между ними.",
+        buildOutro:
+            "Опишите задачу — скажу, какую часть стоит делать ботом, а какую не стоит. Часть таких вещей честнее оставить таблицей, и сказать это дешевле, чем собрать не то.",
         toolsEyebrow: "— Доказательства",
         toolsTitle: "Автоматизация, которую я построил и веду сам",
         toolsSubtitle:
@@ -67,13 +83,64 @@ const content = {
     },
 } satisfies Record<Locale, Record<string, string>>;
 
-function hostOf(url: string) {
-    try {
-        return new URL(url).host.replace(/^www\./, "");
-    } catch {
-        return url;
-    }
-}
+/** Labels for the counters under the title. The form depends on the number. */
+const COUNT_FORMS: Record<"sites" | "bots" | "tools", CountForms> = {
+    sites: { en: ["live site", "live sites"], ru: ["живой сайт", "живых сайта", "живых сайтов"] },
+    bots: { en: ["Telegram bot", "Telegram bots"], ru: ["Telegram-бот", "Telegram-бота", "Telegram-ботов"] },
+    tools: { en: ["in-house tool", "in-house tools"], ru: ["свой инструмент", "своих инструмента", "своих инструментов"] },
+};
+
+/**
+ * What a bot can be asked for.
+ *
+ * Written from the two that are already running rather than from a menu of things
+ * that sound possible: every line here names a piece that exists in one of them.
+ * Both languages sit in the same object so they cannot drift apart.
+ */
+const BOT_CAPABILITIES: { title: Record<Locale, string>; body: Record<Locale, string> }[] = [
+    {
+        title: { en: "Publishing on a schedule", ru: "Публикация по расписанию" },
+        body: {
+            en: "Posts land at the hour people actually read, not the hour somebody sent them in.",
+            ru: "Посты выходят в час, когда их читают, а не когда их прислали.",
+        },
+    },
+    {
+        title: { en: "Moderation and roles", ru: "Модерация и роли" },
+        body: {
+            en: "A review queue, separate reach for owner, moderator and editor, and a log that settles who did what.",
+            ru: "Очередь на проверку, разный доступ у владельца, модератора и редактора, журнал, который решает спор «кто это сделал».",
+        },
+    },
+    {
+        title: { en: "Payments and reconciliation", ru: "Оплаты и сверка" },
+        body: {
+            en: "Packages, a balance, duplicate receipts caught automatically, and a CSV that matches a card statement.",
+            ru: "Пакеты, баланс, автоматический отлов дублей чеков и CSV, который сходится с выпиской карты.",
+        },
+    },
+    {
+        title: { en: "Requests and booking", ru: "Заявки и бронирование" },
+        body: {
+            en: "A form inside the chat, a conflict check before anything is accepted, and a visible status instead of a thread.",
+            ru: "Форма прямо в чате, проверка накладок до приёма заявки и понятный статус вместо переписки.",
+        },
+    },
+    {
+        title: { en: "Notifications and reminders", ru: "Уведомления и напоминания" },
+        body: {
+            en: "A new event, a nudge before the deadline, a morning digest. Nobody has to open anything to stay current.",
+            ru: "Новое событие, напоминание заранее, утренняя сводка. Чтобы быть в курсе, открывать ничего не нужно.",
+        },
+    },
+    {
+        title: { en: "Reports and exports", ru: "Отчёты и выгрузки" },
+        body: {
+            en: "Funnel, revenue, a weekly summary, and the raw rows on request when somebody wants to check the arithmetic.",
+            ru: "Воронка, выручка, недельная сводка и сырые строки по запросу, когда кто-то хочет пересчитать сам.",
+        },
+    },
+];
 
 function ProjectCard({
     project,
@@ -132,7 +199,7 @@ function ProjectCard({
 
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-secondary/15 pt-3">
                         <span className="font-mono text-[10px] tracking-wider text-secondary/70">
-                            {hostOf(project.url)}
+                            {surfaceLabel(project, locale)}
                         </span>
                         <span className="flex items-center gap-1 font-mono text-xs font-bold text-accent">
                             {caseLabel}
@@ -201,8 +268,12 @@ function ToolCard({
 
 export default function PortfolioClient({ locale }: { locale: Locale }) {
     const t = content[locale];
-    const featured = projects.find((p) => p.featured) ?? projects[0];
-    const grid = projects.filter((p) => p.slug !== featured.slug);
+    // Bots get their own section rather than a slot in the site grid: a card with
+    // no screenshot and no link to open reads as a broken site card next to real ones.
+    const sites = projects.filter((p) => p.surface !== "telegram");
+    const bots = projects.filter((p) => p.surface === "telegram");
+    const featured = sites.find((p) => p.featured) ?? sites[0];
+    const grid = sites.filter((p) => p.slug !== featured.slug);
 
     return (
         <main className="relative min-h-screen overflow-x-hidden">
@@ -234,10 +305,11 @@ export default function PortfolioClient({ locale }: { locale: Locale }) {
                     </h1>
                     <p className="mt-4 max-w-xl font-mono text-sm text-secondary">{t.subtitle}</p>
 
-                    <dl className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-secondary/20 pt-6">
+                    <dl className="mt-8 grid max-w-xl grid-cols-2 gap-4 border-t border-secondary/20 pt-6 sm:grid-cols-4">
                         {[
-                            { value: String(projects.length), label: t.statSites },
-                            { value: String(tools.length), label: t.statTools },
+                            { value: String(sites.length), label: countNoun(sites.length, COUNT_FORMS.sites, locale) },
+                            { value: String(bots.length), label: countNoun(bots.length, COUNT_FORMS.bots, locale) },
+                            { value: String(tools.length), label: countNoun(tools.length, COUNT_FORMS.tools, locale) },
                             { value: t.statDeliveryValue, label: t.statDelivery },
                         ].map((stat) => (
                             <div key={stat.label}>
@@ -277,6 +349,64 @@ export default function PortfolioClient({ locale }: { locale: Locale }) {
                     ))}
                 </div>
             </section>
+
+            {/* Telegram work — no screenshot, no link, so it gets its own treatment */}
+            {bots.length > 0 && (
+                <section className="relative z-10 mt-20 border-t border-secondary/20">
+                    <div className="container mx-auto px-6 py-16">
+                        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+                            {t.botsEyebrow}
+                        </p>
+                        <h2 className="font-mono text-2xl font-bold text-foreground md:text-3xl">
+                            {t.botsTitle}
+                        </h2>
+                        <p className="mt-3 max-w-xl font-mono text-sm text-secondary">
+                            {t.botsSubtitle}
+                        </p>
+
+                        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+                            {bots.map((project, i) => (
+                                <ProjectCard
+                                    key={project.slug}
+                                    project={project}
+                                    index={i}
+                                    locale={locale}
+                                    caseLabel={t.readCase}
+                                />
+                            ))}
+                        </div>
+
+                        <div className="mt-14 border-t border-secondary/20 pt-10">
+                            <h3 className="font-mono text-lg font-bold text-foreground md:text-xl">
+                                {t.buildTitle}
+                            </h3>
+                            <p className="mt-3 max-w-xl font-mono text-sm text-secondary">
+                                {t.buildIntro}
+                            </p>
+
+                            <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                                {BOT_CAPABILITIES.map((capability) => (
+                                    <div
+                                        key={capability.title.en}
+                                        className="border-l border-accent/30 pl-4"
+                                    >
+                                        <p className="font-mono text-sm font-bold text-foreground">
+                                            {capability.title[locale]}
+                                        </p>
+                                        <p className="mt-1.5 font-mono text-xs leading-relaxed text-secondary">
+                                            {capability.body[locale]}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <p className="mt-10 max-w-xl border-l-2 border-secondary/25 pl-4 font-mono text-sm text-secondary">
+                                {t.buildOutro}
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Tools & products */}
             <section className="relative z-10 mt-20 border-t border-secondary/20">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "@formspree/react";
 import { useLeadReply, readEmailFromForm } from "@/hooks/useLeadReply";
-import { ArrowLeft, ArrowUpRight, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
 import { LegalFooter } from "@/components/LegalFooter";
 import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
 import type { Locale } from "@/lib/i18n";
@@ -85,6 +85,7 @@ export default function OfferClient({
         locale: locale,
     });
     const formRef = useRef<HTMLDivElement>(null);
+    const [brief, setBrief] = useState("");
 
     useEffect(() => {
         if (state.succeeded) {
@@ -130,52 +131,14 @@ export default function OfferClient({
                     </p>
 
                     <div className="mt-9 flex flex-col gap-6 border-t border-secondary/20 pt-6 md:flex-row md:items-end md:justify-between">
-                        {/* When there is a setup fee it leads: the buyer is purchasing a
-                            build they understand, with cheap upkeep after — not a
-                            subscription to a dashboard from someone they have not met. */}
-                        <div className="flex flex-col gap-3">
-                            {offer.setup && (
-                                <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
-                                    <span className="font-mono text-4xl font-bold tabular-nums text-foreground md:text-5xl">
-                                        {offer.setup.price}
-                                    </span>
-                                    <span className="max-w-xs font-mono text-sm leading-snug text-secondary">
-                                        {offer.setup.note[locale]}
-                                    </span>
-                                </div>
-                            )}
-                            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                                <span
-                                    className={`font-mono font-bold tabular-nums text-foreground ${
-                                        offer.setup ? "text-2xl md:text-3xl" : "text-4xl md:text-5xl"
-                                    }`}
-                                >
-                                    {offer.setup ? `+ ${offer.price}` : offer.price}
-                                </span>
-                                <span className="max-w-xs font-mono text-sm leading-snug text-secondary">
-                                    {offer.priceNote[locale]}
-                                </span>
-                            </div>
+                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                            <span className="font-mono text-4xl font-bold tabular-nums text-foreground md:text-5xl">
+                                {offer.price}
+                            </span>
+                            <span className="max-w-xs font-mono text-sm leading-snug text-secondary">
+                                {offer.priceNote[locale]}
+                            </span>
                         </div>
-
-                        {/* A product is bought with the eyes. Words about a screen do not
-                            sell a screen — a running instance does. */}
-                        {offer.demo && (
-                            <a
-                                href={offer.demo.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group flex shrink-0 flex-col gap-1 border border-accent/50 px-6 py-3.5 transition-colors hover:bg-accent hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                            >
-                                <span className="flex items-center gap-2 font-mono text-sm font-bold text-accent group-hover:text-background">
-                                    {offer.demo.label[locale]}
-                                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                                </span>
-                                <span className="font-mono text-[11px] leading-snug text-secondary group-hover:text-background/80">
-                                    {offer.demo.note[locale]}
-                                </span>
-                            </a>
-                        )}
                     </div>
                 </div>
             </section>
@@ -248,7 +211,7 @@ export default function OfferClient({
 
             {/* CTA */}
             <section className="mt-20 border-t border-secondary/20 bg-secondary/[0.03]">
-                <div ref={formRef} className="container mx-auto grid gap-10 px-6 py-16 md:grid-cols-2 md:gap-16">
+                <div ref={formRef} className="container mx-auto grid scroll-mt-20 gap-10 px-6 py-16 md:grid-cols-2 md:gap-16">
                     <div>
                         <h2 className="font-mono text-2xl font-bold text-foreground md:text-3xl">
                             {offer.ctaTitle[locale]}
@@ -303,9 +266,11 @@ export default function OfferClient({
                                 <textarea
                                     id="offer-brief"
                                     name="brief"
+                                    value={brief}
+                                    onChange={(event) => setBrief(event.target.value)}
                                     rows={4}
                                     required
-                                    className="w-full border border-secondary/25 bg-background px-3 py-2.5 font-mono text-sm text-foreground focus:border-accent focus:outline-none"
+                                    className="w-full border border-secondary/25 bg-background px-3 py-2.5 font-mono text-sm text-foreground placeholder:text-secondary/50 focus:border-accent focus:outline-none"
                                 />
                             </div>
 

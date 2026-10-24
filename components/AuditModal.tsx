@@ -65,9 +65,15 @@ export function AuditModal({ isOpen, onClose, dictionary, locale = "en" }: Audit
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
+          {/* Centred by a flex box, not by -translate-x/y-1/2 on the dialog itself.
+              framer-motion writes its own inline transform for scale and y, which
+              replaced the Tailwind translate entirely: the dialog was positioned
+              by its top-left corner at the middle of the screen, so on a phone it
+              hung half off the right edge with the close button out of reach. */}
+          <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div
             ref={dialogRef}
-            className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 border border-secondary/20 bg-background p-6 font-mono"
+            className="pointer-events-auto w-full max-w-md border border-secondary/20 bg-background p-6 font-mono"
             initial={{ opacity: 0, scale: 0.9, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
@@ -164,6 +170,7 @@ export function AuditModal({ isOpen, onClose, dictionary, locale = "en" }: Audit
               </form>
             )}
           </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

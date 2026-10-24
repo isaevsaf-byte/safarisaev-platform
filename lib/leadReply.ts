@@ -17,15 +17,13 @@ export type LeadSource =
     | "homepage-audit-protocol"
     | "efficiency-index"
     | "ai-velocity-index"
-    | "teardown"
-    | "supply-chain-monitor";
+    | "teardown";
 
 export const LEAD_SOURCES: LeadSource[] = [
     "homepage-audit-protocol",
     "efficiency-index",
     "ai-velocity-index",
     "teardown",
-    "supply-chain-monitor",
 ];
 
 export function isLeadSource(value: string): value is LeadSource {
@@ -107,25 +105,6 @@ const REPLIES: Record<LeadSource, Record<Locale, Reply>> = {
                 "Бриф получен. Прочитаю внимательно и в течение рабочего дня вернусь с удобным временем и счётом.",
                 "Готовиться к созвону не нужно. Ни дата-рума, ни доступов, ни документов. Полутора часов разговора о том, как работа происходит на самом деле, достаточно.",
                 "Карта придёт в течение трёх рабочих дней после созвона, а стоимость разбора целиком вычитается, если потом закажете сборку.",
-            ],
-        },
-    },
-
-    "supply-chain-monitor": {
-        en: {
-            subject: "Walkthrough request received",
-            lines: [
-                "Thanks for the interest. I will come back within one working day to arrange a walkthrough.",
-                "In the meantime the running board is open at cpo-watchtower.co.uk. It runs on a sample supply base, so click a supplier or a region and it will behave exactly as it would with yours.",
-                "Worth knowing before we speak: the setup is the real work, mapping your suppliers, your buying regions and the companies you watch. The monthly charge afterwards is small.",
-            ],
-        },
-        ru: {
-            subject: "Запрос на демонстрацию получен",
-            lines: [
-                "Спасибо за интерес. В течение рабочего дня вернусь, чтобы договориться о показе.",
-                "Пока можно открыть работающую панель: cpo-watchtower.co.uk. Она крутится на демонстрационной базе поставок, так что кликните поставщика или регион — вести себя будет ровно так же, как на вашей.",
-                "Что стоит знать до разговора: настоящая работа в настройке, размётке ваших поставщиков, регионов закупок и круга наблюдаемых компаний. Ежемесячная плата после неё небольшая.",
             ],
         },
     },

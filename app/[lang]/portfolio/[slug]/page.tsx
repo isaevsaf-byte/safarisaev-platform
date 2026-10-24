@@ -61,7 +61,9 @@ export default function CaseStudyPage({ params }: Props) {
         about: project.category.en,
         inLanguage: lang,
         creator: { "@type": "Person", name: "Safar Isaev", url: "https://safarisaev.ai" },
-        mainEntityOfPage: project.url,
+        // Omitted rather than emitted empty for work with no public address:
+        // mainEntityOfPage pointing at undefined is worse than its absence.
+        ...(project.url ? { mainEntityOfPage: project.url } : {}),
         isPartOf: {
             "@type": "CollectionPage",
             name: "Portfolio | Safar Isaev",

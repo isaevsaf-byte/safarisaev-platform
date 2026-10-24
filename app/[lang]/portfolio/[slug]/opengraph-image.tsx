@@ -88,7 +88,10 @@ export default function Image({ params }: { params: { lang: string; slug: string
                     }}
                 >
                     <span style={{ color: "#E5E5E5" }}>SAFARISAEV.AI</span>
-                    <span>{project?.url.replace(/^https?:\/\/(www\.)?/, "") ?? ""}</span>
+                    <span>
+                        {project?.url?.replace(/^https?:\/\/(www\.)?/, "") ??
+                            (project?.surface === "telegram" ? "TELEGRAM" : "")}
+                    </span>
                 </div>
             </div>
         ),

@@ -8,7 +8,7 @@
   },
   "hero": {
     "title": "I find where your business loses money and build the system that stops it",
-    "subtext": "Operations, procurement and AI automation for founders who want to grow without chaos",
+    "subtext": "Operations, process design and AI automation for founders who want to grow without chaos",
     "cta": "Take Free Diagnostic",
     "ctaAi": "Test: Will You Replace AI or Will AI Replace You?",
     "ctaWork": "Portfolio"
@@ -17,13 +17,13 @@
     "cardA": {
       "badge": "ONE-TO-ONE",
       "title": "STRATEGY & AUDIT",
-      "desc": "A deep look at the business. Process and procurement setup. Hands-on support throughout.",
+      "desc": "A deep look at the business. Processes, costs and the systems behind them. Hands-on support throughout.",
       "cta": "BOOK A CALL"
     },
     "cardB": {
       "badge": "AVAILABLE NOW",
       "title": "KNOWLEDGE BASE",
-      "desc": "Ready-made templates, playbooks and video lessons for rolling out AI and getting procurement under control.",
+      "desc": "Ready-made templates, playbooks and video lessons for rolling out AI and getting operations under control.",
       "cta": "DOWNLOAD"
     }
   },
@@ -32,7 +32,7 @@
     "module1": "PROTOCOLS",
     "module1Desc": "Business processes, playbooks and org structure.",
     "module2": "RESOURCES",
-    "module2Desc": "Procurement audit, cost reduction, supply.",
+    "module2Desc": "Where the money and hours go, tool stack, cost reduction.",
     "module3": "INTELLIGENCE",
     "module3Desc": "AI agent rollout and routine automation."
   },

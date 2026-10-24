@@ -26,6 +26,14 @@ const nextConfig = {
       { source: '/protocols', destination: '/en/protocols', permanent: true },
       { source: '/resources', destination: '/en/resources', permanent: true },
       { source: '/intelligence', destination: '/en/intelligence', permanent: true },
+      { source: '/ai-velocity-index', destination: '/en/ai-velocity-index', permanent: true },
+      // /en and /ru on their own are not pages: the home page keeps the clean root.
+      // They used to be prerendered pages that called redirect(), and a static build
+      // turns that into a 307 with no Location header: "moved", without saying
+      // where. Here they are real redirects. Temporary on purpose, so that giving
+      // the Russian home page its own address later does not fight a cached 308.
+      { source: '/en', destination: '/', permanent: false },
+      { source: '/ru', destination: '/', permanent: false },
     ]
   },
   async headers() {

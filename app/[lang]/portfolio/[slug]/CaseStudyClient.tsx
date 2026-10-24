@@ -6,7 +6,7 @@ import { LegalFooter } from "@/components/LegalFooter";
 import { ProjectScreenshot } from "@/components/portfolio/ProjectScreenshot";
 import { ThemeToggle, LocaleSwitch } from "@/components/HeaderControls";
 import type { Locale } from "@/lib/i18n";
-import type { PortfolioProject } from "@/lib/portfolioData";
+import { surfaceLabel, type PortfolioProject } from "@/lib/portfolioData";
 
 const copy = {
     en: {
@@ -49,14 +49,6 @@ const copy = {
 
 function pad(n: number) {
     return String(n).padStart(2, "0");
-}
-
-function hostOf(url: string) {
-    try {
-        return new URL(url).host.replace(/^www\./, "");
-    } catch {
-        return url;
-    }
 }
 
 function NeighbourLink({
@@ -170,15 +162,19 @@ export default function CaseStudyClient({
                             </p>
                         </div>
 
-                        <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group inline-flex shrink-0 items-center gap-2 border border-accent/50 px-6 py-3 font-mono text-xs font-bold text-accent transition-colors hover:bg-accent hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:text-sm"
-                        >
-                            {t.liveSite}
-                            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                        </a>
+                        {/* Work with no public address gets no button. A dead or
+                            decorative call to action costs more trust than a missing one. */}
+                        {project.url && (
+                            <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group inline-flex shrink-0 items-center gap-2 border border-accent/50 px-6 py-3 font-mono text-xs font-bold text-accent transition-colors hover:bg-accent hover:text-background focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:text-sm"
+                            >
+                                {t.liveSite}
+                                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            </a>
+                        )}
                     </div>
                 </div>
             </section>
@@ -193,10 +189,13 @@ export default function CaseStudyClient({
                             <span className="h-2 w-2 rounded-full bg-secondary/30" />
                         </span>
                         <span className="truncate font-mono text-[11px] text-secondary">
-                            {hostOf(project.url)}
+                            {surfaceLabel(project, locale)}
                         </span>
                     </div>
-                    <div className="aspect-[16/10] md:aspect-[21/9]">
+                    {/* A screenshot needs its letterbox; a panel of six commands does not.
+                        Forcing the bot panel into 21/9 left three quarters of the block
+                        empty, which reads as a layout fault rather than as restraint. */}
+                    <div className={project.url ? "aspect-[16/10] md:aspect-[21/9]" : ""}>
                         <ProjectScreenshot project={project} eager />
                     </div>
                 </figure>

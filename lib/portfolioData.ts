@@ -42,10 +42,25 @@ export interface CaseStudy {
     metrics?: { value: string; label: Localised }[];
 }
 
+/**
+ * Where the work actually lives.
+ *
+ * A "site" has a public address: it can be linked, screenshotted by a third-party
+ * service, and watched by the nightly check. A "telegram" project has none of
+ * those. It runs inside a chat, usually in a private channel or one company, so
+ * there is no URL to hand a visitor and nothing for a crawler to fetch. Marking
+ * the surface rather than inventing a placeholder URL keeps the site check honest:
+ * it only watches things that are actually reachable.
+ */
+export type ProjectSurface = "site" | "telegram";
+
 export interface PortfolioProject {
     slug: string;
     name: string;
-    url: string;
+    /** Absent when the work has no public address. See ProjectSurface. */
+    url?: string;
+    /** Defaults to "site". */
+    surface?: ProjectSurface;
     category: Localised;
     description: Localised;
     /** Verified from HTTP headers / markup. Leave empty rather than guessing. */
@@ -54,6 +69,11 @@ export interface PortfolioProject {
     year?: string;
     /** Optional local screenshot at /public/portfolio/<file>. Falls back to thum.io. */
     image?: string;
+    /**
+     * Stands in where there is nothing to photograph. Real lines lifted from the
+     * running bot's own source, not a mock-up of what it might look like.
+     */
+    preview?: string[];
     featured?: boolean;
     caseStudy: CaseStudy;
 }
@@ -188,7 +208,7 @@ export const projects: PortfolioProject[] = [
         url: "https://getwebpage.co.uk",
         category: { en: "Web Studio", ru: "Веб-студия" },
         description: {
-            en: `UK web studio — a serious site in 7 days, from ${WEBSITE_FROM_PRICE}`,
+            en: `UK web studio: a serious site in 7 days, from ${WEBSITE_FROM_PRICE}`,
             ru: `Веб-студия в UK — рабочий сайт за 7 дней, от ${WEBSITE_FROM_PRICE}`,
         },
         stack: ["Next.js", "Vercel"],
@@ -246,56 +266,140 @@ export const projects: PortfolioProject[] = [
         },
     },
     {
-        slug: "cpowatchtower",
-        name: "CPO Watchtower",
-        url: "https://cpo-watchtower.co.uk",
-        category: { en: "Procurement", ru: "Закупки" },
+        slug: "resale-bot",
+        name: "Resale Bot",
+        surface: "telegram",
+        category: { en: "Telegram bot", ru: "Telegram-бот" },
         description: {
-            en: "Supply-chain risk board: macro, peers and suppliers read together",
-            ru: "Панель рисков цепочки поставок — макро, конкуренты и поставщики вместе",
+            en: "A classifieds channel that runs itself: submissions, moderation, payments and scheduled posting",
+            ru: "Канал объявлений, который ведёт себя сам: заявки, модерация, оплаты и публикация по расписанию",
         },
-        stack: ["Next.js", "Vercel"],
+        stack: ["Python", "aiogram 3", "SQLite", "systemd"],
+        preview: [
+            "/schedule 11:00 15:00 19:00",
+            "/stats 30",
+            "/export",
+            "/role 482913 moderator",
+            "/prices",
+            "/channels -1001234567890 Обувь обувь",
+        ],
         caseStudy: {
             lede: {
-                en: "This is not a landing page. It is a running product. A procurement director's morning question is \"what changed and does it need me today?\", and answering it normally means four tabs and a Bloomberg terminal. Watchtower folds macro indicators, peer news and a supplier watchlist into one screen and commits to a position, with the reason attached.",
-                ru: "Это не лендинг, а работающий продукт. Утренний вопрос директора по закупкам — «что изменилось и требует ли это меня сегодня», и обычно ответ собирается из четырёх вкладок и терминала. Watchtower сводит макро-показатели, новости по конкурентам и лист поставщиков в один экран и занимает позицию, приложив к ней обоснование.",
+                en: "A classifieds channel is three manual jobs stacked on one person: read every submission, chase the payment, and remember to post at the hour people actually look. This bot takes all three. The brief written into the repository says it plainly: everything that turns a bot that collects requests into a channel that runs itself.",
+                ru: "Канал объявлений — это три ручные работы на одном человеке: прочитать каждую заявку, догнать оплату и не забыть опубликовать в час, когда люди смотрят. Бот забирает все три. В самом репозитории это сформулировано прямо: всё, что превращает «бот собирает заявки» в «канал работает сам».",
             },
-            role: SOLO_ROLE,
+            role: {
+                en: "Built end to end: product logic, database, moderation flow, pricing model, deploy and backups.",
+                ru: "Сделан целиком: продуктовая логика, база, схема модерации, модель цен, деплой и бэкапы.",
+            },
             built: [
                 {
-                    en: "Three pillars on one screen: macro overview, peers and competitors, supplier watchlist. Each carries its own status, so a green overall never hides an amber part.",
-                    ru: "Три опоры на одном экране — макро, конкуренты, лист поставщиков — у каждой свой статус, чтобы общий зелёный не прятал жёлтую часть.",
+                    en: "Scheduled publishing against the channel's own timezone, so a seller submits whenever and the post lands in the slot that sells. One command turns it off and the manual publish button comes back, because a reverse gear has to exist.",
+                    ru: "Публикация по расписанию в часовом поясе канала: продавец присылает когда угодно, а пост выходит в слот, который продаёт. Одна команда выключает автопубликацию и возвращает ручную кнопку — обратный ход должен быть всегда.",
                 },
                 {
-                    en: "A macro panel per buying region carrying inflation, policy rate and currency movement, each expandable into a written read of the conditions instead of a bare number.",
-                    ru: "Макро-панель по каждому региону закупок с инфляцией, ставкой и движением валюты — каждая раскрывается в текстовую интерпретацию условий, а не в голую цифру.",
+                    en: "Roles instead of a flat admin list: owner, moderator and SMM, each with its own reach. Every action lands in an audit log, which is what settles a dispute about who deleted what.",
+                    ru: "Роли вместо плоского списка админов: владелец, модератор и SMM, у каждого свой доступ. Каждое действие пишется в журнал — именно он решает спор о том, кто что удалил.",
                 },
                 {
-                    en: "A configurable supplier watchlist where every entry carries criticality, dependency level and country, plus the country risks that actually apply to it.",
-                    ru: "Настраиваемый лист поставщиков, где у каждой позиции своя критичность, уровень зависимости и страна, плюс страновые риски, которые к ней реально применимы.",
+                    en: "Money handled as money: placement packages with a seller balance, VIP and premium-hour pricing, duplicate receipt detection with an amount check, and a CSV export of payments to reconcile against a card statement.",
+                    ru: "Деньги как деньги: пакеты размещений с балансом продавца, VIP и премиальное время, отлов дублей чеков с проверкой суммы и выгрузка оплат в CSV для сверки с выпиской карты.",
                 },
                 {
-                    en: "A written status summary that names its drivers and ends with one concrete next step and a deadline, not a colour and a shrug.",
-                    ru: "Текстовое резюме статуса, которое называет причины и заканчивается одним конкретным следующим шагом со сроком, а не цветом и пожатием плеч.",
+                    en: "Abuse controls the owner would otherwise enforce by hand: a cap on active listings, a blacklist, and photo fingerprinting that catches the same picture posted twice or lifted from another seller.",
+                    ru: "Защита от злоупотреблений, которую иначе владелец делает руками: лимит активных объявлений, чёрный список и отпечатки фото, ловящие один и тот же снимок дважды или утащенный у другого продавца.",
                 },
                 {
-                    en: "A stability counter that reads \"status unchanged for 18h\", so a quiet board looks genuinely quiet rather than stale.",
-                    ru: "Счётчик стабильности — «статус не менялся 18 ч» — чтобы спокойная панель читалась как реально спокойная, а не как зависшие данные.",
+                    en: "A seller cabinet with my listings, an FAQ, payment reminders and automatic closing of abandoned submissions, plus autofill that suggests fields from the channel's own history.",
+                    ru: "Кабинет продавца с «моими объявлениями» и частыми вопросами, напоминания об оплате и автозакрытие брошенных заявок, плюс автоподстановка полей по истории самого канала.",
                 },
                 {
-                    en: "Timestamped refresh and a visible build hash: you can always tell how old the picture is.",
-                    ru: "Отметка времени обновления и видимый хеш сборки: всегда понятно, насколько картинка свежая.",
+                    en: "Multi-tenancy: one running process serves many channels, each with its own rubrics, schedule and prices. Adding a channel is a command, not a second deployment.",
+                    ru: "Мультитенантность: один процесс обслуживает много каналов, у каждого свои рубрики, расписание и цены. Добавить канал — это команда, а не второй сервер.",
+                },
+                {
+                    en: "The product logic does not import aiogram at all, so the funnel, the pricing and the lifecycle are covered by tests that run without Telegram. 21 test files against 40 modules.",
+                    ru: "Продуктовая логика вообще не импортирует aiogram, поэтому воронка, цены и жизненный цикл покрыты тестами, которые бегут без Telegram. 21 файл тестов на 40 модулей.",
                 },
             ],
             facts: [
-                { label: { en: "Type", ru: "Тип" }, value: { en: "Live dashboard", ru: "Живой дашборд" } },
-                { label: { en: "Watchlist", ru: "Лист поставщиков" }, value: { en: "Configurable", ru: "Настраиваемый" } },
-                { label: { en: "Dataset", ru: "Данные" }, value: { en: "Sample", ru: "Демонстрационные" } },
-                { label: { en: "Hosting", ru: "Хостинг" }, value: { en: "Vercel", ru: "Vercel" } },
+                { label: { en: "Surface", ru: "Площадка" }, value: { en: "Telegram, aiogram 3", ru: "Telegram, aiogram 3" } },
+                { label: { en: "Code", ru: "Код" }, value: { en: "40 modules, ~5,700 lines", ru: "40 модулей, ~5 700 строк" } },
+                { label: { en: "Tests", ru: "Тесты" }, value: { en: "21 files, ~2,100 lines", ru: "21 файл, ~2 100 строк" } },
+                { label: { en: "Channels", ru: "Каналов" }, value: { en: "Many, one process", ru: "Много, один процесс" } },
             ],
             note: {
-                en: "Technically the most substantial thing in the portfolio, and it used to be described in four words. The public board runs on a sample supplier and peer set. It is a working template, not anyone's live book of business. The geopolitical layer is still marked beta.",
-                ru: "Технически самая серьёзная работа в портфолио, а описывалась она четырьмя словами. Публичная панель работает на демонстрационном наборе поставщиков и конкурентов — это рабочий шаблон, а не чья-либо живая база закупок. Геополитический слой пока помечен как бета.",
+                en: "No link to open. It runs inside a private client channel, so the commands above are the honest view of it: they are copied out of the running source, not mocked up for this page.",
+                ru: "Ссылки нет: бот живёт в закрытом клиентском канале. Команды выше — честный его вид, они скопированы из работающего исходника, а не нарисованы для этой страницы.",
+            },
+        },
+    },
+    {
+        slug: "driver-booking",
+        name: "Driver Booking",
+        surface: "telegram",
+        category: { en: "Telegram Mini App", ru: "Telegram Mini App" },
+        description: {
+            en: "Corporate driver booking inside Telegram: three roles, conflict checks, automatic reminders",
+            ru: "Бронирование служебного водителя внутри Telegram: три роли, проверка накладок, автонапоминания",
+        },
+        stack: ["TypeScript", "Cloudflare Workers", "Hono", "D1", "GitHub Actions"],
+        preview: [
+            "/start",
+            "/app",
+            "/adduser @username",
+            "/listusers",
+            "/removeuser",
+            "/health",
+        ],
+        caseStudy: {
+            lede: {
+                en: "Booking a company car usually means a message to a manager, a manager with a notebook, and two people discovering at nine in the morning that the car is already taken. The notebook becomes a booking screen inside Telegram, and the argument becomes a conflict check that runs before the booking is accepted.",
+                ru: "Забронировать служебную машину обычно значит написать менеджеру, у которого блокнот, а в девять утра выяснить вдвоём, что машина уже занята. Блокнот становится экраном бронирования внутри Telegram, а спор — проверкой накладок, которая срабатывает до того, как бронь принята.",
+            },
+            role: {
+                en: "Built end to end: roles, booking logic, notification schedule, database and deployment pipeline.",
+                ru: "Сделан целиком: роли, логика броней, расписание уведомлений, база и пайплайн деплоя.",
+            },
+            built: [
+                {
+                    en: "Three roles that see three different apps: an employee books and cancels their own trips, a driver accepts them and marks each one done or a no-show, an admin manages people and reads the statistics.",
+                    ru: "Три роли видят три разных приложения: сотрудник бронирует и отменяет свои поездки, водитель принимает их и отмечает выполненными или неявкой, админ управляет людьми и смотрит статистику.",
+                },
+                {
+                    en: "A conflict check with a fifteen-minute buffer between trips. The buffer is the point: back-to-back bookings that look fine on a calendar are the ones that make a driver late.",
+                    ru: "Проверка накладок с буфером в пятнадцать минут между поездками. Буфер здесь и есть суть: именно брони впритык, которые в календаре выглядят нормально, и делают водителя опоздавшим.",
+                },
+                {
+                    en: "Notifications on the three moments that matter: a new booking, a reminder an hour before, and a morning digest of the day ahead. Nobody has to open the app to stay informed.",
+                    ru: "Уведомления в три момента, которые важны: новая бронь, напоминание за час и утренняя сводка на день. Чтобы быть в курсе, приложение открывать не нужно.",
+                },
+                {
+                    en: "An explicit status for every trip: pending, confirmed, then done, no-show or cancelled. A no-show is recorded rather than quietly deleted, because that is the number worth knowing at the end of a month.",
+                    ru: "Явный статус у каждой поездки: ожидает, подтверждена, затем выполнена, неявка или отменена. Неявка фиксируется, а не тихо удаляется, — именно эта цифра важна в конце месяца.",
+                },
+                {
+                    en: "People are added by Telegram username, so onboarding does not require anyone to hunt down a numeric id first.",
+                    ru: "Людей добавляют по нику в Telegram, поэтому для подключения не нужно сначала где-то добывать числовой id.",
+                },
+                {
+                    en: "Russian and Uzbek throughout, chosen because the drivers and the office do not always share a first language.",
+                    ru: "Русский и узбекский во всём интерфейсе: у водителей и офиса родной язык совпадает не всегда.",
+                },
+                {
+                    en: "The whole thing is one Cloudflare Worker serving both the API and the app screen, with the database beside it and deploys from GitHub Actions. One deployment, one URL, and it fits inside the free tier.",
+                    ru: "Всё это — один Cloudflare Worker, отдающий и API, и экран приложения, рядом база, деплой из GitHub Actions. Один деплой, один адрес, и всё укладывается в бесплатный тариф.",
+                },
+            ],
+            facts: [
+                { label: { en: "Surface", ru: "Площадка" }, value: { en: "Telegram Mini App", ru: "Telegram Mini App" } },
+                { label: { en: "Roles", ru: "Ролей" }, value: { en: "3", ru: "3" } },
+                { label: { en: "Trip buffer", ru: "Буфер поездок" }, value: { en: "15 minutes", ru: "15 минут" } },
+                { label: { en: "Languages", ru: "Языки" }, value: { en: "Russian, Uzbek", ru: "Русский, узбекский" } },
+            ],
+            note: {
+                en: "No link to open. It runs inside one company, for its own staff, so there is nothing public to show. The commands above come out of the running source.",
+                ru: "Ссылки нет: работает внутри одной компании, для её сотрудников, показывать публично нечего. Команды выше взяты из работающего исходника.",
             },
         },
     },
@@ -376,16 +480,16 @@ export const projects: PortfolioProject[] = [
             },
             built: [
                 {
-                    en: "Efficiency Index: ten procurement questions that score operational waste and turn it into a currency figure against the visitor's own revenue.",
-                    ru: "Efficiency Index — десять вопросов по закупкам, которые считают операционные потери и переводят их в деньги от оборота самого посетителя.",
+                    en: "Efficiency Index: ten questions that score operational waste and turn it into a currency figure against the visitor's own revenue.",
+                    ru: "Efficiency Index — десять вопросов, которые считают операционные потери и переводят их в деньги от оборота самого посетителя.",
                 },
                 {
                     en: "AI Velocity Index: a second assessment with separate question sets for measuring yourself and for measuring your team.",
                     ru: "AI Velocity Index — вторая диагностика с раздельными наборами вопросов: для себя и для команды.",
                 },
                 {
-                    en: "Cellar: an AI sourcing desk for fine wine, backed by an edge API route that returns a buy / hold / wait signal with market context.",
-                    ru: "Cellar — AI-стол закупок вина на edge-роуте, который возвращает сигнал buy / hold / wait с рыночным контекстом.",
+                    en: "Cellar: an AI price check for fine wine, backed by an edge API route that returns a buy / hold / wait signal with market context.",
+                    ru: "Cellar — AI-проверка цены на вино на edge-роуте, который возвращает сигнал buy / hold / wait с рыночным контекстом.",
                 },
                 {
                     en: "Client-side PDF report generation with an embedded Cyrillic font, so a Russian-language result renders correctly without a server round-trip.",
@@ -426,7 +530,7 @@ export const projects: PortfolioProject[] = [
             role: SOLO_ROLE,
             built: [
                 {
-                    en: "One-page structure that follows a buyer's questions in order: story, products, why us, gallery, contact.",
+                    en: "One-page structure that follows a customer's questions in order: story, products, why us, gallery, contact.",
                     ru: "Одностраничная структура, повторяющая порядок вопросов покупателя: история, продукты, почему мы, галерея, контакт.",
                 },
                 {
@@ -442,8 +546,8 @@ export const projects: PortfolioProject[] = [
                     ru: "Цифры доверия в блоке истории — 10 000 действующих семей, третье поколение семьи, высота 2 000 м.",
                 },
                 {
-                    en: "Two enquiry paths side by side: WhatsApp for speed, a form for procurement departments that need a paper trail.",
-                    ru: "Два пути заявки рядом: WhatsApp для скорости и форма для отделов закупок, которым нужен след в переписке.",
+                    en: "Two enquiry paths side by side: WhatsApp for speed, a form for companies that need a paper trail.",
+                    ru: "Два пути заявки рядом: WhatsApp для скорости и форма для компаний, которым нужен след в переписке.",
                 },
             ],
             facts: [
@@ -498,8 +602,8 @@ export const tools: PortfolioTool[] = [
         external: false,
         category: { en: "AI Agent", ru: "AI-агент" },
         description: {
-            en: "Fine wine sourcing desk: name a wine, get a buy/hold/wait signal from live market context",
-            ru: "Стол закупок вина — называете вино, получаете сигнал buy/hold/wait по рыночному контексту",
+            en: "Fine wine price check: name a wine, get a buy/hold/wait signal from live market context",
+            ru: "Проверка цены на вино — называете вино, получаете сигнал buy/hold/wait по рыночному контексту",
         },
         status: { en: "Beta", ru: "Бета" },
     },
@@ -522,8 +626,30 @@ export function screenshotUrl(url: string) {
     return `https://image.thum.io/get/width/1200/crop/800/noanimate/${url}`;
 }
 
+/** Null when there is nothing to show: no local image and no address to photograph. */
 export function projectImage(project: PortfolioProject) {
-    return project.image ? `/portfolio/${project.image}` : screenshotUrl(project.url);
+    if (project.image) return `/portfolio/${project.image}`;
+    return project.url ? screenshotUrl(project.url) : null;
+}
+
+/**
+ * What to print where a site would print its domain.
+ *
+ * Lived in two components as a copy-pasted `hostOf`, which had no answer for a
+ * project without a URL. One implementation, and the no-URL case is part of it.
+ */
+export function surfaceLabel(project: PortfolioProject, locale: Locale) {
+    if (project.url) {
+        try {
+            return new URL(project.url).host.replace(/^www\./, "");
+        } catch {
+            return project.url;
+        }
+    }
+    if (project.surface === "telegram") {
+        return locale === "ru" ? "Живёт внутри Telegram" : "Lives inside Telegram";
+    }
+    return "";
 }
 
 export function getProject(slug: string) {

@@ -11,19 +11,19 @@ export const REPORT_DATA = {
         red: {
             title: "ПРОТОКОЛ: ОСТАНОВКА ПОТЕРЬ",
             role: "СТАТУС: КРИТИЧЕСКАЯ УЯЗВИМОСТЬ",
-            diagnosis: "Система внутреннего контроля отсутствует. Вы не управляете расходами — вы финансируете хаос. Высокий риск хищений, завышения цен и кассовых разрывов. Текущая модель управления «съедает» до 25% чистой прибыли.",
+            diagnosis: "Система внутреннего контроля отсутствует. Вы не управляете расходами — вы финансируете хаос. Высокий риск ошибок, переплат и кассовых разрывов. Текущая модель управления «съедает» до 25% чистой прибыли.",
             imperatives: [
                 {
-                    title: "Принцип «Нет заказа — нет оплаты»",
-                    desc: "Полная блокировка платежей без предварительной заявки в системе. Запрет на оплату счетов «задним числом»."
+                    title: "Принцип «Нет согласования — нет оплаты»",
+                    desc: "Полная блокировка платежей без предварительного согласования в системе. Запрет на оплату счетов «задним числом»."
                 },
                 {
-                    title: "Ценовой Аудит (Forensic)",
-                    desc: "Экспресс-проверка ключевых поставщиков на аффилированность с сотрудниками и соответствие цен рыночным индикаторам."
+                    title: "Аудит Расходов (Топ-20)",
+                    desc: "Экспресс-разбор 20 крупнейших статей расходов: кто их согласует, за что именно платим и что можно отключить уже на этой неделе."
                 },
                 {
-                    title: "Ликвидация «Теневых» Закупок",
-                    desc: "Полный запрет на закупки через переводы на личные карты сотрудников и устные договоренности в мессенджерах."
+                    title: "Ликвидация «Теневых» Платежей",
+                    desc: "Полный запрет на оплаты через переводы на личные карты сотрудников и устные договоренности в мессенджерах."
                 }
             ],
             pitch: {
@@ -38,34 +38,34 @@ export const REPORT_DATA = {
             imperatives: [
                 {
                     title: "Цифровизация Процессов",
-                    desc: "Внедрение сквозного процесса (P2P): Заявка → Тендер → Договор → Оплата. Автоматизация рутины на 90%."
+                    desc: "Внедрение сквозного процесса: Заявка → Согласование → Исполнение → Отчёт. Автоматизация рутины на 90%."
                 },
                 {
-                    title: "Оптимизация Малых Закупок",
-                    desc: "80% поставщиков создают лишь 20% ценности, но 90% проблем. Мы сократим базу контрагентов в 3 раза через рамочные договоры."
+                    title: "Консолидация Инструментов",
+                    desc: "Три таблицы и два чата на одну задачу — это не система. Сводим работу в один источник правды и убираем ручной перенос данных."
                 },
                 {
-                    title: "Фокус на Совокупную Стоимость",
-                    desc: "Смена приоритета с «Цены закупки» на «Стоимость владения» (Цена + Логистика + Отсрочка + Качество)."
+                    title: "Фокус на Стоимость Процесса",
+                    desc: "Считаем не только цену инструмента, но и часы команды, которые уходят на его обслуживание, ошибки и переделки."
                 }
             ],
             pitch: {
-                title: "РЕШЕНИЕ: Архитектура Снабжения",
-                desc: "Трансформация закупок из «обслуживающего отдела» в системный департамент. Результат: снижение операционных затрат на 15% и полная прозрачность."
+                title: "РЕШЕНИЕ: Архитектура Процессов",
+                desc: "Трансформация операций из набора ручных привычек в работающую систему. Результат: снижение операционных затрат на 15% и полная прозрачность."
             }
         },
         green: {
             title: "ПРОТОКОЛ: КАПИТАЛИЗАЦИЯ",
             role: "СТАТУС: ЛИДЕР РЫНКА",
-            diagnosis: "Поздравляю, вы построили «Крепость». Но «Хорошо» — враг «Великого». Ваш следующий уровень — превращение цепи поставок в стратегический актив, который увеличивает стоимость компании (Valuation) для инвесторов.",
+            diagnosis: "Поздравляю, вы построили «Крепость». Но «Хорошо» — враг «Великого». Ваш следующий уровень — превращение операционной системы в стратегический актив, который увеличивает стоимость компании (Valuation) для инвесторов.",
             imperatives: [
                 {
                     title: "Предиктивная Аналитика (AI)",
-                    desc: "Использование ИИ для прогнозирования цен на сырье и хеджирования валютных рисков раньше конкурентов."
+                    desc: "Использование ИИ для прогнозирования спроса, загрузки команды и денежного потока раньше конкурентов."
                 },
                 {
                     title: "Стратегические Альянсы",
-                    desc: "Трансформация поставщиков в партнеров по инновациям (R&D). Получение эксклюзивных прав на новые продукты до выхода на рынок."
+                    desc: "Партнёрства, которые открывают доступ к новым продуктам и рынкам раньше конкурентов."
                 },
                 {
                     title: "Инвестиционный Мультипликатор",
@@ -82,24 +82,24 @@ export const REPORT_DATA = {
         red: {
             title: "PROTOCOL: HEMOSTASIS",
             role: "STATUS: CRITICAL VULNERABILITY",
-            diagnosis: "Your internal controls are failing. You are not managing spend—you are funding chaos. High risk of fraud, inflated pricing, and cash gaps. The current model is bleeding up to 25% of net profit.",
+            diagnosis: "Your internal controls are failing. You are not managing costs—you are funding chaos. High risk of errors, overpayment, and cash gaps. The current model is bleeding up to 25% of net profit.",
             imperatives: [
                 {
-                    title: "The 'No PO, No Pay' Rule",
-                    desc: "Total freeze on payments without a prior system purchase order. No retroactive approvals allowed."
+                    title: "The 'No Approval, No Pay' Rule",
+                    desc: "Total freeze on payments without prior sign-off in the system. No retroactive approvals allowed."
                 },
                 {
-                    title: "Forensic Audit (Top-20)",
-                    desc: "Rapid audit of key suppliers for conflict of interest and market price benchmarking."
+                    title: "Cost Audit (Top-20)",
+                    desc: "Rapid review of the 20 largest cost lines: who approves them, what exactly is being paid for, and what can be switched off this week."
                 },
                 {
-                    title: "Eliminate 'Shadow Spend'",
-                    desc: "Zero tolerance for purchasing via personal cards or messengers. Centralization of cash flow."
+                    title: "Eliminate 'Shadow Payments'",
+                    desc: "Zero tolerance for paying via personal cards or messengers. Centralization of cash flow."
                 }
             ],
             pitch: {
                 title: "SOLUTION: Crisis Management",
-                desc: "I enter as an external Crisis CPO. In 30 days, we seal the financial leaks and return physical control of the 'Pay' button to you."
+                desc: "I step in as an external crisis manager. In 30 days, we seal the financial leaks and return physical control of the 'Pay' button to you."
             }
         },
         yellow: {
@@ -108,39 +108,39 @@ export const REPORT_DATA = {
             diagnosis: "Caught in the 'Scale Trap'. Your business grew, but processes remained startup-level. Manual work, Excel errors, and friction are eroding margins. You are losing money on inefficiency, not just fraud.",
             imperatives: [
                 {
-                    title: "Digital Hygiene (P2P)",
-                    desc: "End-to-end automation: Request → Tender → Contract → Pay. Removing 90% of manual routine."
+                    title: "Digital Hygiene",
+                    desc: "End-to-end automation: Request → Approval → Delivery → Report. Removing 90% of manual routine."
                 },
                 {
-                    title: "Tail Spend Consolidation",
-                    desc: "80% of vendors create 90% of the headache. We cut the supplier base by 3x via framework agreements."
+                    title: "Tool Consolidation",
+                    desc: "Three spreadsheets and two chats for one task is not a system. We move the work into one source of truth and stop the manual re-typing."
                 },
                 {
-                    title: "Focus on TCO",
-                    desc: "Shifting focus from 'Purchase Price' to 'Total Cost of Ownership' (Logistics, Terms, Quality, Risk)."
+                    title: "Focus on Process Cost",
+                    desc: "Counting not just what a tool costs, but the team hours spent feeding it, fixing its errors and redoing work."
                 }
             ],
             pitch: {
-                title: "SOLUTION: Supply Chain Architecture",
-                desc: "Transforming procurement from 'support function' to a profit center. Result: 15% OPEX reduction and total transparency."
+                title: "SOLUTION: Process Architecture",
+                desc: "Turning operations from a set of manual habits into a working system. Result: 15% OPEX reduction and total transparency."
             }
         },
         green: {
             title: "PROTOCOL: EVOLUTION",
             role: "STATUS: MARKET LEADER",
-            diagnosis: "You have built a Fortress. But 'Good' is the enemy of 'Great'. Your next level is transforming the Supply Chain into a strategic asset that drives company Valuation for investors.",
+            diagnosis: "You have built a Fortress. But 'Good' is the enemy of 'Great'. Your next level is turning your operations into a strategic asset that drives company Valuation for investors.",
             imperatives: [
                 {
                     title: "Predictive Analytics (AI)",
-                    desc: "Using AI to forecast commodity prices and hedge currency risks before competitors do."
+                    desc: "Using AI to forecast demand, team workload and cash flow before competitors do."
                 },
                 {
                     title: "Innovation Partnerships",
-                    desc: "Treating vendors as R&D partners. Securing exclusive access to innovations before market release."
+                    desc: "Partnerships that open new products and markets before competitors get there."
                 },
                 {
                     title: "Valuation Multiplier",
-                    desc: "Building a transparent Supply Chain architecture ready for Due Diligence (IPO / M&A)."
+                    desc: "Building a transparent operating architecture ready for Due Diligence (IPO / M&A)."
                 }
             ],
             pitch: {

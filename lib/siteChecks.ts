@@ -19,11 +19,20 @@ export type CheckFailure = {
     problems: string[];
 };
 
-/** Every portfolio project, plus this site. Adding a project adds it to the watch. */
+/**
+ * Every reachable portfolio project, plus this site. Adding a project adds it to
+ * the watch.
+ *
+ * Projects without a URL are skipped rather than given a placeholder: a Telegram
+ * bot has no address to fetch, and pointing the check at t.me would prove only
+ * that Telegram is up.
+ */
 export function watchedSites() {
     return [
         { name: "safarisaev.ai", url: "https://safarisaev.ai" },
-        ...projects.map((project) => ({ name: project.name, url: project.url })),
+        ...projects
+            .filter((project): project is typeof project & { url: string } => !!project.url)
+            .map((project) => ({ name: project.name, url: project.url })),
     ];
 }
 

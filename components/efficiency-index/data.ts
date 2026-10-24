@@ -43,16 +43,16 @@ export const efficiencyData = {
             questions: [
                 {
                     id: 1,
-                    text: "What are your standard Payment Terms?",
+                    text: "How quickly do customers pay your invoices?",
                     options: [
-                        { text: "Net 45-60 days (Optimized)", penalty: 0 },
-                        { text: "Inconsistent / Case-by-case", penalty: 1.5 },
-                        { text: "Immediate / Net 14 (Cash Trap)", penalty: 5.0 },
+                        { text: "On time, reminders go out automatically", penalty: 0 },
+                        { text: "Inconsistent / Chased by hand", penalty: 1.5 },
+                        { text: "Late is normal, nobody owns it (Cash Trap)", penalty: 5.0 },
                     ],
                 },
                 {
                     id: 2,
-                    text: "Can you instantly quote exact spend with Top 10 suppliers?",
+                    text: "Can you instantly name your 10 biggest costs from last month?",
                     options: [
                         { text: "Yes, live dashboard", penalty: 0 },
                         { text: "Roughly, need to ask", penalty: 1.0 },
@@ -61,7 +61,7 @@ export const efficiencyData = {
                 },
                 {
                     id: 3,
-                    text: "Can a manager spend £2k without prior PO?",
+                    text: "Can a department head pay a £2k invoice without prior approval?",
                     options: [
                         { text: "No, system blocks it", penalty: 0 },
                         { text: "Yes, if in budget", penalty: 1.5 },
@@ -70,7 +70,7 @@ export const efficiencyData = {
                 },
                 {
                     id: 4,
-                    text: "Last benchmark of service contracts?",
+                    text: "When did you last review the software and subscriptions you pay for?",
                     options: [
                         { text: "< 9 months ago", penalty: 0 },
                         { text: "~1 year ago", penalty: 1.0 },
@@ -79,41 +79,41 @@ export const efficiencyData = {
                 },
                 {
                     id: 5,
-                    text: "Tail Spend management strategy?",
+                    text: "How many tools does the team use to track the same work?",
                     options: [
-                        { text: "Consolidated volumes", penalty: 0 },
-                        { text: "Fragmented / Bloated list", penalty: 3.0 },
+                        { text: "One shared system", penalty: 0 },
+                        { text: "Several, copied between them", penalty: 3.0 },
                     ],
                 },
                 {
                     id: 6,
-                    text: "Contract repository status?",
+                    text: "Where do your contracts and renewal dates live?",
                     options: [
-                        { text: "Digital CLM with alerts", penalty: 0 },
+                        { text: "Digital system with alerts", penalty: 0 },
                         { text: "Shared Drive / Excel", penalty: 1.0 },
                         { text: "Emails / Paper", penalty: 4.0 },
                     ],
                 },
                 {
                     id: 7,
-                    text: "Service delivery validation?",
+                    text: "How are handoffs between teams tracked?",
                     options: [
-                        { text: "Strict 3-way match", penalty: 0 },
-                        { text: "Visual check", penalty: 1.0 },
-                        { text: "Auto-payment", penalty: 4.0 },
+                        { text: "Shared system, every step has an owner", penalty: 0 },
+                        { text: "Chat and memory", penalty: 1.0 },
+                        { text: "They are not, things get dropped", penalty: 4.0 },
                     ],
                 },
                 {
                     id: 8,
-                    text: "Invoice processing method?",
+                    text: "How does data get from one system into another?",
                     options: [
-                        { text: "Auto (EDI/OCR)", penalty: 0 },
-                        { text: "Manual entry", penalty: 3.0 },
+                        { text: "Automatically (integrations)", penalty: 0 },
+                        { text: "Manual re-typing", penalty: 3.0 },
                     ],
                 },
                 {
                     id: 9,
-                    text: "Panic buying frequency?",
+                    text: "How often does work turn urgent (\"needed yesterday\")?",
                     options: [
                         { text: "Rare (<5%)", penalty: 0 },
                         { text: "Regular", penalty: 3.0 },
@@ -121,11 +121,11 @@ export const efficiencyData = {
                 },
                 {
                     id: 10,
-                    text: "Backup for key suppliers?",
+                    text: "If a key person is off for two weeks, does their work carry on?",
                     options: [
-                        { text: "Yes, contract signed", penalty: 0 },
-                        { text: "Know who, no contract", penalty: 0.5 },
-                        { text: "No, dependent", penalty: 3.0 },
+                        { text: "Yes, documented and covered", penalty: 0 },
+                        { text: "Someone could manage, nothing written down", penalty: 0.5 },
+                        { text: "No, it stops", penalty: 3.0 },
                     ],
                 },
             ],
@@ -169,16 +169,16 @@ export const efficiencyData = {
             questions: [
                 {
                     id: 1,
-                    text: "Какова ваша стандартная отсрочка платежа?",
+                    text: "Как быстро клиенты оплачивают ваши счета?",
                     options: [
-                        { text: "Стратегический стандарт: 45-60 дней", penalty: 0 },
-                        { text: "Хаотично: Условия разные, договариваемся по ситуации", penalty: 1.5 },
-                        { text: "Платим по факту или быстро (до 14 дней)", penalty: 5.0 },
+                        { text: "В срок, напоминания уходят автоматически", penalty: 0 },
+                        { text: "По-разному, догоняем вручную", penalty: 1.5 },
+                        { text: "Просрочка — норма, за неё никто не отвечает", penalty: 5.0 },
                     ],
                 },
                 {
                     id: 2,
-                    text: "Можете ли вы за 1 минуту назвать точную сумму расходов по Топ-10 поставщикам?",
+                    text: "Можете ли вы за 1 минуту назвать 10 крупнейших статей расходов за прошлый месяц?",
                     options: [
                         { text: "Да, данные доступны в 1 клик", penalty: 0 },
                         { text: "Примерно, но нужно уточнять", penalty: 1.0 },
@@ -196,19 +196,19 @@ export const efficiencyData = {
                 },
                 {
                     id: 4,
-                    text: "Когда последний раз проводился тендер или мониторинг цен по вашим старым поставщикам?",
+                    text: "Когда вы последний раз пересматривали софт и подписки, за которые платите?",
                     options: [
                         { text: "Менее 6-9 месяцев назад", penalty: 0 },
                         { text: "Около года назад", penalty: 1.0 },
-                        { text: "Более 2 лет назад / «Мы им доверяем»", penalty: 4.0 },
+                        { text: "Более 2 лет назад / Никогда", penalty: 4.0 },
                     ],
                 },
                 {
                     id: 5,
-                    text: "Как вы управляете мелкими закупками (низкий чек, большие объемы)?",
+                    text: "Во скольких инструментах команда ведёт одну и ту же работу?",
                     options: [
-                        { text: "Минимум поставщиков (консолидация)", penalty: 0 },
-                        { text: "Много разовых контрагентов, база раздута", penalty: 3.0 },
+                        { text: "В одной общей системе", penalty: 0 },
+                        { text: "В нескольких, данные переносятся вручную", penalty: 3.0 },
                     ],
                 },
                 {
@@ -222,24 +222,24 @@ export const efficiencyData = {
                 },
                 {
                     id: 7,
-                    text: "Как вы проверяете, что услуги были реально оказаны перед оплатой?",
+                    text: "Как отслеживается передача работы между отделами?",
                     options: [
-                        { text: "Строгая приемка / трехсторонняя сверка", penalty: 0 },
-                        { text: "Визуальная проверка руководителем", penalty: 1.0 },
-                        { text: "Счет просто передается в оплату", penalty: 4.0 },
+                        { text: "В общей системе, у каждого шага есть ответственный", penalty: 0 },
+                        { text: "В чатах и по памяти", penalty: 1.0 },
+                        { text: "Никак — задачи теряются", penalty: 4.0 },
                     ],
                 },
                 {
                     id: 8,
-                    text: "Как входящие счета попадают в учетную систему?",
+                    text: "Как данные попадают из одной системы в другую?",
                     options: [
-                        { text: "Автоматически (EDI / сканирование)", penalty: 0 },
-                        { text: "Ручной ввод сотрудником", penalty: 3.0 },
+                        { text: "Автоматически (интеграции)", penalty: 0 },
+                        { text: "Ручной перенабор сотрудником", penalty: 3.0 },
                     ],
                 },
                 {
                     id: 9,
-                    text: "Как часто случаются срочные закупки («нужно вчера»)?",
+                    text: "Как часто задачи становятся срочными («нужно вчера»)?",
                     options: [
                         { text: "Крайне редко (<5%)", penalty: 0 },
                         { text: "Регулярно", penalty: 3.0 },
@@ -247,11 +247,11 @@ export const efficiencyData = {
                 },
                 {
                     id: 10,
-                    text: "Есть ли у вас утвержденный альтернативный поставщик для ключевых позиций?",
+                    text: "Если ключевой сотрудник выпадет на две недели, его работа продолжится?",
                     options: [
-                        { text: "Да, резервные контракты подписаны", penalty: 0 },
-                        { text: "Знаем кого позвать, но контракта нет", penalty: 0.5 },
-                        { text: "Нет, зависим от текущего", penalty: 3.0 },
+                        { text: "Да, всё описано, есть замена", penalty: 0 },
+                        { text: "Кто-то справится, но ничего не записано", penalty: 0.5 },
+                        { text: "Нет, всё встанет", penalty: 3.0 },
                     ],
                 },
             ],

@@ -258,8 +258,8 @@ export const aiIndexData = {
                     en: "You need to choose the best product (laptop/vacuum), find a hotel, or compare prices."
                 },
                 team: {
-                    ru: "Нужно проанализировать конкурентов или найти поставщиков.",
-                    en: "Need to analyze competitors or find suppliers."
+                    ru: "Нужно проанализировать конкурентов или разобраться в новом рынке.",
+                    en: "Need to analyze competitors or research a new market."
                 }
             },
             options: {

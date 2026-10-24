@@ -18,7 +18,7 @@ export const legalEntity = {
     ],
     email: "saf@safarisaev.ai",
     website: "https://safarisaev.ai",
-    /** Mobile apps published under the entity — closes the chain entity -> site -> app. */
+    /** Mobile apps developed under the entity — closes the chain entity -> site -> app. */
     apps: ["Kalorii (Калории)"],
     registerUrl:
         "https://find-and-update.company-information.service.gov.uk/company/16896823",

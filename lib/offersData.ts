@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n";
-import { MONITOR_PRICE, MONITOR_SETUP_PRICE, TEARDOWN_PRICE } from "@/lib/pricing";
+import { TEARDOWN_PRICE } from "@/lib/pricing";
 import type { LeadSource } from "@/lib/leadReply";
 
 /**
@@ -14,7 +14,7 @@ import type { LeadSource } from "@/lib/leadReply";
 type Localised = Record<Locale, string>;
 type LocalisedList = Record<Locale, string[]>;
 
-export type OfferSlug = "teardown" | "monitor";
+export type OfferSlug = "teardown";
 
 export interface Offer {
     slug: OfferSlug;
@@ -22,27 +22,16 @@ export interface Offer {
     published: boolean;
     price: string;
     priceNote: Localised;
-    /** A one-off charged before the recurring one starts. Shown as the headline figure. */
-    setup?: {
-        price: string;
-        note: Localised;
-    };
     eyebrow: Localised;
     title: Localised;
     lede: Localised;
-    /** What the buyer actually receives. */
+    /** What the client actually receives. */
     deliverables: LocalisedList;
     /** How it runs, step by step. */
     process: { title: Localised; body: Localised }[];
     forWho: LocalisedList;
     /** Stated plainly so nobody buys the wrong thing. */
     notFor: LocalisedList;
-    /** A running instance a prospect can open and poke at. Beats any screenshot. */
-    demo?: {
-        url: string;
-        label: Localised;
-        note: Localised;
-    };
     ctaTitle: Localised;
     ctaBody: Localised;
     ctaButton: Localised;
@@ -136,107 +125,6 @@ export const offers: Record<OfferSlug, Offer> = {
         },
         ctaButton: { en: "SEND BRIEF", ru: "ОТПРАВИТЬ БРИФ" },
         source: "teardown",
-    },
-
-    monitor: {
-        slug: "monitor",
-        // Draft: the page is written and the board it demonstrates is labelled as a
-        // sample dataset. Flip to true to publish — nothing else is outstanding.
-        published: false,
-        price: MONITOR_PRICE,
-        priceNote: {
-            en: "per month afterwards, to keep it running",
-            ru: "в месяц дальше, за то что панель работает",
-        },
-        setup: {
-            price: MONITOR_SETUP_PRICE,
-            note: {
-                en: "one-off setup: mapping your suppliers, buying regions and peer set",
-                ru: "разовая настройка — размётка ваших поставщиков, регионов закупок и круга конкурентов",
-            },
-        },
-        eyebrow: { en: "— Monitoring", ru: "— Мониторинг" },
-        title: { en: "Supply Chain Monitor", ru: "Монитор цепочки поставок" },
-        lede: {
-            en: "One screen that answers the only question a procurement lead asks in the morning: what changed overnight, and does it need me today. Macro conditions, your peers, and your own supplier list, read together and given a position with the reason attached.",
-            ru: "Один экран, отвечающий на единственный утренний вопрос закупщика: что изменилось за ночь и требует ли это меня сегодня. Макро-условия, конкуренты и ваш собственный лист поставщиков — прочитаны вместе, с занятой позицией и обоснованием.",
-        },
-        deliverables: {
-            en: [
-                "Your supplier list, tagged by criticality, dependency and country, with the risks that actually apply to each.",
-                "Macro conditions for the regions you buy from: inflation, policy rate and currency, read for you instead of just displayed.",
-                "A watch on the companies you compete with, so you hear about a sector move before it reaches you.",
-                "A written daily position with the drivers named and one concrete next step.",
-                "A stability counter, so a quiet board reads as genuinely quiet and not as stale data.",
-            ],
-            ru: [
-                "Ваш лист поставщиков с тегами критичности, зависимости и страны и рисками, которые реально к каждому применимы.",
-                "Макро-условия по регионам, откуда закупаете — инфляция, ставка, валюта — прочитанные, а не просто выведенные.",
-                "Наблюдение за компаниями, с которыми вы конкурируете, чтобы о движении в отрасли узнать раньше, чем оно дойдёт до вас.",
-                "Ежедневная письменная позиция с названными причинами и одним конкретным следующим шагом.",
-                "Счётчик стабильности, чтобы спокойная панель читалась как реально спокойная, а не как зависшие данные.",
-            ],
-        },
-        process: [
-            {
-                title: { en: "Setup", ru: "Настройка" },
-                body: {
-                    en: "We map your suppliers, your buying regions and your peer set. This is the part that takes real work and it is where the value sits.",
-                    ru: "Размечаем ваших поставщиков, регионы закупок и круг конкурентов. Это та часть, где реальная работа, и именно в ней ценность.",
-                },
-            },
-            {
-                title: { en: "It runs", ru: "Он работает" },
-                body: {
-                    en: "The board refreshes on its own and timestamps itself, so you can always tell how old the picture is.",
-                    ru: "Панель обновляется сама и ставит отметку времени, чтобы всегда было понятно, насколько картинка свежая.",
-                },
-            },
-            {
-                title: { en: "It stays yours", ru: "Он остаётся вашим" },
-                body: {
-                    en: "Your supplier list is your commercial information. It is not shared, not pooled and not used to build anyone else's board.",
-                    ru: "Ваш лист поставщиков — ваша коммерческая информация. Он не передаётся, не объединяется с чужими и не используется для чьей-либо ещё панели.",
-                },
-            },
-        ],
-        forWho: {
-            en: [
-                "You buy from twenty to fifty suppliers that matter, across more than one country.",
-                "Supplier risk currently lives in someone's head and a spreadsheet.",
-                "Enterprise tools quoted you five figures a year and you closed the tab.",
-            ],
-            ru: [
-                "Вы закупаете у двадцати–пятидесяти значимых поставщиков более чем в одной стране.",
-                "Риски по поставщикам сейчас живут в чьей-то голове и в таблице.",
-                "Энтерпрайз-инструменты назвали вам пятизначную годовую цену, и вы закрыли вкладку.",
-            ],
-        },
-        notFor: {
-            en: [
-                "You need a full procurement suite with contracts, invoices and approvals. This watches risk; it does not replace your ERP.",
-                "You have fewer than ten suppliers. A spreadsheet is genuinely fine at that size.",
-            ],
-            ru: [
-                "Нужен полный закупочный комплекс с контрактами, счетами и согласованиями. Это наблюдение за риском, а не замена ERP.",
-                "У вас меньше десяти поставщиков. На таком размере таблица честно справляется.",
-            ],
-        },
-        demo: {
-            url: "https://cpo-watchtower.co.uk",
-            label: { en: "Open the board", ru: "Открыть панель" },
-            note: {
-                en: "A running instance on a sample supply base. Click a supplier or a region.",
-                ru: "Работающий экземпляр на демо-базе поставок — кликните поставщика или регион.",
-            },
-        },
-        ctaTitle: { en: "Ask for a walkthrough", ru: "Запросить демонстрацию" },
-        ctaBody: {
-            en: "Send the rough shape of your supply base and I will show you the board running against it.",
-            ru: "Пришлите общий контур вашей базы поставок, и я покажу панель, работающую на нём.",
-        },
-        ctaButton: { en: "REQUEST A WALKTHROUGH", ru: "ЗАПРОСИТЬ ДЕМО" },
-        source: "supply-chain-monitor",
     },
 };
 

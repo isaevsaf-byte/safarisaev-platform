@@ -91,15 +91,14 @@ export default function LegalPage() {
                         is owned and operated by {legalEntity.name}, a private limited
                         company registered in {legalEntity.jurisdiction} under company
                         number {legalEntity.companyNumber}. The company builds and
-                        operates business software, AI automation systems, and web
-                        platforms, and provides IT and operations consultancy to its
-                        clients. All services, tools, and content published on this
-                        domain are provided by {legalEntity.name}, which also
-                        publishes the mobile application{" "}
+                        operates business software, AI automation tools and web
+                        platforms. All services, tools, and content published on this
+                        domain are provided by {legalEntity.name}, which is also
+                        developing the mobile application{" "}
                         <span className="text-foreground">
                             {legalEntity.apps.join(", ")}
-                        </span>{" "}
-                        on the App Store. Its{" "}
+                        </span>
+                        . Its{" "}
                         <Link
                             href="/privacy"
                             className="text-accent transition-colors hover:text-foreground"
@@ -183,7 +182,7 @@ export default function LegalPage() {
                         </p>
 
                         <p className="border-t border-secondary/20 pt-6 text-secondary/80">
-                            The mobile application published by this company has a separate
+                            The company&apos;s mobile application has a separate
                             and more detailed policy, because it handles health data:{" "}
                             <Link
                                 href="/privacy"
