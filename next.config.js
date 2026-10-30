@@ -16,16 +16,22 @@ const securityHeaders = [
 
 const nextConfig = {
   poweredByHeader: false,
-  // The portfolio, case studies and service pages moved under /[lang]/ so their
+  // The portfolio and case studies moved under /[lang]/ so their
   // Russian versions have real, indexable addresses. These keep every previously
   // published URL working and pass the signal to the English version.
   async redirects() {
     return [
       { source: '/portfolio', destination: '/en/portfolio', permanent: true },
       { source: '/portfolio/:slug', destination: '/en/portfolio/:slug', permanent: true },
-      { source: '/protocols', destination: '/en/protocols', permanent: true },
-      { source: '/resources', destination: '/en/resources', permanent: true },
-      { source: '/intelligence', destination: '/en/intelligence', permanent: true },
+      // These pages no longer exist. Old links land on the home page.
+      { source: '/:lang(en|ru)/offer/:path*', destination: '/', permanent: true },
+      { source: '/:lang(en|ru)/protocols', destination: '/', permanent: true },
+      { source: '/:lang(en|ru)/resources', destination: '/', permanent: true },
+      { source: '/:lang(en|ru)/intelligence', destination: '/', permanent: true },
+      { source: '/offer/:path*', destination: '/', permanent: true },
+      { source: '/protocols', destination: '/', permanent: true },
+      { source: '/resources', destination: '/', permanent: true },
+      { source: '/intelligence', destination: '/', permanent: true },
       { source: '/ai-velocity-index', destination: '/en/ai-velocity-index', permanent: true },
       // /en and /ru on their own are not pages: the home page keeps the clean root.
       // They used to be prerendered pages that called redirect(), and a static build

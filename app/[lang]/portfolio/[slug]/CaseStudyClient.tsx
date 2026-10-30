@@ -18,11 +18,6 @@ const copy = {
         note: "Open item",
         prev: "Previous",
         next: "Next",
-        ctaTitle: "Want one of these?",
-        ctaBody:
-            "Same approach, your business. Direction, copy, design and build by one person, start to finish.",
-        ctaPrimary: "START A CONVERSATION",
-        ctaSecondary: "SEE PACKAGES & PRICING",
         themeLight: "LIGHT",
         themeDark: "DARK",
         outcome: "Outcome",
@@ -36,11 +31,6 @@ const copy = {
         note: "Открытый пункт",
         prev: "Предыдущий",
         next: "Следующий",
-        ctaTitle: "Нужен такой же?",
-        ctaBody:
-            "Тот же подход, ваш бизнес. Направление, тексты, дизайн и разработка — один человек от начала до конца.",
-        ctaPrimary: "НАЧАТЬ РАЗГОВОР",
-        ctaSecondary: "ПАКЕТЫ И ЦЕНЫ",
         themeLight: "СВЕТЛАЯ",
         themeDark: "ТЁМНАЯ",
         outcome: "Результат",
@@ -296,7 +286,7 @@ export default function CaseStudyClient({
                 </section>
             )}
 
-            {/* ── Client words ─────────────────────────────────────── */}
+            {/* ── In their words ─────────────────────────────────────── */}
             {c.testimonial && (
                 <section className="mt-20 border-y border-secondary/20 bg-secondary/[0.03]">
                     <figure className="container mx-auto px-6 py-16 md:py-20">
@@ -349,34 +339,6 @@ export default function CaseStudyClient({
                     </div>
                 </nav>
             )}
-
-            {/* ── CTA ──────────────────────────────────────────────── */}
-            <section className="border-t border-secondary/20">
-                <div className="container mx-auto flex flex-col items-center px-6 py-20 text-center">
-                    <h2 className="font-mono text-2xl font-bold text-foreground md:text-4xl">
-                        {t.ctaTitle}
-                    </h2>
-                    <p className="mt-4 max-w-md font-mono text-sm text-secondary">
-                        {t.ctaBody}
-                    </p>
-                    <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-                        <a
-                            href="mailto:saf@safarisaev.ai"
-                            className="bg-accent px-8 py-3 font-mono text-sm font-bold text-background transition-opacity hover:opacity-80"
-                        >
-                            {t.ctaPrimary}
-                        </a>
-                        <a
-                            href="https://getwebpage.co.uk"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="border border-secondary/40 px-8 py-3 font-mono text-sm font-bold text-secondary transition-colors hover:border-accent hover:text-accent"
-                        >
-                            {t.ctaSecondary}
-                        </a>
-                    </div>
-                </div>
-            </section>
 
             <LegalFooter locale={locale} />
         </main>

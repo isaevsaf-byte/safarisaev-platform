@@ -4,11 +4,8 @@ import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { aiIndexData, Lang, Context } from "@/lib/aiIndexData";
 import { generateAiPdf } from "@/lib/generateAiPdf";
-import { ArrowLeft, Check, ArrowRight, Loader2, Download, Zap, RefreshCw, Sun, Moon, User, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download, Zap, RefreshCw, Sun, Moon, User, Users } from "lucide-react";
 import Link from "next/link";
-import { TEARDOWN_PRICE } from "@/lib/pricing";
-import { useLeadReply } from "@/hooks/useLeadReply";
-import { useForm } from "@formspree/react";
 import { LegalFooter } from "@/components/LegalFooter";
 
 interface AiVelocityClientProps {
@@ -23,32 +20,16 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [isFinished, setIsFinished] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [formKey, setFormKey] = useState(0);
 
     // PDF Error State
     const [pdfError, setPdfError] = useState<string | null>(null);
 
-    // Modal State
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [email, setEmail] = useState("");
-    const [formState, handleSubmit] = useForm("xzddelvr");
-
-    // Confirms the submission by email the moment it goes through. Additive: the
-    // lead is already with Formspree before this runs.
-    useLeadReply({
-        succeeded: formState.succeeded,
-        email,
-        source: "ai-velocity-index",
-        locale: lang,
-    });
     const answerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const modalCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Cleanup timers on unmount
     useEffect(() => {
         return () => {
             if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
-            if (modalCloseTimerRef.current) clearTimeout(modalCloseTimerRef.current);
         };
     }, []);
 
@@ -112,7 +93,7 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
         if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
 
         if (currentQuestionIndex < questions.length - 1) {
-            answerTimerRef.current = setTimeout(() => setCurrentQuestionIndex(prev => prev + 1), 300);
+            answerTimerRef.current = setTimeout(() => setCurrentQuestionIndex(prev => Math.min(prev + 1, questions.length - 1)), 300);
         } else {
             answerTimerRef.current = setTimeout(() => setIsFinished(true), 300);
         }
@@ -135,32 +116,18 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
         setCurrentQuestionIndex(0);
         setAnswers({});
         setIsFinished(false);
-        setIsModalOpen(false);
         setPdfError(null);
-        setEmail("");
-        setFormKey(prev => prev + 1); // Reset form state by forcing remount
     };
 
     const handlePdfDownload = useCallback(async () => {
         setPdfError(null);
         try {
-            await generateAiPdf(score, zoneKey, lang, context, email);
-            // Optional: Close modal after success, or let user close it
+            await generateAiPdf(score, zoneKey, lang, context);
         } catch (err) {
             console.error("PDF Fail:", err);
             setPdfError(err instanceof Error ? err.message : "PDF Generation Failed");
         }
-    }, [score, zoneKey, lang, context, email]);
-
-    // Effect for PDF download after form submission
-    useEffect(() => {
-        if (formState.succeeded && isModalOpen) {
-            handlePdfDownload().then(() => {
-                if (modalCloseTimerRef.current) clearTimeout(modalCloseTimerRef.current);
-                modalCloseTimerRef.current = setTimeout(() => setIsModalOpen(false), 3000);
-            });
-        }
-    }, [formState.succeeded, isModalOpen, handlePdfDownload]);
+    }, [score, zoneKey, lang, context]);
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-mono text-slate-900 dark:text-gray-100 transition-colors selection:bg-emerald-500/30">
@@ -382,30 +349,17 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
 
                                     <div className="flex flex-col gap-4">
                                         <button
-                                            onClick={() => setIsModalOpen(true)}
+                                            onClick={handlePdfDownload}
                                             className="w-full px-8 py-5 bg-white text-black font-bold text-lg rounded-xl shadow-lg hover:bg-slate-200 transition-colors flex items-center justify-center gap-3"
                                         >
                                             <Download className="w-5 h-5" /> {t.cta}
                                         </button>
 
-                                        <Link
-                                            href={`/${lang}/offer/teardown`}
-                                            className="group mb-6 flex items-center justify-between gap-3 rounded-lg border border-slate-200 dark:border-slate-800 p-4 transition-colors hover:border-emerald-500"
-                                        >
-                                            <span className="text-left">
-                                                <span className="block text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-                                                    {lang === 'ru' ? 'Следующий шаг' : 'Next step'}
-                                                </span>
-                                                <span className="mt-1 block text-sm font-bold text-slate-900 dark:text-white">
-                                                    {lang === 'ru'
-                                                        ? 'Разбор автоматизации — что автоматизировать первым'
-                                                        : 'Automation Teardown — what to automate first'}
-                                                </span>
-                                            </span>
-                                            <span className="shrink-0 font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400">
-                                                {TEARDOWN_PRICE} →
-                                            </span>
-                                        </Link>
+                                        {pdfError && (
+                                            <p role="alert" className="text-sm text-red-500">
+                                                {pdfError}
+                                            </p>
+                                        )}
 
                                         <button
                                             onClick={handleRestart}
@@ -420,91 +374,6 @@ export default function AiVelocityClient({ initialLang = "en" }: AiVelocityClien
                     </AnimatePresence>
                 </div>
             </main>
-
-            {/* Modal */}
-            <AnimatePresence>
-                {isModalOpen && (
-                    <div
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-                        onClick={() => setIsModalOpen(false)}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label={lang === 'ru' ? 'Скачать отчет' : 'Download Report'}
-                    >
-                        <motion.div
-                            key={formKey}
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            className="bg-slate-900 w-full max-w-md p-8 rounded-2xl shadow-2xl border border-slate-700 relative"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button onClick={() => setIsModalOpen(false)} aria-label={lang === 'ru' ? 'Закрыть' : 'Close'} className="absolute top-4 right-4 text-slate-500 hover:text-white">✕</button>
-
-                            {formState.succeeded ? (
-                                <div className="text-center py-8">
-                                    <div className="w-20 h-20 bg-emerald-900/50 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-500">
-                                        <Check className="w-10 h-10" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold mb-2 text-white">{lang === 'ru' ? 'Готово!' : 'Success!'}</h3>
-                                    <p className="text-slate-400 mb-6">{lang === 'ru' ? 'Ваш отчет готов.' : 'Your report is ready.'}</p>
-
-                                    {/* PDF Error Display */}
-                                    {pdfError && (
-                                        <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded text-red-500 text-sm">
-                                            ⚠️ {pdfError}
-                                        </div>
-                                    )}
-
-                                    <button
-                                        onClick={handlePdfDownload}
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors shadow-lg"
-                                    >
-                                        <Download className="w-5 h-5" /> {pdfError ? (lang === 'ru' ? 'Повторить' : 'Retry Download') : (lang === 'ru' ? 'Скачать отчет' : 'Download Report')}
-                                    </button>
-                                </div>
-                            ) : (
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="text-center">
-                                        <div className="inline-flex justify-center items-center w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 mb-4">
-                                            <Download className="w-6 h-6" />
-                                        </div>
-                                        <h3 className="text-xl font-bold text-white mb-2">{t.cta}</h3>
-                                        <p className="text-sm text-slate-400">{lang === 'ru' ? 'Введите email для получения детальной стратегии.' : 'Enter your email to receive the detailed strategy and roadmap.'}</p>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">{lang === 'ru' ? 'Email адрес' : 'Email Address'}</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                            className="w-full p-4 rounded-xl bg-black/50 border border-slate-700 focus:border-emerald-500 outline-none text-white transition-colors"
-                                            placeholder="name@company.com"
-                                        />
-                                    </div>
-                                    {/* Hidden Fields for Formspree */}
-                                    <input type="hidden" name="source" value="ai-velocity-index" />
-                                    <input type="hidden" name="lang" value={lang} />
-                                    <input type="hidden" name="score" value={score} />
-                                    <input type="hidden" name="zone" value={zoneKey} />
-                                    <input type="hidden" name="context" value={context} />
-
-                                    <button
-                                        type="submit"
-                                        disabled={formState.submitting}
-                                        className="w-full py-4 bg-emerald-500 text-black font-bold text-lg rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-                                    >
-                                        {formState.submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : (lang === 'ru' ? 'Скачать PDF' : 'Download PDF Now')}
-                                    </button>
-                                </form>
-                            )}
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
 
             <LegalFooter locale={lang} />
         </div>

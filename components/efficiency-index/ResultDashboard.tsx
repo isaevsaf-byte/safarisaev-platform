@@ -1,14 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, useSpring, useTransform } from "framer-motion";
 import { efficiencyData } from "./data";
-import { Loader2 } from "lucide-react";
-import { BookingModal } from "./BookingModal";
-import { EmailModal } from "./EmailModal";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { TEARDOWN_PRICE } from "@/lib/pricing";
+import { Download, Loader2 } from "lucide-react";
+import { generateEfficiencyReport } from "@/lib/generatePdf";
 
 interface ResultDashboardProps {
     score: number;
@@ -22,15 +18,14 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
     const [revenue, setRevenue] = useState<string>("");
     const [estimatedLoss, setEstimatedLoss] = useState<number>(0);
     const [isCalculating, setIsCalculating] = useState(false);
-    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+    const [pdfState, setPdfState] = useState<"idle" | "working" | "failed">("idle");
     const calcTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Status Logic - derive zone directly from score, not CSS strings
     const getStatus = () => {
-        if (score >= 90) return { title: z.green.title, desc: z.green.desc, zone: "green" as const, color: "text-efficiency-safe", action: z.green.action };
-        if (score >= 75) return { title: z.yellow.title, desc: z.yellow.desc, zone: "yellow" as const, color: "text-efficiency-warning", action: z.yellow.action };
-        return { title: z.red.title, desc: z.red.desc, zone: "red" as const, color: "text-efficiency-critical", action: z.red.action };
+        if (score >= 90) return { title: z.green.title, desc: z.green.desc, zone: "green" as const, color: "text-efficiency-safe" };
+        if (score >= 75) return { title: z.yellow.title, desc: z.yellow.desc, zone: "yellow" as const, color: "text-efficiency-warning" };
+        return { title: z.red.title, desc: z.red.desc, zone: "red" as const, color: "text-efficiency-critical" };
     };
 
     const status = getStatus();
@@ -74,9 +69,17 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
         return Number(revenue).toLocaleString();
     }, [revenue]);
 
-    // Memoize onClose callbacks to prevent unnecessary re-renders
-    const handleBookingClose = useCallback(() => setIsBookingModalOpen(false), []);
-    const handleEmailClose = useCallback(() => setIsEmailModalOpen(false), []);
+    // The report is built in the browser, so nothing about the visitor is sent anywhere.
+    const handleDownload = async () => {
+        setPdfState("working");
+        try {
+            await generateEfficiencyReport(score, revenue, status.zone, lang, wastePercentage);
+            setPdfState("idle");
+        } catch (err) {
+            console.error("PDF download failed", err);
+            setPdfState("failed");
+        }
+    };
 
     // Counting Animation for Loss
     const springValue = useSpring(0, { bounce: 0, duration: 1000 });
@@ -163,62 +166,22 @@ export function ResultDashboard({ score, wastePercentage, lang }: ResultDashboar
                     </div>
 
                     <motion.button
-                        onClick={() => setIsBookingModalOpen(true)}
+                        onClick={handleDownload}
+                        disabled={pdfState === "working"}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="mt-8 block w-full py-4 bg-slate-900 dark:bg-accent text-white dark:text-black font-bold text-center rounded-lg hover:bg-slate-800 dark:hover:bg-accent/90 transition-colors uppercase tracking-widest shadow-lg"
+                        className="mt-8 flex w-full items-center justify-center gap-2 py-4 bg-slate-900 dark:bg-accent text-white dark:text-black font-bold rounded-lg hover:bg-slate-800 dark:hover:bg-accent/90 transition-colors uppercase tracking-widest shadow-lg disabled:opacity-60"
                     >
-                        {status.action}
+                        {pdfState === "working" ? <Loader2 className="h-5 w-5 animate-spin" /> : <Download className="h-5 w-5" />}
+                        {lang === "ru" ? "Скачать PDF-отчёт" : "Download PDF Report"}
                     </motion.button>
-
-                    {/* The funnel used to end here: a loss figure and a "message me"
-                        button. This is the paid rung between the free score and a build. */}
-                    <Link
-                        href={`/${lang}/offer/teardown`}
-                        className="group mt-4 flex w-full items-center justify-between gap-3 rounded-lg border border-slate-200 dark:border-zinc-700 p-4 transition-colors hover:border-blue-500 dark:hover:border-accent"
-                    >
-                        <span className="text-left">
-                            <span className="block text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-zinc-500">
-                                {lang === "ru" ? "Следующий шаг" : "Next step"}
-                            </span>
-                            <span className="mt-1 block text-sm font-bold text-slate-900 dark:text-white">
-                                {lang === "ru"
-                                    ? "Разбор автоматизации — карта, что чинить первым"
-                                    : "Automation Teardown — a map of what to fix first"}
-                            </span>
-                        </span>
-                        <span className="flex shrink-0 items-center gap-1 font-mono text-sm font-bold text-blue-600 dark:text-accent">
-                            {TEARDOWN_PRICE}
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </span>
-                    </Link>
-
-                    <button
-                        onClick={() => setIsEmailModalOpen(true)}
-                        className="mt-4 w-full py-3 text-xs md:text-sm font-bold text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-white transition-colors uppercase tracking-widest flex items-center justify-center gap-2"
-                    >
-                        <span className="border-b border-transparent hover:border-slate-900 dark:hover:border-white transition-colors">
-                            {lang === "ru" ? "Скачать PDF Отчет" : "Download PDF Report"}
-                        </span>
-                    </button>
+                    {pdfState === "failed" && (
+                        <p role="alert" className="mt-3 text-center text-xs text-red-500">
+                            {lang === "ru" ? "PDF не собрался. Попробуйте ещё раз." : "The PDF did not build. Please try again."}
+                        </p>
+                    )}
                 </div>
             </div>
-
-            <BookingModal
-                isOpen={isBookingModalOpen}
-                onClose={handleBookingClose}
-                lang={lang}
-            />
-
-            <EmailModal
-                isOpen={isEmailModalOpen}
-                onClose={handleEmailClose}
-                lang={lang}
-                score={score}
-                revenue={revenue}
-                wastePercentage={wastePercentage}
-                zone={status.zone}
-            />
         </motion.div>
     );
 }

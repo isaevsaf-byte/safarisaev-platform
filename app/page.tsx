@@ -2,12 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Hand, Download, Cpu, Database, Brain, Calculator, Sun, Moon, Layers, Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { Brain, Calculator, Sun, Moon, Layers, Menu, X } from "lucide-react";
 import { GlitchText } from "@/components/GlitchText";
-import { AccessCard } from "@/components/AccessCard";
-import { AuditModal } from "@/components/AuditModal";
-import { ContactModal } from "@/components/ContactModal";
 import { TypewriterText } from "@/components/TypewriterText";
 import { ScanningLine } from "@/components/ScanningLine";
 import { GridBackground } from "@/components/GridBackground";
@@ -16,12 +12,10 @@ import { usePreferences } from "@/hooks/usePreferences";
 import { legalFooterLine } from "@/lib/legal";
 
 export default function Home() {
-  const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   // Theme and language persist across pages — picking RU + dark here used to reset
-  // to EN + light the moment you clicked through to /portfolio or /protocols.
+  // to EN + light the moment you clicked through to /portfolio.
   const { isDarkMode, toggleTheme, locale, setLocale, toggleLocale } = usePreferences("en");
 
   const dict = getDictionary(locale);
@@ -173,105 +167,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Active Protocols */}
-      <section className="relative z-10 border-y border-secondary/20 py-20">
-        <div className="container mx-auto px-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <AccessCard
-              icon={Hand}
-              badge={dict.protocols.cardA.badge}
-              title={dict.protocols.cardA.title}
-              desc={dict.protocols.cardA.desc}
-              cta={dict.protocols.cardA.cta}
-              onClick={() => {
-                setIsContactModalOpen(true);
-              }}
-            />
-            <AccessCard
-              icon={Download}
-              badge={dict.protocols.cardB.badge}
-              title={dict.protocols.cardB.title}
-              desc={dict.protocols.cardB.desc}
-              cta={dict.protocols.cardB.cta}
-              onClick={() => setIsContactModalOpen(true)}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* The Stack */}
-      <section className="relative z-10 py-20">
-        <div className="container mx-auto px-6">
-          <h2 className="saf-reveal mb-12 text-center text-3xl font-semibold text-foreground">
-            {dict.stack.title}
-          </h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                icon: Cpu,
-                title: dict.stack.module1,
-                desc: dict.stack.module1Desc,
-                href: `/${locale}/protocols`,
-              },
-              {
-                icon: Database,
-                title: dict.stack.module2,
-                desc: dict.stack.module2Desc,
-                href: `/${locale}/resources`,
-              },
-              {
-                icon: Brain,
-                title: dict.stack.module3,
-                desc: dict.stack.module3Desc,
-                href: `/${locale}/intelligence`,
-              },
-            ].map((module, index) => (
-              <Link key={index} href={module.href}>
-                <motion.div
-                  className="saf-reveal group relative border border-secondary/20 bg-background p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)] cursor-pointer"
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <module.icon className="mb-4 h-10 w-10 text-accent" />
-                  <h3 className="mb-2 text-xl font-semibold text-foreground">
-                    {module.title}
-                  </h3>
-                  <p className="text-sm text-secondary">{module.desc}</p>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Lead Magnet */}
-      <section className="relative z-10 border-y border-secondary/20 py-20">
-        <div className="container mx-auto px-6">
-          <div className="saf-reveal mx-auto max-w-2xl border border-secondary/20 bg-background p-8 font-mono">
-            <div className="mb-6 space-y-2">
-              <div className="text-sm text-secondary">
-                {dict.leadMagnet.terminal}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-accent">{">"}</span>
-                <span className="text-foreground">_</span>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsAuditModalOpen(true)}
-              className="w-full border border-accent bg-accent/10 px-6 py-4 text-sm text-accent transition-all hover:bg-accent hover:text-background"
-            >
-              {dict.leadMagnet.cta}
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="relative z-10 border-t border-secondary/20 py-12">
         <div className="container mx-auto px-6">
           {/* Navigation Links */}
-          <div className="grid grid-cols-2 gap-8 mb-8 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 mb-8 md:grid-cols-3">
             <div>
               <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
                 {dict.nav.tools}
@@ -285,28 +185,6 @@ export default function Home() {
                 <li>
                   <Link href={`/${locale}/ai-velocity-index`} className="text-sm text-secondary hover:text-accent transition-colors">
                     AI Velocity Index
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-4">
-                {dict.nav.services}
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href={`/${locale}/protocols`} className="text-sm text-secondary hover:text-accent transition-colors">
-                    {dict.nav.protocols}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={`/${locale}/resources`} className="text-sm text-secondary hover:text-accent transition-colors">
-                    {dict.nav.resources}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={`/${locale}/intelligence`} className="text-sm text-secondary hover:text-accent transition-colors">
-                    {dict.nav.intelligence}
                   </Link>
                 </li>
               </ul>
@@ -332,16 +210,6 @@ export default function Home() {
                     className="text-sm text-secondary hover:text-accent transition-colors"
                   >
                     Telegram
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://cal.com/safarisaev"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-secondary hover:text-accent transition-colors"
-                  >
-                    {dict.nav.bookCall}
                   </a>
                 </li>
                 <li>
@@ -417,25 +285,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* Audit Modal */}
-      <AuditModal
-        isOpen={isAuditModalOpen}
-        onClose={() => setIsAuditModalOpen(false)}
-        dictionary={dict.leadMagnet}
-        locale={locale}
-      />
-
-      {/* Contact Modal */}
-      {dict.contactModal && (
-        <ContactModal
-          isOpen={isContactModalOpen}
-          onClose={() => setIsContactModalOpen(false)}
-          dictionary={dict.contactModal}
-          telegramUrl="https://t.me/SafarIsaev"
-          emailAddress={dict.footer.email}
-        />
-      )}
     </main>
   );
 }

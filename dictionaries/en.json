@@ -7,52 +7,11 @@
     "portfolio": "PORTFOLIO"
   },
   "hero": {
-    "title": "I find where your business loses money and build the system that stops it",
-    "subtext": "Operations, process design and AI automation for founders who want to grow without chaos",
+    "title": "Small software, web and video projects, built with AI",
+    "subtext": "I'm Safar Isaev. My own projects and free tools live here",
     "cta": "Take Free Diagnostic",
     "ctaAi": "Test: Will You Replace AI or Will AI Replace You?",
     "ctaWork": "Portfolio"
-  },
-  "protocols": {
-    "cardA": {
-      "badge": "ONE-TO-ONE",
-      "title": "STRATEGY & AUDIT",
-      "desc": "A deep look at the business. Processes, costs and the systems behind them. Hands-on support throughout.",
-      "cta": "BOOK A CALL"
-    },
-    "cardB": {
-      "badge": "AVAILABLE NOW",
-      "title": "KNOWLEDGE BASE",
-      "desc": "Ready-made templates, playbooks and video lessons for rolling out AI and getting operations under control.",
-      "cta": "DOWNLOAD"
-    }
-  },
-  "stack": {
-    "title": "SYSTEM ARCHITECTURE",
-    "module1": "PROTOCOLS",
-    "module1Desc": "Business processes, playbooks and org structure.",
-    "module2": "RESOURCES",
-    "module2Desc": "Where the money and hours go, tool stack, cost reduction.",
-    "module3": "INTELLIGENCE",
-    "module3Desc": "AI agent rollout and routine automation."
-  },
-  "leadMagnet": {
-    "terminal": "> SYSTEM INTEGRITY CHECK... DETECTING INEFFICIENCIES.",
-    "cta": "[ GET A FREE AUDIT ]",
-    "modal": {
-      "title": "FREE AUDIT REQUEST",
-      "companyUrl": "Company URL",
-      "email": "Email",
-      "submit": "SEND",
-      "close": "CANCEL"
-    }
-  },
-  "contactModal": {
-    "title": "CHOOSE CONTACT METHOD",
-    "choose": "Select how you want to reach out:",
-    "telegram": "TELEGRAM",
-    "email": "EMAIL",
-    "close": "CANCEL"
   },
   "footer": {
     "label": "CONTACT",
@@ -62,49 +21,13 @@
   "efficiencyIndex": {
     "text": {
       "title": "The Anonymous Efficiency Index",
-      "subtitle": "Calculate hidden operational waste in 3 minutes.",
-      "tank_label": "Efficiency Level",
-      "progress_label": "Audit Progress",
-      "input_label": "Annual Revenue / Budget",
-      "money_lost_label": "ESTIMATED ANNUAL LOSS",
-      "cta": "Book Zero-Waste Audit",
-      "back_btn": "Go Back",
-      "calculating": "Calculating...",
-      "booking": {
-        "modal_title": "Stop the Bleeding",
-        "modal_subtitle": "Choose your preferred channel for a free case audit.",
-        "telegram_btn": "Message on Telegram",
-        "email_btn": "Send Email",
-        "cancel": "Close"
-      },
-      "zones": {
-        "green": {
-          "title": "The Fortress",
-          "desc": "Elite Tier. Your processes are airtight, margins protected. You are ready for safe scaling.",
-          "action": "Maintain Leadership"
-        },
-        "yellow": {
-          "title": "The Leaking Pipe",
-          "desc": "Silent Capital Erosion. Your growth funds your inefficiency. You are losing money on process friction.",
-          "action": "Find the Leaks"
-        },
-        "red": {
-          "title": "The Bleeding Edge",
-          "desc": "Critical Vulnerability. You are donating huge sums to the market daily. Immediate intervention required.",
-          "action": "Stop the Bleeding"
-        }
-      }
+      "subtitle": "Calculate hidden operational waste in 3 minutes."
     }
   },
   "nav": {
     "tools": "Tools",
-    "services": "Services",
     "contact": "Contact",
     "language": "Language",
-    "protocols": "System Protocols",
-    "resources": "Resource Architecture",
-    "intelligence": "Cognitive Intelligence",
-    "bookCall": "Book a Call",
     "legal": "Legal & Company Info",
     "legalShort": "LEGAL",
     "privacy": "Privacy Policy",

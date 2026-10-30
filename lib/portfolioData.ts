@@ -32,7 +32,7 @@ export interface CaseStudy {
     facts: CaseFact[];
     /** Honest observation or open item. Rendered in a muted block. */
     note?: Localised;
-    /** Real client words only. */
+    /** Real words only. */
     testimonial?: {
         quote: Localised;
         author: Localised;
@@ -158,8 +158,8 @@ export const projects: PortfolioProject[] = [
         url: "https://vedovec.uz/en",
         category: { en: "Logistics", ru: "Логистика" },
         description: {
-            en: "Customs broker in Uzbekistan: clearance, FEA consulting, certification",
-            ru: "Таможенный брокер в Узбекистане — оформление, ВЭД-консалтинг, сертификация",
+            en: "Customs broker in Uzbekistan: clearance, foreign-trade support, certification",
+            ru: "Таможенный брокер в Узбекистане — оформление, сопровождение ВЭД, сертификация",
         },
         stack: ["Next.js", "RU / EN / UZ"],
         caseStudy: {
@@ -266,144 +266,6 @@ export const projects: PortfolioProject[] = [
         },
     },
     {
-        slug: "resale-bot",
-        name: "Resale Bot",
-        surface: "telegram",
-        category: { en: "Telegram bot", ru: "Telegram-бот" },
-        description: {
-            en: "A classifieds channel that runs itself: submissions, moderation, payments and scheduled posting",
-            ru: "Канал объявлений, который ведёт себя сам: заявки, модерация, оплаты и публикация по расписанию",
-        },
-        stack: ["Python", "aiogram 3", "SQLite", "systemd"],
-        preview: [
-            "/schedule 11:00 15:00 19:00",
-            "/stats 30",
-            "/export",
-            "/role 482913 moderator",
-            "/prices",
-            "/channels -1001234567890 Обувь обувь",
-        ],
-        caseStudy: {
-            lede: {
-                en: "A classifieds channel is three manual jobs stacked on one person: read every submission, chase the payment, and remember to post at the hour people actually look. This bot takes all three. The brief written into the repository says it plainly: everything that turns a bot that collects requests into a channel that runs itself.",
-                ru: "Канал объявлений — это три ручные работы на одном человеке: прочитать каждую заявку, догнать оплату и не забыть опубликовать в час, когда люди смотрят. Бот забирает все три. В самом репозитории это сформулировано прямо: всё, что превращает «бот собирает заявки» в «канал работает сам».",
-            },
-            role: {
-                en: "Built end to end: product logic, database, moderation flow, pricing model, deploy and backups.",
-                ru: "Сделан целиком: продуктовая логика, база, схема модерации, модель цен, деплой и бэкапы.",
-            },
-            built: [
-                {
-                    en: "Scheduled publishing against the channel's own timezone, so a seller submits whenever and the post lands in the slot that sells. One command turns it off and the manual publish button comes back, because a reverse gear has to exist.",
-                    ru: "Публикация по расписанию в часовом поясе канала: продавец присылает когда угодно, а пост выходит в слот, который продаёт. Одна команда выключает автопубликацию и возвращает ручную кнопку — обратный ход должен быть всегда.",
-                },
-                {
-                    en: "Roles instead of a flat admin list: owner, moderator and SMM, each with its own reach. Every action lands in an audit log, which is what settles a dispute about who deleted what.",
-                    ru: "Роли вместо плоского списка админов: владелец, модератор и SMM, у каждого свой доступ. Каждое действие пишется в журнал — именно он решает спор о том, кто что удалил.",
-                },
-                {
-                    en: "Money handled as money: placement packages with a seller balance, VIP and premium-hour pricing, duplicate receipt detection with an amount check, and a CSV export of payments to reconcile against a card statement.",
-                    ru: "Деньги как деньги: пакеты размещений с балансом продавца, VIP и премиальное время, отлов дублей чеков с проверкой суммы и выгрузка оплат в CSV для сверки с выпиской карты.",
-                },
-                {
-                    en: "Abuse controls the owner would otherwise enforce by hand: a cap on active listings, a blacklist, and photo fingerprinting that catches the same picture posted twice or lifted from another seller.",
-                    ru: "Защита от злоупотреблений, которую иначе владелец делает руками: лимит активных объявлений, чёрный список и отпечатки фото, ловящие один и тот же снимок дважды или утащенный у другого продавца.",
-                },
-                {
-                    en: "A seller cabinet with my listings, an FAQ, payment reminders and automatic closing of abandoned submissions, plus autofill that suggests fields from the channel's own history.",
-                    ru: "Кабинет продавца с «моими объявлениями» и частыми вопросами, напоминания об оплате и автозакрытие брошенных заявок, плюс автоподстановка полей по истории самого канала.",
-                },
-                {
-                    en: "Multi-tenancy: one running process serves many channels, each with its own rubrics, schedule and prices. Adding a channel is a command, not a second deployment.",
-                    ru: "Мультитенантность: один процесс обслуживает много каналов, у каждого свои рубрики, расписание и цены. Добавить канал — это команда, а не второй сервер.",
-                },
-                {
-                    en: "The product logic does not import aiogram at all, so the funnel, the pricing and the lifecycle are covered by tests that run without Telegram. 21 test files against 40 modules.",
-                    ru: "Продуктовая логика вообще не импортирует aiogram, поэтому воронка, цены и жизненный цикл покрыты тестами, которые бегут без Telegram. 21 файл тестов на 40 модулей.",
-                },
-            ],
-            facts: [
-                { label: { en: "Surface", ru: "Площадка" }, value: { en: "Telegram, aiogram 3", ru: "Telegram, aiogram 3" } },
-                { label: { en: "Code", ru: "Код" }, value: { en: "40 modules, ~5,700 lines", ru: "40 модулей, ~5 700 строк" } },
-                { label: { en: "Tests", ru: "Тесты" }, value: { en: "21 files, ~2,100 lines", ru: "21 файл, ~2 100 строк" } },
-                { label: { en: "Channels", ru: "Каналов" }, value: { en: "Many, one process", ru: "Много, один процесс" } },
-            ],
-            note: {
-                en: "No link to open. It runs inside a private client channel, so the commands above are the honest view of it: they are copied out of the running source, not mocked up for this page.",
-                ru: "Ссылки нет: бот живёт в закрытом клиентском канале. Команды выше — честный его вид, они скопированы из работающего исходника, а не нарисованы для этой страницы.",
-            },
-        },
-    },
-    {
-        slug: "driver-booking",
-        name: "Driver Booking",
-        surface: "telegram",
-        category: { en: "Telegram Mini App", ru: "Telegram Mini App" },
-        description: {
-            en: "Corporate driver booking inside Telegram: three roles, conflict checks, automatic reminders",
-            ru: "Бронирование служебного водителя внутри Telegram: три роли, проверка накладок, автонапоминания",
-        },
-        stack: ["TypeScript", "Cloudflare Workers", "Hono", "D1", "GitHub Actions"],
-        preview: [
-            "/start",
-            "/app",
-            "/adduser @username",
-            "/listusers",
-            "/removeuser",
-            "/health",
-        ],
-        caseStudy: {
-            lede: {
-                en: "Booking a company car usually means a message to a manager, a manager with a notebook, and two people discovering at nine in the morning that the car is already taken. The notebook becomes a booking screen inside Telegram, and the argument becomes a conflict check that runs before the booking is accepted.",
-                ru: "Забронировать служебную машину обычно значит написать менеджеру, у которого блокнот, а в девять утра выяснить вдвоём, что машина уже занята. Блокнот становится экраном бронирования внутри Telegram, а спор — проверкой накладок, которая срабатывает до того, как бронь принята.",
-            },
-            role: {
-                en: "Built end to end: roles, booking logic, notification schedule, database and deployment pipeline.",
-                ru: "Сделан целиком: роли, логика броней, расписание уведомлений, база и пайплайн деплоя.",
-            },
-            built: [
-                {
-                    en: "Three roles that see three different apps: an employee books and cancels their own trips, a driver accepts them and marks each one done or a no-show, an admin manages people and reads the statistics.",
-                    ru: "Три роли видят три разных приложения: сотрудник бронирует и отменяет свои поездки, водитель принимает их и отмечает выполненными или неявкой, админ управляет людьми и смотрит статистику.",
-                },
-                {
-                    en: "A conflict check with a fifteen-minute buffer between trips. The buffer is the point: back-to-back bookings that look fine on a calendar are the ones that make a driver late.",
-                    ru: "Проверка накладок с буфером в пятнадцать минут между поездками. Буфер здесь и есть суть: именно брони впритык, которые в календаре выглядят нормально, и делают водителя опоздавшим.",
-                },
-                {
-                    en: "Notifications on the three moments that matter: a new booking, a reminder an hour before, and a morning digest of the day ahead. Nobody has to open the app to stay informed.",
-                    ru: "Уведомления в три момента, которые важны: новая бронь, напоминание за час и утренняя сводка на день. Чтобы быть в курсе, приложение открывать не нужно.",
-                },
-                {
-                    en: "An explicit status for every trip: pending, confirmed, then done, no-show or cancelled. A no-show is recorded rather than quietly deleted, because that is the number worth knowing at the end of a month.",
-                    ru: "Явный статус у каждой поездки: ожидает, подтверждена, затем выполнена, неявка или отменена. Неявка фиксируется, а не тихо удаляется, — именно эта цифра важна в конце месяца.",
-                },
-                {
-                    en: "People are added by Telegram username, so onboarding does not require anyone to hunt down a numeric id first.",
-                    ru: "Людей добавляют по нику в Telegram, поэтому для подключения не нужно сначала где-то добывать числовой id.",
-                },
-                {
-                    en: "Russian and Uzbek throughout, chosen because the drivers and the office do not always share a first language.",
-                    ru: "Русский и узбекский во всём интерфейсе: у водителей и офиса родной язык совпадает не всегда.",
-                },
-                {
-                    en: "The whole thing is one Cloudflare Worker serving both the API and the app screen, with the database beside it and deploys from GitHub Actions. One deployment, one URL, and it fits inside the free tier.",
-                    ru: "Всё это — один Cloudflare Worker, отдающий и API, и экран приложения, рядом база, деплой из GitHub Actions. Один деплой, один адрес, и всё укладывается в бесплатный тариф.",
-                },
-            ],
-            facts: [
-                { label: { en: "Surface", ru: "Площадка" }, value: { en: "Telegram Mini App", ru: "Telegram Mini App" } },
-                { label: { en: "Roles", ru: "Ролей" }, value: { en: "3", ru: "3" } },
-                { label: { en: "Trip buffer", ru: "Буфер поездок" }, value: { en: "15 minutes", ru: "15 минут" } },
-                { label: { en: "Languages", ru: "Языки" }, value: { en: "Russian, Uzbek", ru: "Русский, узбекский" } },
-            ],
-            note: {
-                en: "No link to open. It runs inside one company, for its own staff, so there is nothing public to show. The commands above come out of the running source.",
-                ru: "Ссылки нет: работает внутри одной компании, для её сотрудников, показывать публично нечего. Команды выше взяты из работающего исходника.",
-            },
-        },
-    },
-    {
         slug: "bektothefuture",
         name: "Bek to the Future",
         url: "https://bektothefuture.com",
@@ -447,36 +309,26 @@ export const projects: PortfolioProject[] = [
                 { label: { en: "Audio", ru: "Аудио" }, value: { en: "SoundCloud + Mixcloud", ru: "SoundCloud + Mixcloud" } },
                 { label: { en: "Hosting", ru: "Хостинг" }, value: { en: "Vercel", ru: "Vercel" } },
             ],
-            testimonial: {
-                quote: {
-                    en: "We had zero online presence. Now we get bookings every day through the site. It paid for itself in the first week.",
-                    ru: "У нас не было вообще никакого присутствия онлайн. Теперь букинги приходят через сайт каждый день. Он окупился за первую неделю.",
-                },
-                author: {
-                    en: "DJ & music artist",
-                    ru: "Диджей и музыкант",
-                },
-            },
         },
     },
     {
         slug: "safarisaev",
         name: "Safarisaev.ai",
         url: "https://safarisaev.ai",
-        category: { en: "Consulting", ru: "Консалтинг" },
+        category: { en: "Personal site", ru: "Личный сайт" },
         description: {
-            en: "This site: a consulting practice plus three live diagnostic tools",
-            ru: "Этот сайт — консалтинговая практика и три живых диагностических инструмента",
+            en: "This site: my own projects and three free tools",
+            ru: "Этот сайт: мои проекты и три бесплатных инструмента",
         },
         stack: ["Next.js", "Vercel"],
         caseStudy: {
             lede: {
-                en: "The site you are on. A consulting practice does not need a brochure. It needs something that qualifies a prospect before the first call. So the centre of this site is three tools a visitor can run alone, each ending in a result worth an email address.",
-                ru: "Сайт, на котором вы находитесь. Консалтинговой практике не нужна брошюра — ей нужно то, что квалифицирует клиента до первого созвона. Поэтому в центре сайта три инструмента, которые посетитель проходит сам, и каждый заканчивается результатом, за который не жалко оставить почту.",
+                en: "The site you are on. It holds the small software, web and video projects published under OPTIFLOW LABS LTD, and three tools anyone can run for free, with no sign-up and no email address.",
+                ru: "Сайт, на котором вы находитесь. Здесь собраны небольшие проекты OPTIFLOW LABS LTD: софт, сайты и видео, а ещё три инструмента, которыми можно пользоваться бесплатно, без регистрации и без почты.",
             },
             role: {
-                en: "Everything: practice positioning, tool design, scoring models, PDF reports, build.",
-                ru: "Всё: позиционирование практики, дизайн инструментов, модели скоринга, PDF-отчёты, разработка.",
+                en: "Everything: tool design, scoring models, PDF reports, build.",
+                ru: "Всё: дизайн инструментов, модели скоринга, PDF-отчёты, разработка.",
             },
             built: [
                 {
@@ -492,8 +344,8 @@ export const projects: PortfolioProject[] = [
                     ru: "Cellar — AI-проверка цены на вино на edge-роуте, который возвращает сигнал buy / hold / wait с рыночным контекстом.",
                 },
                 {
-                    en: "Client-side PDF report generation with an embedded Cyrillic font, so a Russian-language result renders correctly without a server round-trip.",
-                    ru: "Генерация PDF-отчётов на клиенте со встроенным кириллическим шрифтом — русский результат печатается корректно без обращения к серверу.",
+                    en: "In-browser PDF report generation with an embedded Cyrillic font, so a Russian-language result renders correctly without a server round-trip.",
+                    ru: "Генерация PDF-отчётов в браузере со встроенным кириллическим шрифтом — русский результат печатается корректно без обращения к серверу.",
                 },
                 {
                     en: "Full EN / RU throughout, with theme and language preference persisted across pages.",
@@ -565,7 +417,7 @@ export const projects: PortfolioProject[] = [
 ];
 
 /**
- * Tools built and run in-house. These are products, not client work, so they get
+ * Tools built and run in-house. They get
  * their own section — and it gives /cellar an entry point it never had.
  */
 export const tools: PortfolioTool[] = [

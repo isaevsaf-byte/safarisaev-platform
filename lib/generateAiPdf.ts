@@ -1,7 +1,6 @@
 
 import type jsPDF from "jspdf";
 import { aiIndexData, Lang, Context } from "./aiIndexData";
-import { AI_OFFER_PRICE, AI_OFFER_RED_ANCHOR } from "./pricing";
 
 // Loaded on demand — see lib/generatePdf.ts for why.
 async function loadPdfLib() {
@@ -187,17 +186,6 @@ const pdfContent = {
                         newWay: "Спросите Perplexity или ChatGPT: \u00ABНайди топ-5 конкурентов [товар] и сделай таблицу сравнения цен\u00BB."
                     }
                 ]
-            },
-            page3: {
-                headline: "AI FOUNDATION: РАННИЙ СПИСОК (EARLY ACCESS)",
-                intro: "Прямо сейчас я упаковываю этот опыт в короткий видео-курс. Я хочу, чтобы он был идеальным. Вы попали в список Beta-участников. Это значит, что вы получите курс первыми и по специальной цене.",
-                benefits: [
-                    "Вы получите курс первыми.",
-                    `Специальная цена ${AI_OFFER_PRICE.red} (вместо ${AI_OFFER_RED_ANCHOR}) за отзыв.`,
-                    "Плюс я лично разберу ваш кейс."
-                ],
-                cta: `Занять место за ${AI_OFFER_PRICE.red} (Вместо ${AI_OFFER_RED_ANCHOR})`,
-                link: "https://safarisaev.ai"
             }
         },
         en: {
@@ -233,16 +221,6 @@ const pdfContent = {
                         newWay: "Ask Perplexity or ChatGPT: \"Find the top 5 competitors for [product] and make a price comparison table.\""
                     }
                 ]
-            },
-            page3: {
-                headline: "Your Path Out: AI FOUNDATION",
-                intro: "You don't need complex agents or code yet. You need to free your hands. In AI Foundation, we don't teach \"tech.\" We teach you to delegate the grunt work.",
-                benefits: [
-                    "How to cut email time from 1 hour to 5 mins.",
-                    "How to get ready-made Excel sheets without formulas.",
-                    "How to write prompts so AI understands you instantly."
-                ],
-                cta: "Reclaim 2 Hours/Day"
             }
         }
     },
@@ -265,17 +243,6 @@ const pdfContent = {
                     { title: "Визуализируйте (Gemini Canvas / Artifacts)", desc: "Хватит читать текст.", oldWay: "", newWay: "Просите ИИ: \"Нарисуй мне схему воронки продаж\" или \"Сделай дашборд\". Превращайте слова в активы." },
                     { title: "Глубокий Анализ (NotebookLM)", desc: "Не копируйте куски текста.", oldWay: "", newWay: "Загрузите 50 PDF-отчетов конкурентов в NotebookLM и устройте им перекрестный допрос. Это уровень аналитика за $5000/мес." }
                 ]
-            },
-            page3: {
-                headline: "Ваш путь наверх: AI EXECUTIVE SUITE",
-                intro: "Вы уже умеете \"общаться\". Пора научиться \"управлять\". Курс AI Executive — это превращение вас в Цифровой Штаб.",
-                benefits: [
-                    "Deep Research: Как делать анализ рынка за 15 минут с пруфами.",
-                    "Reasoning: Стратегическое мышление с моделями o1.",
-                    "Visuals: Создание презентаций и схем внутри диалога.",
-                    "Agents: Сборка своей команды ботов."
-                ],
-                cta: "Стать One-Man Army"
             }
         },
         en: {
@@ -296,17 +263,6 @@ const pdfContent = {
                     { title: "Visualize (Gemini Canvas / Artifacts)", desc: "Stop reading text.", oldWay: "", newWay: "Ask AI: \"Draw a sales funnel diagram\" or \"Create a dashboard.\" Turn words into assets." },
                     { title: "Deep Analysis (NotebookLM)", desc: "Don't copy-paste text chunks.", oldWay: "", newWay: "Upload 50 competitor PDF reports into NotebookLM and cross-examine them. This is $5,000/month analyst level work." }
                 ]
-            },
-            page3: {
-                headline: "Your Path Up: AI EXECUTIVE SUITE",
-                intro: "You know how to \"chat.\" It's time to learn how to \"command.\" AI Executive transforms you into a Digital HQ.",
-                benefits: [
-                    "Deep Research: Market analysis in 15 mins with citations.",
-                    "Reasoning: Strategic thinking with o1 models.",
-                    "Visuals: Creating slides and diagrams within the chat.",
-                    "Agents: Assembling your own bot team."
-                ],
-                cta: "Become a One-Man Army"
             }
         }
     },
@@ -329,18 +285,6 @@ const pdfContent = {
                     { title: "Productize Yourself", desc: "Превратите внутренние инструменты в продукты.", oldWay: "", newWay: "Ваш \"скрипт для отчетов\" — это SaaS за $49/мес для 1000 клиентов. Ваш \"GPT-юрист\" — это Telegram-бот с подпиской. Хватит работать бесплатно." },
                     { title: "Kill The Middleman", desc: "Увольте \"внутренний IT-отдел\" в своей голове.", oldWay: "", newWay: "Вам не нужны программисты для проверки гипотез. MVP за выходные. Запуск в понедельник. Один. Без зависимостей." }
                 ]
-            },
-            page3: {
-                headline: "AI ARCHITECT MASTERMIND",
-                intro: "Это не курс. Здесь не учат \"нажимать кнопки\". Это закрытая группа, где мы строим ваши ИИ-активы и продукты. Работа в малой группе равных.",
-                benefits: [
-                    "Еженедельные сессии: разбор ваших проектов и узких мест.",
-                    "Совместная сборка: от идеи до деплоя за 4-6 недель.",
-                    "Нетворк: доступ к сообществу таких же \"киборгов\"."
-                ],
-                cta: "Напишите мне лично",
-                ctaSubtext: "Чтобы обсудить формат и понять, подходим ли мы друг другу.",
-                contacts: { telegram: "@SafarIsaev", email: "saf@safarisaev.ai" }
             }
         },
         en: {
@@ -361,18 +305,6 @@ const pdfContent = {
                     { title: "Productize Yourself", desc: "Turn your internal tools into products.", oldWay: "", newWay: "Your \"reporting script\" is a $49/mo SaaS for 1000 clients. Your \"GPT Lawyer\" is a Telegram bot with subscriptions. Stop working for free." },
                     { title: "Kill The Middleman", desc: "Fire the \"internal IT department\" in your head.", oldWay: "", newWay: "You don't need developers to test hypotheses. MVP in a weekend. Launch on Monday. Alone. No dependencies." }
                 ]
-            },
-            page3: {
-                headline: "AI ARCHITECT MASTERMIND",
-                intro: "This is not a course. We don't teach you to \"click buttons.\" This is a closed group where we build your AI assets and products. Work in a small group of equals.",
-                benefits: [
-                    "Weekly sessions: review of your projects and bottlenecks.",
-                    "Co-building: from idea to deploy in 4-6 weeks.",
-                    "Network: access to a community of fellow \"cyborgs.\""
-                ],
-                cta: "Message me personally",
-                ctaSubtext: "To discuss the format and see if we're a good fit.",
-                contacts: { telegram: "@SafarIsaev", email: "saf@safarisaev.ai" }
             }
         }
     }
@@ -384,8 +316,7 @@ export const generateAiPdf = async (
     score: number,
     zoneKey: "green" | "yellow" | "red",
     lang: Lang,
-    context: Context,
-    email: string
+    context: Context
 ) => {
     const JsPDF = await loadPdfLib();
     const doc = new JsPDF();
@@ -394,7 +325,6 @@ export const generateAiPdf = async (
 
     const t = aiIndexData.translations[lang];
     const zone = t.zones[zoneKey];
-    const offer = t.offers[zoneKey];
     const config = aiIndexData.config.zones[zoneKey];
     const content = pdfContent[zoneKey][lang];
     const zoneRgb = hexToRgb(config.color);
@@ -428,7 +358,6 @@ export const generateAiPdf = async (
     doc.setFontSize(8);
     setText(doc, COLORS.SLATE_400);
     doc.text(new Date().toLocaleDateString(), MR, 20, { align: 'right' });
-    doc.text(email, MR, 28, { align: 'right' });
 
     // Small zone badge in header
     setFill(doc, zoneRgb);
@@ -660,153 +589,6 @@ export const generateAiPdf = async (
 
     // Page 2 Footer
     drawFooter(doc);
-
-    // ════════════════════════════════════════════════════════════════
-    // PAGE 3: THE OFFER / CTA
-    // ════════════════════════════════════════════════════════════════
-    doc.addPage();
-
-    // Header
-    drawPageHeader(doc, lang === 'ru' ? 'ВАШ СЛЕДУЮЩИЙ ШАГ' : 'YOUR NEXT STEP', zoneRgb, 30);
-
-    // Headline with accent bar
-    yPos = 44;
-    drawAccentBar(doc, ML, yPos - 2, 14, zoneRgb);
-    doc.setFontSize(14);
-    setText(doc, COLORS.NEAR_BLACK);
-    const p3HeadlineLines = doc.splitTextToSize(content.page3.headline, CW - 7);
-    doc.text(p3HeadlineLines, ML + 7, yPos + 6);
-    yPos += p3HeadlineLines.length * 7 + 8;
-
-    // Intro paragraph
-    doc.setFontSize(10);
-    setText(doc, COLORS.SLATE_600);
-    const introText = doc.splitTextToSize(content.page3.intro, CW);
-    doc.text(introText, ML, yPos);
-    yPos += introText.length * 5 + 10;
-
-    // Benefits label
-    doc.setFontSize(12);
-    setText(doc, COLORS.NEAR_BLACK);
-    doc.text(lang === 'ru' ? "Что вы получите:" : "What you'll get:", ML, yPos);
-    yPos += 10;
-
-    // Benefit items with colored square bullets
-    content.page3.benefits.forEach((benefit) => {
-        doc.setFontSize(10);
-        const benefitLines = doc.splitTextToSize(benefit, CW - 14);
-
-        // Zone-colored square bullet
-        setFill(doc, zoneRgb);
-        doc.rect(ML + 2, yPos - 3, 3, 3, 'F');
-
-        // Benefit text
-        setText(doc, COLORS.SLATE_600);
-        doc.text(benefitLines, ML + 12, yPos);
-        yPos += benefitLines.length * 5 + 6;
-    });
-
-    yPos += 6;
-
-    // ── CTA Card ──
-    const page3Content = content.page3 as {
-        headline: string;
-        intro: string;
-        benefits: string[];
-        cta: string;
-        ctaSubtext?: string;
-        contacts?: { telegram: string; email: string };
-        link?: string;
-    };
-
-    if (page3Content.contacts) {
-        // ══ Variant B: Mastermind (green zone with contacts) ══
-        const cardH = 90;
-        const ctaY = yPos;
-
-        // Card
-        drawCard(doc, 25, ctaY, 160, cardH);
-
-        // Zone-color top strip
-        setFill(doc, zoneRgb);
-        doc.rect(25, ctaY, 160, 3, 'F');
-
-        // CTA headline
-        doc.setFontSize(14);
-        setText(doc, zoneRgb);
-        doc.text(page3Content.cta, CX, ctaY + 22, { align: 'center' });
-
-        // Subtext
-        if (page3Content.ctaSubtext) {
-            doc.setFontSize(10);
-            setText(doc, COLORS.SLATE_600);
-            const subtextLines = doc.splitTextToSize(page3Content.ctaSubtext, 130);
-            doc.text(subtextLines, CX, ctaY + 32, { align: 'center' });
-        }
-
-        // Divider inside card
-        setDraw(doc, COLORS.SLATE_200);
-        doc.setLineWidth(0.3);
-        doc.line(45, ctaY + 45, 165, ctaY + 45);
-
-        // Telegram
-        doc.setFontSize(10);
-        setText(doc, COLORS.SLATE_600);
-        doc.text("Telegram:", 60, ctaY + 58);
-        doc.setFontSize(12);
-        setText(doc, COLORS.NEAR_BLACK);
-        doc.text(page3Content.contacts.telegram, 95, ctaY + 58);
-
-        // Email
-        doc.setFontSize(10);
-        setText(doc, COLORS.SLATE_600);
-        doc.text("Email:", 60, ctaY + 70);
-        doc.setFontSize(12);
-        setText(doc, COLORS.ACCENT_BLUE);
-        doc.text(page3Content.contacts.email, 95, ctaY + 70);
-
-    } else {
-        // ══ Variant A: Standard Offer (red/yellow zones) ══
-        const cardH = 80;
-        const ctaY = yPos;
-
-        // Card
-        drawCard(doc, 25, ctaY, 160, cardH);
-
-        // Zone-color top strip
-        setFill(doc, zoneRgb);
-        doc.rect(25, ctaY, 160, 3, 'F');
-
-        // Offer name
-        doc.setFontSize(12);
-        setText(doc, COLORS.NEAR_BLACK);
-        const offerLines = doc.splitTextToSize(offer.name, 130);
-        doc.text(offerLines, CX, ctaY + 22, { align: 'center' });
-
-        // Price
-        doc.setFontSize(28);
-        setText(doc, zoneRgb);
-        doc.text(offer.price, CX, ctaY + 40, { align: 'center' });
-
-        // CTA Button
-        setFill(doc, zoneRgb);
-        doc.roundedRect(45, ctaY + 52, 120, 18, 4, 4, 'F');
-        doc.setFontSize(13);
-        setText(doc, COLORS.WHITE);
-        doc.text(page3Content.cta, CX, ctaY + 63.5, { align: 'center' });
-    }
-
-    // Page 3 Footer (with clickable link)
-    setDraw(doc, COLORS.SLATE_200);
-    doc.setLineWidth(0.3);
-    doc.line(70, 282, 140, 282);
-
-    const linkUrl = page3Content.link || "https://safarisaev.ai";
-    doc.setFontSize(9);
-    setText(doc, COLORS.ACCENT_BLUE);
-    const linkText = "safarisaev.ai";
-    const linkWidth = doc.getTextWidth(linkText);
-    doc.textWithLink(linkText, CX - linkWidth / 2, 288, { url: linkUrl });
 
     // ── Save ──
     doc.save('Safar_Isaev_AI_Velocity_Report.pdf');

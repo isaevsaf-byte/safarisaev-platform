@@ -12,21 +12,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Safar Isaev — Operations & AI Automation",
-    description: "I find where a business loses money and time, then build the system that stops it — process design and AI automation for founders.",
+    title: "Safar Isaev — Software, web and video projects built with AI",
+    description: "Small software, web and video projects built with AI by Safar Isaev, published under OPTIFLOW LABS LTD.",
     metadataBase: new URL("https://safarisaev.ai"),
     alternates: { canonical: "https://safarisaev.ai" },
     openGraph: {
-        title: "Safar Isaev — Operations & AI Automation",
-        description: "I find where a business loses money and time, then build the system that stops it.",
+        title: "Safar Isaev — Software, web and video projects built with AI",
+        description: "Small software, web and video projects built with AI by Safar Isaev.",
         type: "website",
         url: "https://safarisaev.ai",
         siteName: "Safar Isaev",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Safar Isaev — Operations & AI Automation",
-        description: "I find where a business loses money and time, then build the system that stops it.",
+        title: "Safar Isaev — Software, web and video projects built with AI",
+        description: "Small software, web and video projects built with AI by Safar Isaev.",
     },
     robots: {
         index: true,
@@ -39,8 +39,7 @@ const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Safar Isaev",
-    jobTitle: "Operations engineer",
-    description: "Operations engineer working on process design and AI automation. Builds the systems rather than only advising on them.",
+    description: "Builds small software, web and video projects with AI.",
     url: "https://safarisaev.ai",
     sameAs: [
         "https://t.me/SafarIsaev",
@@ -51,32 +50,10 @@ const jsonLd = {
         url: legalEntity.website,
     },
     knowsAbout: [
-        "Business Operations",
-        "Process Optimization",
-        "AI Automation",
-        "AI Agents",
-        "Workflow Automation",
-        "Resource Management",
-    ],
-    offers: [
-        {
-            "@type": "Service",
-            name: "System Protocols",
-            description: "Process mapping, SOP documentation, org structure optimization, and workflow automation design.",
-            url: "https://safarisaev.ai/protocols",
-        },
-        {
-            "@type": "Service",
-            name: "Resource Architecture",
-            description: "Cost and time audit, tool stack consolidation, team capacity mapping, and cost reduction roadmap.",
-            url: "https://safarisaev.ai/resources",
-        },
-        {
-            "@type": "Service",
-            name: "Cognitive Intelligence",
-            description: "AI agent implementation, no-code workflow automation, chatbots, and data processing pipelines.",
-            url: "https://safarisaev.ai/intelligence",
-        },
+        "Software development",
+        "Web development",
+        "Video production",
+        "AI tools",
     ],
 };
 

@@ -90,15 +90,15 @@ export default function LegalPage() {
                         This website, <span className="text-foreground">safarisaev.ai</span>,
                         is owned and operated by {legalEntity.name}, a private limited
                         company registered in {legalEntity.jurisdiction} under company
-                        number {legalEntity.companyNumber}. The company builds and
-                        operates business software, AI automation tools and web
-                        platforms. All services, tools, and content published on this
-                        domain are provided by {legalEntity.name}, which is also
-                        developing the mobile application{" "}
+                        number {legalEntity.companyNumber}. The company builds and publishes
+                        small software, app and video projects. All tools and content
+                        published on this domain are provided by {legalEntity.name}. Its
+                        mobile application{" "}
                         <span className="text-foreground">
                             {legalEntity.apps.join(", ")}
-                        </span>
-                        . Its{" "}
+                        </span>{" "}
+                        is in testing; to be published on Google Play and the App Store. The
+                        app&apos;s{" "}
                         <Link
                             href="/privacy"
                             className="text-accent transition-colors hover:text-foreground"
@@ -132,45 +132,31 @@ export default function LegalPage() {
                         </p>
 
                         <p>
-                            <span className="text-foreground">What you type into a form.</span>{" "}
-                            The diagnostics, the audit request and the offer pages each have
-                            a form. They send us what you fill in — your email address, and
-                            depending on the form a company URL, a short brief, your
-                            language, and the result the tool produced for you. Submissions
-                            are delivered through Formspree, which acts as our processor and
-                            passes them to {legalEntity.email}. Nothing is submitted until
-                            you press the button.
+                            <span className="text-foreground">No forms.</span>{" "}
+                            This website has no contact or sign-up forms. We only see an email
+                            address if you write to us yourself.
                         </p>
 
                         <p>
-                            <span className="text-foreground">A reply you did not ask a human for.</span>{" "}
-                            When a form goes through, an automatic email confirms it arrived
-                            and says what happens next. It goes only to the address you
-                            entered, only once, and carries no tracking pixel. A person
-                            replies separately.
-                        </p>
-
-                        <p>
-                            <span className="text-foreground">The diagnostics themselves.</span>{" "}
+                            <span className="text-foreground">The free tools.</span>{" "}
                             Your answers to the Efficiency Index and the AI Velocity Index
                             are scored in your browser and are not sent anywhere. The PDF is
-                            built on your device. Your answers reach us only if you choose
-                            to submit the form afterwards, and then only as the summary the
-                            form carries.
+                            built on your device. If you use Cellar, the wine you type is sent
+                            to our server and to Anthropic, the AI provider, to produce the
+                            answer. We do not store it.
                         </p>
 
                         <p>
                             <span className="text-foreground">What we never do.</span>{" "}
                             No advertising trackers, no third-party pixels, no selling or
-                            sharing of anything you send us, no newsletter you did not
-                            request. The theme and language you pick are kept in your own
+                            sharing of anything you send us, no newsletter. The theme and language you pick are kept in your own
                             browser and never leave it.
                         </p>
 
                         <p>
                             <span className="text-foreground">Keeping and removing.</span>{" "}
-                            Enquiries are kept while a conversation is live and for as long
-                            as we may need them for our records afterwards. Write to{" "}
+                            Emails you send us are kept for as long as we need them for our
+                            records. Write to{" "}
                             <a
                                 href={`mailto:${legalEntity.email}`}
                                 className="text-accent transition-colors hover:text-foreground"

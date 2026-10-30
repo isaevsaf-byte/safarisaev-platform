@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next';
 import { projects } from '@/lib/portfolioData';
 import { LOCALES } from '@/lib/locale';
-import { publishedOffers } from '@/lib/offersData';
 
 const baseUrl = 'https://safarisaev.ai';
 
@@ -35,13 +34,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
         ...localised('/portfolio', 0.8),
         ...projects.flatMap((project) => localised(`/portfolio/${project.slug}`, 0.7)),
-        // Draft offers are deliberately absent — see lib/offersData.ts.
-        ...publishedOffers.flatMap((offer) => localised(`/offer/${offer.slug}`, 0.8)),
         ...localised('/efficiency-index', 0.9),
         ...localised('/ai-velocity-index', 0.9),
-        ...localised('/protocols', 0.7),
-        ...localised('/resources', 0.7),
-        ...localised('/intelligence', 0.7),
         {
             // Live tool, previously unreachable: no inbound link and no sitemap entry.
             url: `${baseUrl}/cellar`,

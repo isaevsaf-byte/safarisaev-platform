@@ -1,5 +1,3 @@
-import { AI_OFFER_PRICE } from "./pricing";
-
 export type Lang = "en" | "ru";
 export type Context = "self" | "team";
 
@@ -12,11 +10,6 @@ export interface ZoneTranslation {
     title: string;
     slogan: string;
     desc: string;
-}
-
-export interface OfferTranslation {
-    name: string;
-    price: string;
 }
 
 export interface QuestionOption {
@@ -68,11 +61,6 @@ export const aiIndexData = {
                 green: { title: "AI ARCHITECT (Создатель / Киборг)", slogan: "«Вы живете в 2030 году.»", desc: "Вы входите в топ-2% пользователей. Вы переросли интерфейс чата. Вы не просите ИИ «написать текст», вы заставляете его писать код, строить системы и анализировать данные. Ваш риск: «Проклятие Компетентности». Вы настолько эффективны, что рискуете стать «бутылочным горлышком» всех процессов. Ваша следующая ступень — создавать активы, которые работают без вас." },
                 yellow: { title: "AI EXECUTIVE (Профи / Цифровой Штаб)", slogan: "«Вы — Пилот, который летит на ручном управлении.»", desc: "Вы входите в топ-20% пользователей. Вы умеете писать отличные промпты и экономить время. Но вы попали в «Ловушку Продуктивности»: вы делаете старые задачи быстрее, вместо того чтобы делать новые задачи, которые раньше были невозможны. Вы используете ИИ как Умного Секретаря, но не как Партнера." },
                 red: { title: "LEGACY OPERATOR (Аналоговый Режим)", slogan: "«Вы используете суперкомпьютер как печатную машинку.»", desc: "Вы — добросовестный профессионал, но вы работаете методами 2019 года. Пока конкуренты генерируют решения за секунды, вы тратите часы на ручной поиск, набор текста и форматирование. Вы теряете минимум 10-15 часов в неделю на задачи, которые ИИ решает за один клик. Ваша главная проблема: Страх чистого листа и привычка делать всё «своими руками»." }
-            },
-            offers: {
-                green: { name: "AI Builder (Coding)", price: AI_OFFER_PRICE.green },
-                yellow: { name: "AI Executive Suite", price: AI_OFFER_PRICE.yellow },
-                red: { name: "AI Foundation: Early Access", price: AI_OFFER_PRICE.red }
             }
         },
         en: {
@@ -84,11 +72,6 @@ export const aiIndexData = {
                 green: { title: "AI ARCHITECT (The Creator)", slogan: "'You are living in 2030.'", desc: "You are in the top 2% of users. You have outgrown the chat interface. You don't ask AI to \"write text\"; you command it to write code, build systems, and analyze data. Your Risk: \"The Curse of Competence.\" You are so efficient that you risk becoming the bottleneck. Your next level is building assets (SaaS, bots, tools) that work without you." },
                 yellow: { title: "AI EXECUTIVE", slogan: "'You are a Pilot flying on manual mode.'", desc: "You are in the top 20% of users. You write great prompts and save time. But you are stuck in the \"Productivity Trap\": you do old tasks faster, instead of doing new things that were previously impossible. You use AI as a Smart Secretary (write, edit, search), but not as a Partner." },
                 red: { title: "LEGACY OPERATOR", slogan: "'You are using a supercomputer as a typewriter.'", desc: "You are a hard worker, but you are running on 2019 operating systems. While competitors generate solutions in seconds, you spend hours manually searching, typing, and formatting. You are losing at least 10-15 hours a week on tasks that AI solves in one click. Your Main Problem: Fear of the blank page and the habit of doing everything \"by hand.\"" }
-            },
-            offers: {
-                green: { name: "AI Builder (Coding)", price: AI_OFFER_PRICE.green },
-                yellow: { name: "AI Executive Suite", price: AI_OFFER_PRICE.yellow },
-                red: { name: "Course: AI Foundation (Start Now)", price: AI_OFFER_PRICE.red }
             }
         }
     },

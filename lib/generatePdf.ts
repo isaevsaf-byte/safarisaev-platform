@@ -79,7 +79,7 @@ export const generateEfficiencyReport = async (
         // Header
         doc.setFontSize(20);
         doc.setTextColor(40, 40, 40);
-        doc.text("SAFAR ISAEV | Efficiency Audit", 14, 22);
+        doc.text("SAFAR ISAEV | Efficiency Report", 14, 22);
 
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
